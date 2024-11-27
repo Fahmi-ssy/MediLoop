@@ -11,4 +11,5 @@ const client = new MongoClient(uri, {
 
 const database = client.db("MediLoop");
 
+
 export default database;
