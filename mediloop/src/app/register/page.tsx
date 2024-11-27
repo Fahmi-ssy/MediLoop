@@ -24,7 +24,7 @@ export default function Register() {
                 <input
                   name="name"
                   type="text"
-                  className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-blue-500 px-2 py-3 outline-none"
+                  className="w-full bg-transparent text-sm border-b border-gray-300 text-black focus:border-blue-500 px-2 py-3 outline-none"
                   placeholder="Enter Username"
                 />
                 <svg
@@ -48,7 +48,7 @@ export default function Register() {
                 <input
                   name="email"
                   type="text"
-                  className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-blue-500 px-2 py-3 outline-none"
+                  className="w-full bg-transparent text-sm border-b border-gray-300 text-black focus:border-blue-500 px-2 py-3 outline-none"
                   placeholder="Enter email"
                 />
                 <svg
@@ -90,7 +90,7 @@ export default function Register() {
                 <input
                   name="password"
                   type="password"
-                  className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-blue-500 px-2 py-3 outline-none"
+                  className="w-full bg-transparent text-sm border-b border-gray-300 text-black focus:border-blue-500 px-2 py-3 outline-none"
                   placeholder="Enter password"
                 />
                 <svg
