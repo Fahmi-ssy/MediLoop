@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import Navbar from "@/components/Navbar";
 
 export default function Login() {
   return (
+    <>
     <div className="min-h-screen flex flex-col items-center justify-center relative">
       <Image
         // src="https://t4.ftcdn.net/jpg/03/64/46/53/360_F_364465371_WtFCtVXB2Yv6Dib2Co4ip2LKKZtDIa6e.jpg"
@@ -46,7 +48,7 @@ export default function Login() {
         <div className="md:col-span-2 w-full h-full flex items-center justify-center p-8 bg-white bg-opacity-20">
           <form className="max-w-md w-full mx-auto">
             <div className="flex justify-center mb-8">
-              <h3 className="text-teal-900 text-4xl font-extrabold mb-8 text-center flex items-center">
+              <h3 className="text-teal-950 text-4xl font-extrabold mb-8 text-center flex items-center">
                 Sign In 
               </h3>
             </div>
@@ -148,5 +150,6 @@ export default function Login() {
         </div>
       </div>
     </div>
+    </>
   );
 }
