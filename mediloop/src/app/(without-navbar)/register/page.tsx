@@ -1,4 +1,41 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, FormEvent, useState } from "react";
+
 export default function Register() {
+  const [input, setInput] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const router = useRouter();
+
+  const handleChangeText = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    setInput({
+      ...input,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const res = await fetch(`http://localhost:3000/api/register`, {
+      method: "POST",
+      body: JSON.stringify(input),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const response = await res.json();
+
+    if (!res.ok) return router.push(`/register?error=${response.message}`);
+    router.push("/login");
+  };
   return (
     <div className="font-[sans-serif] bg-white md:h-screen">
       <div className="grid md:grid-cols-2 items-center gap-8 h-full">
@@ -10,7 +47,7 @@ export default function Register() {
           />
         </div>
         <div className="flex items-center p-6 h-full w-full">
-          <form className="max-w-lg w-full mx-auto">
+          <form onSubmit={handleSubmit} className="max-w-lg w-full mx-auto">
             <div className="mb-12">
               <h3 className="text-teal-500 md:text-3xl text-2xl font-extrabold max-md:text-center">
                 Registration
@@ -22,10 +59,12 @@ export default function Register() {
               </label>
               <div className="relative flex items-center">
                 <input
-                  name="name"
+                  name="username"
                   type="text"
                   className="w-full bg-transparent text-sm border-b border-gray-300 text-black focus:border-blue-500 px-2 py-3 outline-none"
                   placeholder="Enter Username"
+                  value={input.username}
+                  onChange={handleChangeText}
                 />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -50,6 +89,8 @@ export default function Register() {
                   type="text"
                   className="w-full bg-transparent text-sm border-b border-gray-300 text-black focus:border-blue-500 px-2 py-3 outline-none"
                   placeholder="Enter email"
+                  value={input.email}
+                  onChange={handleChangeText}
                 />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -92,6 +133,8 @@ export default function Register() {
                   type="password"
                   className="w-full bg-transparent text-sm border-b border-gray-300 text-black focus:border-blue-500 px-2 py-3 outline-none"
                   placeholder="Enter password"
+                  value={input.password}
+                  onChange={handleChangeText}
                 />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -110,19 +153,19 @@ export default function Register() {
 
             <div className="mt-12">
               <button
-                type="button"
+                type="submit"
                 className="w-full py-3 px-6 text-sm tracking-wider font-semibold rounded-md bg-blue-600 hover:bg-blue-700 text-white focus:outline-none"
               >
                 Register
               </button>
               <p className="text-sm mt-6 text-gray-800">
                 Already have an account?{" "}
-                <a
-                  href="javascript:void(0);"
+                <Link
+                  href={"/login"}
                   className="text-blue-500 font-semibold hover:underline ml-1"
                 >
                   Login here
-                </a>
+                </Link>
               </p>
             </div>
           </form>
