@@ -37,7 +37,7 @@ export default function Register() {
     router.push("/login");
   };
   return (
-    <div className="font-[sans-serif] bg-white md:h-screen">
+    <div className="font-[sans-serif] bg-gradient-to-r from-teal-200 to-teal-500 md:h-screen">
       <div className="grid md:grid-cols-2 items-center gap-8 h-full">
         <div className="max-md:order-1 p-4 bg-gray-50 h-full">
           <img
@@ -154,7 +154,7 @@ export default function Register() {
             <div className="mt-12">
               <button
                 type="submit"
-                className="w-full py-3 px-6 text-sm tracking-wider font-semibold rounded-md bg-blue-600 hover:bg-blue-700 text-white focus:outline-none"
+                className="w-full py-3 px-6 text-sm tracking-wider font-semibold rounded-md bg-slate-500 hover:bg-blue-700 text-white focus:outline-none"
               >
                 Register
               </button>

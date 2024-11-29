@@ -7,10 +7,12 @@ export default function RootLayout({
 }>) {
   return (
     <>
-    <div className="sticky top-0 z-50 bg-white border border-b-slate-900">
+      <div className="fixed top-0 w-full bg-white border border-b-slate-900 z-50">
         <Navbar />
-    </div>
-    {children}
+      </div>
+      <div className="mt-[80px]">
+        {children}
+      </div>
     </>
-  )
+  );
 }

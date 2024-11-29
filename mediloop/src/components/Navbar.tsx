@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <header className="relative flex border-b py-4 sm:px-8 px-6 font-[sans-serif] min-h-[80px] tracking-wide z-50">
+    <header className="sticky top-0 flex border-b py-4 sm:px-8 px-6 font-[sans-serif] min-h-[80px] tracking-wide z-50">
       <Image
         src="/login_bg.jpg"
         alt="Background"
@@ -76,7 +76,7 @@ export default function Navbar() {
                 href="javascript:void(0)"
                 className="text-[#333] hover:text-[#007bff] text-xm block font-semibold"
               >
-                Procucts
+                Products
               </a>
             </li>
           </ul>

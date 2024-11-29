@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { submitLogin } from "@/actions";
+import Link from "next/link";
 
 export default function Login() {
   const [input, setInput] = useState({
@@ -34,6 +35,7 @@ export default function Login() {
 
     if (!res.ok) return router.push(`/login?error=${response.message}`);
     await submitLogin();
+    router.push("/");
   };
 
   return (
