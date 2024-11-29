@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
   const [input, setInput] = useState({
@@ -24,20 +26,39 @@ export default function Register() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const res = await fetch(`http://localhost:3000/api/register`, {
-      method: "POST",
-      body: JSON.stringify(input),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const response = await res.json();
+    try {
+      const res = await fetch(`http://localhost:3000/api/register`, {
+        method: "POST",
+        body: JSON.stringify(input),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    if (!res.ok) return router.push(`/register?error=${response.message}`);
-    router.push("/login");
+      const response = await res.json();
+
+      if (!res.ok) {
+        toast.error(response.message || "Registration failed!", {
+          position: "top-right",
+          autoClose: 1500,
+        });
+        return;
+      }
+
+      toast.success("Registration successful!", {
+        position: "top-right",
+        autoClose: 1500,
+        onClose: () => router.push("/login"),
+      });
+    } catch (error) {
+      toast.error("Something went wrong. Please try again later.", {
+        position: "top-right",
+      });
+    }
   };
   return (
     <div className="font-[sans-serif] bg-white md:h-screen">
+      <ToastContainer />
       <div className="grid md:grid-cols-2 items-center gap-8 h-full">
         <div className="max-md:order-1 p-4 bg-gray-50 h-full">
           <img
