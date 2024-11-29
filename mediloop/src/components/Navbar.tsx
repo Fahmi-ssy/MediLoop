@@ -1,7 +1,11 @@
+import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
+import LogOut from "./LogOut";
 
 export default function Navbar() {
+  const isLoggedIn = cookies().get("Authorization")?.value ? true : false;
+
   return (
     <header className="sticky top-0 flex border-b py-4 sm:px-8 px-6 font-[sans-serif] min-h-[80px] tracking-wide z-50">
       <Image
@@ -61,6 +65,14 @@ export default function Navbar() {
                   alt="logo"
                   className="w-36"
                 />
+              </a>
+            </li>
+            <li className="max-lg:border-b max-lg:py-3 px-3">
+              <a
+                href="/discovery"
+                className="text-[#333] hover:text-[#007bff] text-xm block font-semibold"
+              >
+                Discovery
               </a>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
@@ -131,12 +143,8 @@ export default function Navbar() {
                 0
               </span>
             </span>
-            <Link
-              href={"/login"}
-              className="px-5 py-2 text-sm rounded-full font-bold text-white bg-sky-900 hover:bg-sky-950"
-            >
-              Sign In
-            </Link>
+            {isLoggedIn ? (<LogOut />) : (<Link href={"/login"}
+              className="px-5 py-2 text-sm rounded-full font-bold text-white bg-sky-900 hover:bg-sky-950">Sign In</Link>)}
             <button id="toggleOpen" className="lg:hidden">
               <svg
                 className="w-7 h-7"
