@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -130,9 +131,12 @@ export default function Navbar() {
                 0
               </span>
             </span>
-            <button className="px-5 py-2 text-sm rounded-full font-bold text-white bg-sky-900 hover:bg-sky-950">
+            <Link
+              href={"/login"}
+              className="px-5 py-2 text-sm rounded-full font-bold text-white bg-sky-900 hover:bg-sky-950"
+            >
               Sign In
-            </button>
+            </Link>
             <button id="toggleOpen" className="lg:hidden">
               <svg
                 className="w-7 h-7"
