@@ -1,4 +1,5 @@
 import { comparePassword } from "@/db/helpers/bycrypt";
+import errorHandler from "@/db/helpers/errorHandler";
 import { signToken } from "@/db/helpers/jwt";
 import UserModel from "@/db/models/UserModels";
 import { cookies } from "next/headers";
@@ -19,12 +20,6 @@ export async function POST(request: Request) {
     cookies().set("Authorization", `Bearer ${accessToken}`);
     return Response.json({ message: "Login success", accessToken });
   } catch (error) {
-    return new Response(
-      JSON.stringify({
-        message: "Please fill all the field to login",
-        status: 500,
-      }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return errorHandler(error);
   }
 }
