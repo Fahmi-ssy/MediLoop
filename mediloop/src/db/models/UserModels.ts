@@ -5,11 +5,18 @@ import { hashPassword } from "../helpers/bycrypt";
 import { User } from "@/types";
 
 const UserSchema = z.object({
-  username: z.string().min(3, { message: "Username must be at least 3 characters long" }),
-  email: z.string().min(1, {
-    message: "Email is required",
-  }).email({ message: "Invalid email address" }),
-  password: z.string().min(5, { message: "Password must be at least 5 characters long" }),
+  username: z
+    .string()
+    .min(3, { message: "Username must be at least 3 characters long" }),
+  email: z
+    .string()
+    .min(1, {
+      message: "Email is required",
+    })
+    .email({ message: "Invalid email format" }),
+  password: z
+    .string()
+    .min(5, { message: "Password must be at least 5 characters long" }),
 });
 
 class UserModel {
@@ -21,12 +28,10 @@ class UserModel {
     UserSchema.parse(newUser);
 
     const existUser = await this.collection().findOne({
-      $or: [
-        { email: newUser.email },
-        { username: newUser.username },
-      ],
+      $or: [{ email: newUser.email }, { username: newUser.username }],
     });
-    if (existUser) throw { message: "User/Email already exists", status: 400 };
+    if (existUser)
+      throw { message: "Username/Email already exists", status: 400 };
 
     newUser.password = hashPassword(newUser.password);
 

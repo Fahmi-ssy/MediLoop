@@ -21,7 +21,7 @@ export async function POST(request: Request) {
   } catch (error) {
     return new Response(
       JSON.stringify({
-        message: "Unable to login",
+        message: "Please fill all the field to login",
         status: 500,
       }),
       { status: 500, headers: { "Content-Type": "application/json" } }
