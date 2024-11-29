@@ -76,7 +76,7 @@ export default function Navbar() {
                 href="javascript:void(0)"
                 className="text-[#333] hover:text-[#007bff] text-xm block font-semibold"
               >
-                Procucts
+                Products
               </a>
             </li>
           </ul>

@@ -1,3 +1,5 @@
+import CardProduct from "@/components/CardProduct";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-white to-teal-50">
@@ -8,7 +10,8 @@ export default function Home() {
             Your Personal Health Companion
           </h1>
           <p className="text-xl text-teal-800 mb-8">
-            Get personalized medical recommendations and wellness products tailored to your needs
+            Get personalized medical recommendations and wellness products
+            tailored to your needs
           </p>
           <div className="flex gap-4 justify-center">
             <button className="bg-teal-600 text-white px-8 py-3 rounded-full hover:bg-teal-700 transition">
@@ -29,7 +32,8 @@ export default function Home() {
               Symptom Analysis
             </h3>
             <p className="text-teal-700">
-              Upload your symptoms and receive AI-powered preliminary diagnoses and recommendations
+              Upload your symptoms and receive AI-powered preliminary diagnoses
+              and recommendations
             </p>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-md">
@@ -37,7 +41,8 @@ export default function Home() {
               Prescription Upload
             </h3>
             <p className="text-teal-700">
-              Securely upload and store your prescriptions for easy access and management
+              Securely upload and store your prescriptions for easy access and
+              management
             </p>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-md">
@@ -45,11 +50,13 @@ export default function Home() {
               Product Recommendations
             </h3>
             <p className="text-teal-700">
-              Get personalized wellness product suggestions based on your health profile
+              Get personalized wellness product suggestions based on your health
+              profile
             </p>
           </div>
         </div>
       </section>
+      <CardProduct />
     </main>
   );
 }
