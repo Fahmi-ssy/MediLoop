@@ -1,6 +1,10 @@
 import { z } from "zod";
 import database from "../config/mongodb";
+<<<<<<< HEAD
 import { comparePassword, hashPassword } from "../helpers/bycrypt";
+=======
+import { comparePassword } from "../helpers/bycrypt";
+>>>>>>> openai
 import { ObjectId } from "mongodb";
 
 const AdminSchema = z.object({
@@ -39,31 +43,6 @@ class AdminModel {
     }
 
     return admin;
-  }
-
-  static async register(newAdmin: Omit<Admin, '_id'>) {
-    // Validate the input data
-    AdminSchema.parse(newAdmin);
-
-    // Check if admin with this email already exists
-    const existingAdmin = await this.findByEmail(newAdmin.email);
-    if (existingAdmin) {
-      throw { message: "Admin with this email already exists", status: 400 };
-    }
-
-    // Hash the password before storing
-    const hashedPassword = hashPassword(newAdmin.password);
-
-    // Create the admin object with hashed password
-    const adminToInsert = {
-      ...newAdmin,
-      password: hashedPassword,
-      role: "admin" as const
-    };
-
-    // Insert into database
-    const result = await this.collection().insertOne(adminToInsert);
-    return result;
   }
 }
 

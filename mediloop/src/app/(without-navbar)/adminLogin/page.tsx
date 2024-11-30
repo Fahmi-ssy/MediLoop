@@ -27,7 +27,7 @@ export default function AdminLogin() {
     e.preventDefault();
 
     try {
-      const res = await fetch(`/api/adminLogin`, {
+      const res = await fetch(`/api/admin/login`, {
         method: "POST",
         body: JSON.stringify(input),
         headers: {
@@ -48,8 +48,9 @@ export default function AdminLogin() {
       toast.success("Admin login successful!", {
         position: "top-right",
         autoClose: 1500,
-        onClose: () => router.push("/admin/dashboard"),
       });
+      await submitLogin();
+      router.push("/admin/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
       toast.error("Unexpected error occurred!", {
