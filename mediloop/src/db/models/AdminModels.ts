@@ -1,7 +1,6 @@
 import { z } from "zod";
 import database from "../config/mongodb";
 import { comparePassword, hashPassword } from "../helpers/bycrypt";
-// import { comparePassword } from "../helpers/bycrypt";
 import { ObjectId } from "mongodb";
 
 const AdminSchema = z.object({
@@ -16,6 +15,31 @@ type Admin = z.infer<typeof AdminSchema> & { _id: ObjectId | string };
 class AdminModel {
   static collection() {
     return database.collection("admins");
+  }
+
+  static async register(data: Omit<Admin, '_id'>) {
+    // Validate the input data
+    AdminSchema.parse(data);
+
+    // Check if admin with email already exists
+    const existingAdmin = await this.findByEmail(data.email);
+    if (existingAdmin) {
+      throw { message: "Email already registered", status: 400 };
+    }
+
+    // Hash the password before storing
+    const hashedPassword = hashPassword(data.password);
+
+    // Create new admin object with hashed password
+    const newAdmin = {
+      ...data,
+      password: hashedPassword,
+      role: "admin" as const
+    };
+
+    // Insert into database
+    const result = await this.collection().insertOne(newAdmin);
+    return result;
   }
 
   static async findByEmail(email: string): Promise<Admin | null> {
