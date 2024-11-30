@@ -1,0 +1,143 @@
+[
+    {
+      "name": "Aloe Vera Soothing Gel",
+      "price": 109900,
+      "description": "A lightweight and fast-absorbing cooling gel formulated with pure aloe vera extract to soothe, hydrate, and rejuvenate irritated or dry skin. Ideal for use after sun exposure or shaving, it leaves your skin feeling fresh and moisturized.",
+      "usage": "Apply a generous amount of gel to clean skin. Gently massage until fully absorbed. Use as needed for hydration or soothing purposes.",
+      "image": "https://images-cdn.ubuy.co.id/654058489dcced70b210ef1d-nature-republic-soothing-moisture-aloe.jpg"
+    },
+    {
+      "name": "Shea Butter Body Lotion",
+      "price": 149900,
+      "description": "A rich, creamy lotion infused with shea butter to deeply nourish and soften the skin. Perfect for dry or rough patches, this lotion locks in moisture and provides long-lasting hydration for a silky-smooth feel.",
+      "usage": "Apply liberally to clean, dry skin after a shower or whenever your skin feels dry. Massage in circular motions until fully absorbed.",
+      "image": "https://images.tokopedia.net/img/cache/700/VqbcmM/2024/7/5/5f9834be-19b1-410a-ba5c-0de992c1bf4b.jpg"
+    },
+    {
+      "name": "Lavender Body Wash",
+      "price": 85000,
+      "description": "An aromatic body wash enriched with lavender essential oil to cleanse the skin while providing a calming and relaxing bathing experience. Leaves skin feeling refreshed and delicately scented.",
+      "usage": "Pour a small amount onto a wet loofah or directly onto your hands. Work into a lather and gently massage over your body. Rinse thoroughly with water.",
+      "image": "https://down-id.img.susercontent.com/file/id-11134207-7r98o-lo7s0zzixtsjde"
+    },
+    {
+      "name": "Charcoal Detox Scrub",
+      "price": 120000,
+      "description": "An exfoliating scrub made with activated charcoal to detoxify the skin and remove dead cells. It unclogs pores and improves skin texture, leaving you with a smoother, brighter complexion.",
+      "usage": "Use 1-2 times a week. Apply to damp skin and gently massage in circular motions, focusing on rough areas. Rinse off with lukewarm water.",
+      "image": "https://down-id.img.susercontent.com/file/bee99a2f80f6dab7136b5951c6953d92"
+    },
+    {
+      "name": "Coconut Milk Shower Cream",
+      "price": 99900,
+      "description": "A creamy shower gel infused with coconut milk to cleanse and hydrate your skin while providing a luxurious tropical fragrance. Leaves skin soft and delicately perfumed.",
+      "usage": "Apply a small amount to a wet sponge or directly onto your skin. Lather up and rinse well with water.",
+      "image": "https://solvent-production.s3.amazonaws.com/media/images/products/2021/07/DSC_1717_copy_NO90G89.jpg"
+    },
+    {
+      "name": "Rosewater Hydrating Mist",
+      "price": 79900,
+      "description": "A refreshing facial and body mist infused with rosewater to hydrate and soothe the skin. Perfect for use throughout the day to keep your skin feeling cool and revitalized.",
+      "usage": "Close your eyes and spray evenly onto your face or body from a distance of 20 cm. Let it absorb naturally or gently pat dry if necessary.",
+      "image": "https://images.tokopedia.net/img/cache/500-square/hDjmkQ/2022/11/2/81ed4f93-515e-4339-8851-e94f79916f3d.jpg"
+    },
+    {
+      "name": "Green Tea Body Butter",
+      "price": 155000,
+      "description": "A thick and luxurious body butter packed with green tea extract for antioxidant protection. Provides intense hydration, making it ideal for dry or stressed skin.",
+      "usage": "Massage a generous amount into clean, dry skin, focusing on areas prone to dryness like elbows and knees. Use daily for best results.",
+      "image": "https://down-id.img.susercontent.com/file/fea3165856888e487576b5b82e751b74"
+    },
+    {
+      "name": "Lemon Sugar Body Scrub",
+      "price": 132500,
+      "description": "A zesty sugar scrub formulated with natural lemon extract to brighten and exfoliate the skin. Removes dullness and reveals smooth, glowing skin.",
+      "usage": "Apply to damp skin in the shower. Gently scrub in circular motions, then rinse thoroughly. Use twice a week for radiant results.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-elhbb1rOTc5Pv0k32hfD6yHTBmE1d17PKQ&s"
+    },
+    {
+      "name": "SPF 30 Sunscreen Lotion",
+      "price": 169900,
+      "description": "A broad-spectrum sunscreen lotion that protects your skin from harmful UVA and UVB rays while moisturizing. Perfect for everyday use, indoors or outdoors.",
+      "usage": "Apply generously 15 minutes before sun exposure. Reapply every two hours, or more often if sweating or swimming.",
+      "image": "https://images.tokopedia.net/img/cache/700/VqbcmM/2021/4/2/4a023a7e-36f0-45e3-9461-b8dd1b6c6cf7.jpg"
+    },
+    {
+      "name": "Vanilla Bean Hand Cream",
+      "price": 55000,
+      "description": "A nourishing hand cream enriched with vanilla bean extract to hydrate and protect dry hands. Leaves a soft and sweet fragrance.",
+      "usage": "Squeeze a pea-sized amount onto your palms and massage into your hands, focusing on dry areas. Use as often as needed.",
+      "image": "https://www.bathandbodyworks.co.id/dw/image/v2/BLFZ_PRD/on/demandware.static/-/Sites-bbw-master-catalog/default/dw2e12e731/hires/026172026.jpg?sw=350&sh=600&sm=fit"
+    },
+    {
+        "name": "Peppermint Foot Cream",
+        "price": 85000,
+        "description": "A refreshing foot cream with peppermint oil to cool, hydrate, and soothe tired feet. It helps reduce dryness and keeps your feet feeling fresh and rejuvenated.",
+        "usage": "Apply a small amount to clean, dry feet. Massage gently, focusing on heels and other dry areas. Use daily, especially before bed.",
+        "image": "https://assets.thebodyshop.co.id/products/113520317-RENO%20-%20PEPPERMINT%20FOOT%20TREATMENT%20100ML-1.jpg"
+      },
+      {
+        "name": "Cucumber Hydrating Gel",
+        "price": 95000,
+        "description": "A lightweight gel enriched with cucumber extract to hydrate and refresh your skin. Perfect for soothing redness and providing a cooling sensation.",
+        "usage": "Apply evenly to your face or body after cleansing. Allow the gel to absorb fully. Use twice daily for best results.",
+        "image": "https://www.thebodydeli.com/cdn/shop/files/seacucumbergeleenocap_1463x2048_a839af79-6a47-424b-8971-a2dbff7af106.jpg?v=1715797217"
+      },
+      {
+        "name": "Honey Oatmeal Soap Bar",
+        "price": 35000,
+        "description": "A nourishing soap bar infused with honey and oatmeal to gently cleanse while moisturizing your skin. It leaves a light, sweet scent and improves skin texture.",
+        "usage": "Wet the soap bar and rub it directly onto your skin or a loofah. Create a rich lather and rinse thoroughly with water.",
+        "image": "https://www.ouroilyhouse.com/wp-content/uploads/2021/12/honey-oatmeal-soap-bars_-11.jpg"
+      },
+      {
+        "name": "Jasmine Body Oil",
+        "price": 129900,
+        "description": "A luxurious body oil infused with jasmine extract to deeply moisturize and leave your skin glowing. Perfect for use after a bath or as a massage oil.",
+        "usage": "Warm a few drops of oil in your hands. Massage gently into your skin in circular motions until fully absorbed. Use daily for a radiant glow.",
+        "image": "https://orenafragrances.com/cdn/shop/files/Untitleddesign_48_9f5d0b16-e4a1-44fa-a9cc-71f60680a432_530x@2x.png?v=1692243948"
+      },
+      {
+        "name": "Vitamin E Night Cream",
+        "price": 159900,
+        "description": "A rich night cream formulated with Vitamin E to nourish and repair your skin while you sleep. Wake up to softer, more radiant skin.",
+        "usage": "Apply a pea-sized amount to your face and neck after cleansing. Gently massage in upward strokes. Use nightly for best results.",
+        "image": "https://res.cloudinary.com/dowzkjtns/image/fetch/f_auto,c_limit,w_3840,q_auto/https://assets.thebodyshop.co.id/products/101011138-NEW%20VITAMIN%20E%20NIGHT%20CREAM%2050ML-2.jpg"
+      },
+      {
+        "name": "Grapefruit Body Mist",
+        "price": 49900,
+        "description": "A refreshing body mist with grapefruit extract to invigorate your senses and leave a subtle, fruity fragrance. Ideal for use throughout the day.",
+        "usage": "Spray evenly onto your body from a distance of 15 cm. Reapply as needed to refresh your skin and scent.",
+        "image": "https://down-id.img.susercontent.com/file/11db3ea188c1ba863020eab5f0791d34"
+      },
+      {
+        "name": "Eucalyptus Shower Steamer",
+        "price": 75000,
+        "description": "A rejuvenating shower steamer infused with eucalyptus essential oil. Transforms your shower into a spa-like experience, helping to clear your mind and energize your day.",
+        "usage": "Place the steamer in the corner of your shower where water can splash it lightly. Allow the steam to release the eucalyptus aroma. Enjoy the soothing scent while showering.",
+        "image": "https://m.media-amazon.com/images/I/81C6iZgTRoL.jpg"
+      },
+      {
+        "name": "Coffee Body Scrub",
+        "price": 115000,
+        "description": "A natural body scrub made with ground coffee beans to exfoliate and stimulate circulation. Leaves your skin smooth, soft, and glowing.",
+        "usage": "Apply to damp skin in circular motions, focusing on rough areas like elbows and knees. Rinse thoroughly. Use twice a week for best results.",
+        "image": "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//107/MTA-59371909/scarlett_scarlett-whitening-body-scrub-coffee-original-bpom-lulur-tubuh-kopi_full01.jpg"
+      },
+      {
+        "name": "Avocado Hand Mask",
+        "price": 67000,
+        "description": "A deeply moisturizing hand mask with avocado extract to soften and repair dry hands. Perfect for restoring smoothness and hydration.",
+        "usage": "Apply a thick layer to clean, dry hands. Leave on for 10-15 minutes, then rinse off with warm water. Use 2-3 times a week.",
+        "image": "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//catalog-image/113/MTA-139898560/brd-02903_bioaqua-niacinamide-brightening-foot-mask-hand-mask-masker-kaki-tangan_full06-48666616.jpg"
+      },
+      {
+        "name": "Chamomile Calming Lotion",
+        "price": 94000,
+        "description": "A soothing body lotion infused with chamomile to calm and hydrate sensitive or irritated skin. Leaves a gentle floral fragrance for all-day comfort.",
+        "usage": "Apply generously to clean skin after a shower. Massage gently until fully absorbed. Use daily for soft, smooth skin.",
+        "image": "https://nihonmart.id/pub/media/catalog/product/cache/8a3fa81d90974d9a7299f2eff309979f/c/h/chamomile_calming_cream_100ml-min.png"
+      }
+  ]
+    
