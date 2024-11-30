@@ -1,10 +1,7 @@
 import { z } from "zod";
 import database from "../config/mongodb";
-<<<<<<< HEAD
 import { comparePassword, hashPassword } from "../helpers/bycrypt";
-=======
-import { comparePassword } from "../helpers/bycrypt";
->>>>>>> openai
+// import { comparePassword } from "../helpers/bycrypt";
 import { ObjectId } from "mongodb";
 
 const AdminSchema = z.object({
