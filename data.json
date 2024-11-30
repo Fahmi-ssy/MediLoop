@@ -138,6 +138,240 @@
         "description": "A soothing body lotion infused with chamomile to calm and hydrate sensitive or irritated skin. Leaves a gentle floral fragrance for all-day comfort.",
         "usage": "Apply generously to clean skin after a shower. Massage gently until fully absorbed. Use daily for soft, smooth skin.",
         "image": "https://nihonmart.id/pub/media/catalog/product/cache/8a3fa81d90974d9a7299f2eff309979f/c/h/chamomile_calming_cream_100ml-min.png"
+      },
+      {
+        "name": "Tea Tree Anti-Blemish Cream",
+        "price": 112500,
+        "description": "A lightweight cream infused with tea tree oil to target blemishes and control excess oil. Helps soothe redness and prevent future breakouts, leaving skin looking healthier and more balanced.",
+        "usage": "Apply a small amount to clean, dry skin, focusing on blemished areas. Use twice daily for best results.",
+        "image": "https://www.mamaorganic.pk/cdn/shop/files/BestTeaTreeAntiAcneCream_grande.jpg?v=1685298110"
+      },
+      {
+        "name": "Aloe Cucumber Face Mist",
+        "price": 69000,
+        "description": "A cooling face mist combining aloe vera and cucumber extracts to refresh and hydrate skin instantly. Ideal for hot weather or post-workout freshness.",
+        "usage": "Hold the bottle 20 cm from your face and spray evenly. Let it absorb naturally or pat dry gently. Reapply as needed throughout the day.",
+        "image": "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//catalog-image/96/MTA-121677710/no-brand_no-brand_full01.jpg"
+      },
+      {
+        "name": "Mango Shea Butter Lip Balm",
+        "price": 45000,
+        "description": "A nourishing lip balm with mango and shea butter to repair chapped lips and lock in moisture. Provides a subtle shine and tropical aroma.",
+        "usage": "Apply to your lips as often as needed, especially in dry conditions.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrSSGLiJyN1Zy0ySV9lKRXa8gfhpzAqcSX5w&s"
+      },
+      {
+        "name": "Bergamot Hair and Body Oil",
+        "price": 145000,
+        "description": "A multi-purpose oil enriched with bergamot extract for soft, shiny hair and hydrated skin. Lightweight and non-greasy, perfect for daily use.",
+        "usage": "Apply a small amount to damp hair or skin. Massage in gently for even absorption.",
+        "image": "https://res.cloudinary.com/dowzkjtns/image/fetch/f_auto,c_limit,w_3840,q_auto/https://assets.thebodyshop.co.id/products/113790085_2.jpg"
+      },
+      {
+        "name": "Cocoa Butter Hand and Nail Cream",
+        "price": 89000,
+        "description": "A deeply hydrating hand cream with cocoa butter to moisturize dry hands and strengthen nails. Keeps skin soft and supple.",
+        "usage": "Squeeze a small amount and massage into your hands and nails until fully absorbed. Reapply as necessary.",
+        "image": "https://starbeneshop.net/app-data/articoli/800ad97e-0f33-41ff-b3d3-b6753ad7c2dd/thumbs/dr-organic-cocoa-butter-crema-mani-e-unghie-100-ml__w1000.jpg"
+      },
+      {
+        "name": "Charcoal Blackhead Remover Mask",
+        "price": 129000,
+        "description": "A peel-off mask with activated charcoal to extract blackheads and deeply cleanse pores. Leaves skin clear and refreshed.",
+        "usage": "Apply an even layer to your T-zone or other blackhead-prone areas. Let it dry completely, then peel off gently.",
+        "image": "https://images-cdn.ubuy.co.id/6537a1807700cd4d4c26df43-ylnalo-blackhead-remover-mask-kit.jpg"
+      },
+      {
+        "name": "Argan Oil Moisturizing Shampoo",
+        "price": 159900,
+        "description": "A gentle shampoo infused with argan oil to cleanse and nourish your hair, leaving it silky and manageable.",
+        "usage": "Apply to wet hair, lather, and massage into the scalp. Rinse thoroughly. Follow with conditioner for best results.",
+        "image": "https://id.ozcosmetics.com/prodimgs/202103/247784.jpg"
+      },
+      {
+        "name": "Rice Bran Exfoliating Body Polish",
+        "price": 132000,
+        "description": "A gentle exfoliator made with rice bran to smooth and brighten dull skin. Removes dead skin cells and reveals a radiant glow.",
+        "usage": "Massage onto damp skin in circular motions, focusing on rough areas. Rinse thoroughly. Use 2-3 times a week.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAjN2tsTLhK_oTJIE32kztuC7hNMJsjI4uVg&s"
+      },
+      {
+        "name": "Ginger Warming Massage Balm",
+        "price": 125500,
+        "description": "A warming balm with ginger extract to relax sore muscles and promote circulation. Perfect for post-exercise recovery.",
+        "usage": "Rub a small amount between your palms to warm it up. Massage onto the affected area in circular motions.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVI9n4tdFOV5QLaETV1bOifJSLYDPaeq2udw&s"
+      },
+      {
+        "name": "Papaya Enzyme Face Cleanser",
+        "price": 98000,
+        "description": "A gentle cleanser with papaya enzymes to exfoliate and brighten your skin. Perfect for removing makeup and impurities.",
+        "usage": "Apply a small amount to wet skin. Massage gently, then rinse thoroughly with water.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXaqqnkGOadJ7U2fYyAvzptfJBjY6ggXsd9Q&s"
+      },
+      {
+        "name": "Mint Cooling Foot Spray",
+        "price": 65000,
+        "description": "A refreshing foot spray infused with mint to cool and deodorize tired feet. Keeps your feet feeling fresh all day.",
+        "usage": "Spray evenly onto clean, dry feet. Reapply as needed, especially after exercise or long hours.",
+        "image": "https://images.tokopedia.net/img/cache/700/hDjmkQ/2021/7/23/6552c7c8-9dfe-4ac6-a7e7-5795d5259926.jpg"
+      },
+      {
+        "name": "Almond Milk Body Cream",
+        "price": 145500,
+        "description": "A rich body cream with almond milk to deeply moisturize and soften dry skin. Leaves a gentle nutty fragrance.",
+        "usage": "Massage into your skin after a shower or bath, focusing on dry areas. Use daily for silky-smooth results.",
+        "image": "https://res.cloudinary.com/dowzkjtns/image/fetch/f_auto,c_limit,w_3840,q_auto/https://assets.thebodyshop.co.id/products/da2efcbd-f878-4a98-bef3-ddf4bf89179c.jpg"
+      },
+      {
+        "name": "Rosewater Hydrating Toner",
+        "price": 89000,
+        "description": "A soothing toner enriched with rosewater to hydrate and calm the skin. Prepares the skin for better absorption of moisturizers.",
+        "usage": "After cleansing, apply to the face using a cotton pad or spray directly. Let it dry before applying other products.",
+        "image": "https://images-cdn.ubuy.co.id/65adb4952585f5359a72d689-rose-water-toner-for-face-pore.jpg"
+      },
+      {
+        "name": "Vitamin C Brightening Serum",
+        "price": 195000,
+        "description": "A potent serum with vitamin C to reduce dark spots and enhance skin's natural radiance. Suitable for all skin types.",
+        "usage": "Apply 2-3 drops onto the face and neck after cleansing. Use in the morning before sunscreen.",
+        "image": "https://images.soco.id/4bb6756e-192d-491a-ba35-39d28e941fe3-.jpg"
+      },
+      {
+        "name": "Green Tea Detoxifying Clay Mask",
+        "price": 138000,
+        "description": "A purifying mask with green tea and kaolin clay to absorb excess oil and cleanse pores deeply. Leaves skin refreshed and smooth.",
+        "usage": "Spread an even layer on clean, dry skin. Leave on for 10-15 minutes, then rinse off with lukewarm water.",
+        "image": "https://m.media-amazon.com/images/I/71D4YPIfYKL.jpg"
+      },
+      {
+        "name": "Coconut Vanilla Body Scrub",
+        "price": 120000,
+        "description": "An exfoliating body scrub with coconut oil and vanilla essence for soft, glowing skin. Gently removes dead skin cells.",
+        "usage": "Massage onto damp skin in circular motions, then rinse thoroughly. Use twice a week.",
+        "image": "https://down-id.img.susercontent.com/file/sg-11134201-7rd41-lwfdur479n0t63"
+      },
+      {
+        "name": "Honey Almond Hand Soap",
+        "price": 35000,
+        "description": "A gentle hand soap with honey and almond extract for clean, nourished hands. Leaves a sweet, nutty fragrance.",
+        "usage": "Apply to wet hands, lather, and rinse thoroughly. Use as needed throughout the day.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjLu7tcbCdxbTUZDGvTNgsL1-P57bVlgKqeA&s"
+      },
+      {
+        "name": "Lavender Sleep Body Lotion",
+        "price": 98000,
+        "description": "A calming body lotion with lavender oil to help relax your senses before bedtime. Provides lasting hydration.",
+        "usage": "Massage into the skin before bed, focusing on areas prone to dryness.",
+        "image": "https://down-id.img.susercontent.com/file/id-11134207-7r98v-lonsmc9e4h1j6f"
+      },
+      {
+        "name": "Chamomile Eye Gel",
+        "price": 112000,
+        "description": "A cooling eye gel with chamomile extract to reduce puffiness and soothe tired eyes. Lightweight and fast-absorbing.",
+        "usage": "Apply a small amount under the eyes, tapping gently until fully absorbed. Use morning and night.",
+        "image": "https://theherbary.org/cdn/shop/files/chamomile-eye-gel-882821.jpg?v=1717058817&width=1946"
+      },
+      {
+        "name": "Peppermint Lip Scrub",
+        "price": 48000,
+        "description": "A revitalizing lip scrub with peppermint oil and sugar crystals to exfoliate and hydrate lips. Leaves a refreshing minty taste.",
+        "usage": "Massage a small amount onto lips in circular motions, then rinse off with water.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2xzbwAApeO2vjJjfZxLEmVaw_wtBSW-Csog&s"
+      },
+      {
+        "name": "Jojoba Oil Deep Conditioner",
+        "price": 145000,
+        "description": "A rich conditioner with jojoba oil to repair and strengthen dry, damaged hair. Adds shine and softness.",
+        "usage": "Apply to clean, damp hair after shampooing. Leave on for 5 minutes, then rinse thoroughly.",
+        "image": "https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/aus/aus00471/l/10.jpg"
+      },
+      {
+        "name": "Bamboo Charcoal Face Wash",
+        "price": 69000,
+        "description": "A gentle face wash with bamboo charcoal to detoxify skin and remove impurities. Suitable for oily and acne-prone skin.",
+        "usage": "Apply to wet skin, lather, and rinse thoroughly. Use twice daily.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTp9AzKK9o07h14vevruDEBRBKrtYOho2yuRw&s"
+      },
+      {
+        "name": "Avocado Nourishing Hair Mask",
+        "price": 139000,
+        "description": "A deeply nourishing hair mask with avocado oil to restore moisture and shine. Ideal for dry and brittle hair.",
+        "usage": "Apply generously to clean, towel-dried hair. Leave on for 10-15 minutes, then rinse thoroughly.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1Ap4z5jkZxTnsM8_K0C82feG5JWF03Zp_Lg&s"
+      },
+      {
+        "name": "Lemon Mint Body Wash",
+        "price": 75000,
+        "description": "An invigorating body wash with lemon and mint for a refreshing shower experience. Cleanses and energizes your skin.",
+        "usage": "Apply to a loofah or directly onto the skin. Lather, then rinse off thoroughly.",
+        "image": "https://m.media-amazon.com/images/I/510FWv5loVL._AC_UF1000,1000_QL80_.jpg"
+      },
+      {
+        "name": "Shea Butter Night Cream",
+        "price": 185000,
+        "description": "A luxurious night cream with shea butter to deeply nourish and repair skin while you sleep. Wake up with softer, radiant skin.",
+        "usage": "Apply to clean skin as the final step in your nighttime routine.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2Sbt8DtlAfuP47fckfuZxXCYrR0Qo-aW3jQ&s"
+      },
+      {
+        "name": "Seaweed Detox Bath Soak",
+        "price": 115000,
+        "description": "A relaxing bath soak with seaweed extracts to detoxify and refresh your body. Perfect for stress relief.",
+        "usage": "Add 2-3 scoops to warm bath water and soak for 20-30 minutes.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrwD61Il-L4uj6HDK2XZEIN7fdvW_eOit6rQ&s"
+      },
+      {
+        "name": "Ginseng Revitalizing Face Mask",
+        "price": 145000,
+        "description": "A sheet mask infused with ginseng extract to rejuvenate tired, dull skin. Enhances elasticity and hydration.",
+        "usage": "Place the mask on clean, dry skin and leave on for 15-20 minutes. Remove and pat the remaining essence into the skin.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQccM7SuLreYCsrBFrjJdLmL4YyfGyI3p8dpg&s"
+      },
+      {
+        "name": "Rose & Geranium Bath Salts",
+        "price": 72000,
+        "description": "Luxurious bath salts with rose and geranium to soothe the body and mind. Ideal for a relaxing soak.",
+        "usage": "Add to warm bath water and soak for 15-20 minutes.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQChWdWHYhfAiIudsqtTqbtFQLkMTWC9Yb6bg&s"
+      },
+      {
+        "name": "Sweet Orange Lip Balm",
+        "price": 25000,
+        "description": "A moisturizing lip balm with sweet orange extract to hydrate and protect lips. Keeps lips soft and smooth.",
+        "usage": "Apply directly to the lips as needed throughout the day.",
+        "image": "https://images.tokopedia.net/img/cache/700/VqbcmM/2022/7/14/5b6443ec-ca4b-4267-8ce9-da31f06d2b0e.jpg"
+      },
+      {
+        "name": "Coconut & Lime Hand Cream",
+        "price": 65000,
+        "description": "A rich hand cream with coconut oil and lime extract to hydrate and protect the skin. Leaves a refreshing scent.",
+        "usage": "Apply a small amount to hands and massage in as needed throughout the day.",
+        "image": "https://s3-ap-southeast-1.amazonaws.com/img-sociolla/img/p/2/8/4/4/4/28444-large_default.jpg"
+      },
+      {
+        "name": "Ginger & Lemon Foot Cream",
+        "price": 79000,
+        "description": "A revitalizing foot cream with ginger and lemon to invigorate tired feet and soften rough skin.",
+        "usage": "Massage onto feet after a bath or before bed for soft, refreshed feet.",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtr7QLbVfQLEwzxR6JUWJhwA7RCxSfEPe8eg&s"
+      },
+      {
+        "name": "Cocoa Butter Body Lotion",
+        "price": 105000,
+        "description": "A rich body lotion with cocoa butter to deeply hydrate and restore dry skin. Leaves skin feeling soft and nourished.",
+        "usage": "Apply generously to the body, focusing on dry areas.",
+        "image": "https://images-cdn.ubuy.co.id/663c5e9d3c29b13391288469-nivea-cocoa-butter-body-lotion-with-deep.jpg"
+      },
+      {
+        "name": "Lavender Sage Facial Mist",
+        "price": 85000,
+        "description": "A refreshing facial mist with lavender and sage extracts to hydrate and refresh skin throughout the day.",
+        "usage": "Spray onto the face whenever your skin needs a boost of hydration.",
+        "image": "https://mountaingirlessentials.com/cdn/shop/products/toningmistlavendersage.jpg?v=1672017239"
       }
+
+
+
   ]
     
