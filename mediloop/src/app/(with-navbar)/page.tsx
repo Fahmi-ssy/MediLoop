@@ -7,7 +7,7 @@ export default function Home() {
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl font-bold text-teal-950 mb-6">
-          Welcome to MediLoop! Your Partner in Health and Wellness
+          Welcome to MediLoop! Your Bodycare Assistant
           </h1>
           <p className="text-xl text-teal-800 mb-8">
             Get personalized medical recommendations and wellness products
