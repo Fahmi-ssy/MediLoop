@@ -3,7 +3,7 @@ const SECRET = process.env.JWT_SECRET as string;
 
 import * as jose from "jose";
 
-export const signToken = (payload: { _id: string }) => {
+export const signToken = (payload: { _id: string, role?: string }) => {
   return jwt.sign(payload, SECRET);
 };
 
