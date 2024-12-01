@@ -9,6 +9,11 @@ export const submitLogin = async () => {
   redirect("/");
 };
 
+export const submitLoginAdmin = async () => {
+  revalidatePath("/adminDashboard", "layout");
+  redirect("/adminDashboard");
+};
+
 export const handleLogout = async () => {
   cookies().delete("Authorization");
   redirect("/");

@@ -85,7 +85,7 @@ export default function Navbar() {
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
               <a
-                href="javascript:void(0)"
+                href="/products"
                 className="text-[#333] hover:text-[#007bff] text-xm block font-semibold"
               >
                 Products

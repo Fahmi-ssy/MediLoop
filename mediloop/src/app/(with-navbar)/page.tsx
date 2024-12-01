@@ -1,6 +1,11 @@
 import CardProduct from "@/components/CardProduct";
+import { Product } from "@/types";
 
-export default function Home() {
+export default async function Home() {
+  const res = await fetch(`http://localhost:3000/api/dashboardProduct`, {
+    cache: "no-store",
+  });
+  const products: Product[] = await res.json();
   return (
     <main className="min-h-screen bg-gradient-to-b from-white to-teal-50">
       {/* Hero Section */}
@@ -57,7 +62,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <CardProduct />
     </main>
   );
 }

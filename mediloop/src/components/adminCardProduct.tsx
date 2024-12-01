@@ -2,7 +2,7 @@ import { Product } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function CardProduct({ product }: { product: Product }) {
+export default function AdminCardProduct({ product }: { product: Product }) {
   return (
     <div className="group relative flex flex-col h-full">
       <div className="aspect-square w-full overflow-hidden rounded-xl bg-gray-100">
@@ -34,7 +34,7 @@ export default function CardProduct({ product }: { product: Product }) {
           <p className="text-lg font-semibold text-gray-900">
             Rp {product.price?.toLocaleString("id-ID")}
           </p>
-          <Link href={`/products/${product.name}`}>
+          <Link href={`/adminDashboard/${product.name}`}>
             <button className="rounded-lg bg-teal-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-teal-700 z-10">
               View
             </button>
