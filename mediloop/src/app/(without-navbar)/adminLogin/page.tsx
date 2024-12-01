@@ -2,7 +2,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { submitLogin } from "@/actions";
+import { submitLoginAdmin } from "@/actions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
@@ -27,7 +27,7 @@ export default function AdminLogin() {
     e.preventDefault();
 
     try {
-      const res = await fetch(`/api/admin/login`, {
+      const res = await fetch(`/api/adminLogin`, {
         method: "POST",
         body: JSON.stringify(input),
         headers: {
@@ -49,8 +49,7 @@ export default function AdminLogin() {
         position: "top-right",
         autoClose: 1500,
       });
-      await submitLogin();
-      router.push("/admin/dashboard");
+      await submitLoginAdmin();
     } catch (error) {
       console.error("Login failed:", error);
       toast.error("Unexpected error occurred!", {
