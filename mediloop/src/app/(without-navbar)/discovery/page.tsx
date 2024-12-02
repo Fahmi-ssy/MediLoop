@@ -1,9 +1,9 @@
 "use client";
 import FileUpload from "@/components/Multer";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import DiscoveryNavbar from "@/components/DiscoveryNavbar";
 import { useRouter } from "next/navigation";
-import { FormEvent } from "react";
+
 
 interface Question {
   id: string;
@@ -18,6 +18,7 @@ interface Section {
 }
 
 export default function Discovery() {
+  const [isQuestionnaireDone, setIsQuestionnaireDone] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [formData, setFormData] = useState({
@@ -36,6 +37,9 @@ export default function Discovery() {
     otherConcerns: "",
   });
   const [otherInputs, setOtherInputs] = useState<{ [key: string]: string }>({});
+  const [fileUploaded, setFileUploaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const sections: Section[] = [
     {
@@ -217,38 +221,11 @@ export default function Discovery() {
       )
     );
     if (unanswered) {
-      alert("Please answer all questions before submitting.");
+      alert("Please answer all questions before proceeding.");
       return;
     }
-
-    try {
-      const response = await fetch("/api/openai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error submitting answers");
-      }
-
-      const data = await response.json();
-      
-      if (!data || !data.recommendations) {
-        console.error("Invalid API response structure:", data);
-        throw new Error("Received invalid response format from API");
-      }
-
-      const recommendationsData = {
-        recommendations: data.recommendations
-      };
-      
-      const encodedRecommendations = encodeURIComponent(JSON.stringify(recommendationsData));
-      router.push(`/recommendation?recommendations=${encodedRecommendations}`);
-    } catch (error) {
-      console.error("Error details:", error);
-      alert("An error occurred while processing your answers. Please try again.");
-    }
+    
+    setIsQuestionnaireDone(true);
   };
 
   const renderQuestion = () => {
@@ -313,6 +290,73 @@ export default function Discovery() {
   const progress = (completedQuestions / totalQuestions) * 100;
   const isFirstQuestion = currentStep === 0 && currentQuestionIndex === 0;
 
+  const handleContinue = async () => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const imageBase64 = localStorage.getItem('uploadedImageBase64');
+      let recommendations = '';
+
+      if (imageBase64) {
+        const visionResponse = await fetch("/api/vision", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            imageData: imageBase64,
+            formData 
+          }),
+        });
+
+        if (!visionResponse.ok) {
+          throw new Error("Error analyzing image");
+        }
+
+        const visionData = await visionResponse.json();
+        if (visionData.error) {
+          throw new Error(visionData.error);
+        }
+        recommendations = visionData.analysis;
+      }
+
+      if (!recommendations) {
+        const response = await fetch("/api/openai", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          throw new Error("Error getting recommendations");
+        }
+
+        const data = await response.json();
+        recommendations = data.recommendations;
+      }
+
+      if (!recommendations) {
+        throw new Error("No recommendations received");
+      }
+
+      const recommendationsData = {
+        recommendations: recommendations
+      };
+      
+      const encodedRecommendations = encodeURIComponent(
+        JSON.stringify(recommendationsData)
+      ).replace(/%20/g, '+');
+
+      localStorage.removeItem('uploadedImageBase64');
+      
+      router.push(`/recommendation?recommendations=${encodedRecommendations}`);
+    } catch (error) {
+      console.error("Error:", error);
+      setError(error instanceof Error ? error.message : "An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <DiscoveryNavbar 
@@ -322,24 +366,55 @@ export default function Discovery() {
         totalQuestions={totalQuestions}
         progress={progress}
       />
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-6 sm:mb-8">
           Discovery Questionnaire
         </h1>
-        {!sections[currentStep] ? (
-          <FileUpload />
-        ) : (
+        {!isQuestionnaireDone ? (
           <form onSubmit={handleSubmit} className="wizard-container">
             {renderQuestion()}
             <div className="wizard-navigation">
               {currentStep === sections.length - 1 &&
                 currentQuestionIndex === sections[sections.length - 1].questions.length - 1 && (
                   <button type="submit" className="submit-button">
-                    Submit
+                    Continue to Upload
                   </button>
                 )}
             </div>
           </form>
+        ) : (
+          <div className="space-y-6 sm:space-y-8">
+            <div className="text-center">
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-3 sm:mb-4">
+                Upload Your Prescription or Medical Report
+              </h2>
+              <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
+                Please upload a medical document or photo for more accurate recommendations
+              </p>
+            </div>
+            <FileUpload onUploadSuccess={() => setFileUploaded(true)} />
+            <div className="flex justify-center mt-6 sm:mt-8">
+              {error && (
+                <div className="text-red-500 mb-4 text-center">
+                  {error}
+                </div>
+              )}
+              <button
+                onClick={handleContinue}
+                disabled={!fileUploaded || isLoading}
+                className={`w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-sm sm:text-base transition-colors duration-200 
+                  ${fileUploaded && !isLoading
+                    ? 'bg-teal-600 hover:bg-teal-700 text-white' 
+                    : 'bg-gray-300 cursor-not-allowed text-gray-500'}`}
+              >
+                {isLoading 
+                  ? 'Processing...' 
+                  : fileUploaded 
+                    ? 'Submit and Get Recommendations' 
+                    : 'Please Upload a File First'}
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </div>

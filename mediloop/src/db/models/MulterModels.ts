@@ -9,7 +9,8 @@ const FileSchema = z.object({
   cloudinaryId: z.string(), // Cloudinary public_id
   url: z.string().url(), // Cloudinary URL
   uploadedBy: z.string(), // User or entity that uploaded the file
-  createdAt: z.date().default(() => new Date()), // Auto-generate creation date
+  createdAt: z.union([z.date(), z.string()]).transform((val) => new Date(val)),
+  base64Data: z.string().optional(), // Add this field to store base64 data if needed
 });
 
 // Infer the TypeScript type from Zod schema
@@ -20,12 +21,19 @@ class FileModel {
     return database.collection<FileMetadata>("files");
   }
 
-  static async saveFile(fileData: FileMetadata) {
+  static async saveFile(fileData: FileMetadata & { base64Data?: string }) {
     // Validate data with Zod
     FileSchema.parse(fileData);
 
+    // If you want to store the base64 data, include it in the database
+    // Be cautious with this as base64 strings can be quite large
+    const dataToStore = {
+      ...fileData,
+      base64Data: fileData.base64Data ? fileData.base64Data.substring(0, 1000) : undefined, // Optional: store truncated base64 if needed
+    };
+
     // Save metadata to the database
-    const result = await this.collection().insertOne(fileData);
+    const result = await this.collection().insertOne(dataToStore);
     return result;
   }
 

@@ -27,7 +27,9 @@ export default function Recommendation() {
 
     try {
       // Decode and parse the URL parameter
-      const decodedData = decodeURIComponent(recommendationsData);
+      const decodedData = decodeURIComponent(
+        recommendationsData.replace(/\+/g, '%20')
+      );
       const parsedData = JSON.parse(decodedData);
 
       // Check if recommendations text exists
