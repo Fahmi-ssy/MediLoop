@@ -4,10 +4,10 @@ import imageCompression from 'browser-image-compression';
 import { motion } from 'framer-motion';
 
 interface FileUploadProps {
-  onUploadSuccess?: () => void;
+  onFileUploadSuccess?: () => void;
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ onUploadSuccess }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ onFileUploadSuccess }) => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string>('');
@@ -108,8 +108,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadSuccess }) => {
         clearInterval(progressInterval);
         setUploadProgress(100);
         setLoading(false);
-        if (onUploadSuccess) {
-          onUploadSuccess();
+        if (onFileUploadSuccess) {
+          onFileUploadSuccess();
         }
       }, 500);
 
