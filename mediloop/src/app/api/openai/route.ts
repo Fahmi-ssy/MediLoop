@@ -7,16 +7,29 @@ export async function POST(request: Request) {
 
         // Construct the OpenAI prompt dynamically
         const prompt = `
-            A user has submitted the following health-related answers:
-            
+            Based on the following health-related information:
             ${Object.entries(formData)
                 .map(([key, value]) => `${key}: ${value}`)
                 .join('\n')}
             
-            Based on this data, please recommend:
-            1. A personalized to-do list for improving their condition.
-            2. Lifestyle habit changes they should adopt.
-            3. Specific products or remedies they should consider.
+            Please provide recommendations in the following format:
+            
+            1. To-Do List:
+            - First todo item
+            - Second todo item
+            - Third todo item
+            
+            2. Lifestyle Changes:
+            - First lifestyle change
+            - Second lifestyle change
+            - Third lifestyle change
+            
+            3. Recommended Products:
+            - First product recommendation
+            - Second product recommendation
+            - Third product recommendation
+            
+            Please ensure each section starts with the number and contains bullet points starting with "-" for each item.
         `;
 
         // Send the request to OpenAI
@@ -24,7 +37,7 @@ export async function POST(request: Request) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`, // Ensure this is set in your environment
+                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
             },
             body: JSON.stringify({
                 model: 'gpt-3.5-turbo',
@@ -36,7 +49,7 @@ export async function POST(request: Request) {
 
         // Handle OpenAI's response
         if (!response.ok) {
-            throw new Error(`OpenAI API error: ${response.statusText}`);
+            throw new Error(`Open API Error: ${response.statusText}`);
         }
 
         const data = await response.json();
