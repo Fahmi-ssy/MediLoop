@@ -4,6 +4,7 @@ export async function POST(request: Request) {
     try {
         const formData = await request.json();
         
+        // First get general recommendations from GPT
         const prompt = `
 Based on the following health-related information:
 ${Object.entries(formData)
@@ -20,12 +21,7 @@ Please provide recommendations in EXACTLY this format (maintain the exact header
 2. Lifestyle Changes:
 - First specific lifestyle change
 - Second specific lifestyle change
-- Third specific lifestyle change
-
-3. Recommended Products:
-- First specific product recommendation
-- Second specific product recommendation
-- Third specific product recommendation`;
+- Third specific lifestyle change`;
 
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
@@ -46,8 +42,33 @@ Please provide recommendations in EXACTLY this format (maintain the exact header
         }
 
         const data = await response.json();
+        const recommendations = data.choices[0].message.content;
+
+        // Get product recommendations using embedding
+        const embeddingResponse = await fetch('http://localhost:3000/api/embedding', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query: Object.entries(formData)
+                    .map(([key, value]) => `${key}: ${value}`)
+                    .join(' ')
+            }),
+        });
+
+        if (!embeddingResponse.ok) {
+            throw new Error('Failed to get product recommendations');
+        }
+
+        const { documents } = await embeddingResponse.json();
+
+        // Format the final response
+        const productRecommendations = documents.map((product: { name: any; description: any; }) => `- ${product.name}: ${product.description}`).join('\n');
+        const finalRecommendations = `${recommendations}\n\n3. Recommended Products:\n${productRecommendations}`;
+
         return NextResponse.json({
-            recommendations: data.choices[0].message.content,
+            recommendations: finalRecommendations,
         });
     } catch (error) {
         console.error('Error generating recommendations:', error);

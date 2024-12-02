@@ -297,6 +297,23 @@ export default function Discovery() {
     try {
       const imageBase64 = localStorage.getItem('uploadedImageBase64');
       let recommendations = '';
+      let embeddedProducts = [];
+
+      // Get embedded product recommendations
+      const embeddingResponse = await fetch("/api/embedding", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: Object.entries(formData)
+            .map(([key, value]) => `${key}: ${value}`)
+            .join(' ')
+        }),
+      });
+
+      if (embeddingResponse.ok) {
+        const embeddingData = await embeddingResponse.json();
+        embeddedProducts = embeddingData.documents || [];
+      }
 
       if (imageBase64) {
         const visionResponse = await fetch("/api/vision", {
@@ -334,19 +351,18 @@ export default function Discovery() {
         recommendations = data.recommendations;
       }
 
-      if (!recommendations) {
+      if (!recommendations && !embeddedProducts.length) {
         throw new Error("No recommendations received");
       }
 
       const recommendationsData = {
-        recommendations: recommendations
+        recommendations: recommendations,
+        embeddedProducts: embeddedProducts
       };
       
       const encodedRecommendations = encodeURIComponent(
         JSON.stringify(recommendationsData)
       ).replace(/%20/g, '+');
-
-      localStorage.removeItem('uploadedImageBase64');
       
       router.push(`/recommendation?recommendations=${encodedRecommendations}`);
     } catch (error) {
