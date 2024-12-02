@@ -7,29 +7,30 @@ export async function POST(request: Request) {
 
         // Construct the OpenAI prompt dynamically
         const prompt = `
-            Based on the following health-related information:
+            A user has submitted the following health-related answers:
+            
             ${Object.entries(formData)
                 .map(([key, value]) => `${key}: ${value}`)
                 .join('\n')}
             
-            Please provide recommendations in the following format:
-            
-            1. To-Do List:
-            - First todo item
-            - Second todo item
-            - Third todo item
-            
-            2. Lifestyle Changes:
-            - First lifestyle change
-            - Second lifestyle change
-            - Third lifestyle change
-            
-            3. Recommended Products:
-            - First product recommendation
-            - Second product recommendation
-            - Third product recommendation
-            
-            Please ensure each section starts with the number and contains bullet points starting with "-" for each item.
+            Please provide recommendations in exactly this format, using dashes (-) for each item:
+
+            To-Do List:
+            - First specific action item
+            - Second specific action item
+            - Third specific action item
+
+            Lifestyle Changes:
+            - First specific lifestyle change
+            - Second specific lifestyle change
+            - Third specific lifestyle change
+
+            Recommended Products:
+            - First specific product recommendation
+            - Second specific product recommendation
+            - Third specific product recommendation
+
+            Note: Each section must start with the exact heading shown above and each item must start with a dash (-).
         `;
 
         // Send the request to OpenAI
@@ -37,7 +38,7 @@ export async function POST(request: Request) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`, // Ensure this is set in your environment
             },
             body: JSON.stringify({
                 model: 'gpt-3.5-turbo',
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
 
         // Handle OpenAI's response
         if (!response.ok) {
-            throw new Error(`Open API Error: ${response.statusText}`);
+            throw new Error(`OpenAI API error: ${response.statusText}`);
         }
 
         const data = await response.json();
