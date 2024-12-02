@@ -1,4 +1,3 @@
-
 import ProductModel from "@/db/models/ProductModels";
 
 export async function GET(request: Request) {
@@ -33,6 +32,30 @@ export async function GET(request: Request) {
     console.error("Error fetching products:", err);
     return new Response(
       JSON.stringify({ message: "Error fetching products" }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const productData = await request.json();
+    const newProduct = await ProductModel.create(productData);
+    return new Response(JSON.stringify(newProduct), {
+      status: 201,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (err) {
+    console.error("Error adding product:", err);
+    return new Response(
+      JSON.stringify({ message: "Error adding product" }),
       {
         status: 500,
         headers: {
