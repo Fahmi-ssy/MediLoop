@@ -41,27 +41,10 @@ export default function adminDashboard() {
 
   return (
     <div>
-      {/* Add New Product Button */}
-      <div className="absolute top-4 right-4">
-        <Link href="/adminDashboard/add">
-          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">
-            Add New Product
-          </button>
-        </Link>
-      </div>
+      {/* Add New Product and Register Admin Buttons */}
+      
       {/* Pencarian */}
       <div className="flex justify-center items-center mt-8">
-        {/* <input
-          type="text"
-          className="border p-2 rounded w-1/3"
-          placeholder="Search products..."
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setPage(1);
-            setProducts([]);
-          }}
-        /> */}
       </div>
       <div className="relative py-12 mb-8">
         <div className="absolute inset-0 bg-gradient-to-r from-teal-50 to-teal-100"></div>
@@ -69,6 +52,13 @@ export default function adminDashboard() {
           <h1 className="text-4xl font-bold text-teal-900 mb-2">All Products</h1>
           <div className="h-1 w-24 bg-teal-500 rounded"></div>
         </div>
+      </div>
+      <div className="flex justify-end gap-4 p-4 mb-4">
+        <Link href="/adminDashboard/add">
+          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">
+            Add New Product
+          </button>
+        </Link>
       </div>
       
 

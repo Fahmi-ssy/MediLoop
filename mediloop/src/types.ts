@@ -42,6 +42,7 @@ export interface FileMetadata {
     description: string;
     usage: string;
     image: string;
+    product_embedding?: number[];
   }
   
 
