@@ -38,12 +38,24 @@ export default function Recommendation() {
         throw new Error('No recommendations found in response');
       }
 
+      console.log('OpenAI Response:', recommendationsText);
+
       // Split by numbered sections and filter out empty lines
-      const sections = recommendationsText.split(/\d\.\s+/).filter(Boolean);
+      const sections = recommendationsText
+        .split(/(?:\d\.|[A-Z][a-z]+ List:|Lifestyle Changes:|Recommended Products:)/)
+        .filter((section: string) => {
+          const trimmed = section.trim();
+          console.log('Trimmed section:', trimmed);
+          return trimmed && trimmed.includes('-');
+        })
+        .map((section: string) => section.trim());
       
       if (sections.length < 3) {
         throw new Error('Invalid recommendations format');
       }
+
+      console.log('Raw recommendationsText:', recommendationsText);
+      console.log('Sections after split:', sections);
 
       const formatted: Recommendation = {
         todoList: [],
