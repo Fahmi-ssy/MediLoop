@@ -1,7 +1,7 @@
 "use client";
 import React, { ChangeEvent, useState } from 'react';
 
-const FileUpload = () => {
+const FileUpload = ({ onImageUpload }: { onImageUpload: (url: string) => void }) => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
@@ -12,9 +12,17 @@ const FileUpload = () => {
       const selectedFile = e.target.files[0];
       setFile(selectedFile);
       
-      // Create a preview URL for the selected file
-      const objectUrl = URL.createObjectURL(selectedFile);
-      setPreviewUrl(objectUrl);
+      // Convert file to base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        // Remove the data:image/jpeg;base64, prefix
+        const base64WithoutPrefix = base64String.split(',')[1];
+        setPreviewUrl(base64String);
+        // Store the base64 string for API submission
+        setImageUrl(base64WithoutPrefix);
+      };
+      reader.readAsDataURL(selectedFile);
     }
   };
 
@@ -28,39 +36,40 @@ const FileUpload = () => {
   }, [previewUrl]);
 
   const handleUpload = async () => {
-    if (!file) {
+    if (!imageUrl) {
       alert('Please select a file');
       return;
     }
-
+  
     setLoading(true);
-
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_PRESET || 'default_preset');
-    formData.append('cloud_name', process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'default_cloud_name');
-
+  
     try {
-      const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`;
-
-      const res = await fetch(cloudinaryUrl, {
+      const response = await fetch('/api/vision', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          image: imageUrl,
+          formData: {
+            // Add any additional form data here
+          }
+        }),
       });
-
-      const data = await res.json();
+  
+      const data = await response.json();
       setLoading(false);
-
-      if (data.secure_url) {
-        setImageUrl(data.secure_url);
-        alert('File uploaded successfully!');
+  
+      if (data.recommendations) {
+        onImageUpload(data.recommendations);
+        alert('Analysis completed successfully!');
       } else {
-        alert('File upload failed!');
+        alert('Analysis failed!');
       }
     } catch (err) {
       setLoading(false);
-      console.error('Error uploading file:', err);
-      alert('Error uploading file!');
+      console.error('Error analyzing file:', err);
+      alert('Error analyzing file!');
     }
   };
 
