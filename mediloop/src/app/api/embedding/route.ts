@@ -5,7 +5,7 @@ import { Product } from '@/types';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY as string;
 const MDB_CONNECTION_STRING = process.env.URI_MONGODB as string;
 
-async function getEmbedding(query: string): Promise<number[]> {
+export async function getEmbedding(query: string): Promise<number[]> {
   const url = 'https://api.openai.com/v1/embeddings';
     console.log(query, "<--- query")
   const response = await fetch(url, {

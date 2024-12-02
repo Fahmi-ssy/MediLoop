@@ -2,7 +2,6 @@ import { Product } from "@/types";
 import database from "../config/mongodb";
 
 class ProductModel {
-    static create: any;
     static collection() {
         return database.collection<Product>("products");
     }
@@ -48,6 +47,28 @@ class ProductModel {
       
         return products;
       }
+
+    static async create(data: Omit<Product, '_id'>) {
+        try {
+            if (!data.product_embedding) {
+                throw new Error("Product embedding is required");
+            }
+
+            const result = await this.collection().insertOne({
+                ...data,
+                product_embedding: data.product_embedding
+            } as Product);
+
+            if (!result.acknowledged) {
+                throw new Error("Failed to insert product");
+            }
+
+            return result;
+        } catch (error) {
+            console.error("Error creating product:", error);
+            throw error;
+        }
+    }
 }
 
 export default ProductModel;
