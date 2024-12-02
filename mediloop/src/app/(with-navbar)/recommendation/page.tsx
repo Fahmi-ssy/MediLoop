@@ -2,11 +2,18 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface Recommendation {
   todoList: string[];
   lifestyleChanges: string[];
-  products: string[];
+  products: {
+    name: string;
+    description: string;
+    image: string;
+    price: number;
+  }[];
+  imageAnalysis?: string;
 }
 
 export default function Recommendation() {
@@ -15,8 +22,18 @@ export default function Recommendation() {
     todoList: [],
     lifestyleChanges: [],
     products: [],
+    imageAnalysis: "",
   });
   const [error, setError] = useState<string>("");
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const imageBase64 = localStorage.getItem('uploadedImageBase64');
+    if (imageBase64) {
+      setUploadedImage(imageBase64);
+      localStorage.removeItem('uploadedImageBase64');
+    }
+  }, []);
 
   useEffect(() => {
     const recommendationsData = searchParams.get("recommendations");
@@ -26,25 +43,29 @@ export default function Recommendation() {
     }
 
     try {
-      // Decode and parse the URL parameter
       const decodedData = decodeURIComponent(
         recommendationsData.replace(/\+/g, '%20')
       );
       const parsedData = JSON.parse(decodedData);
 
-      // Check if recommendations text exists
-      const recommendationsText = parsedData.recommendations;
-      if (!recommendationsText) {
+      const recommendationsText = parsedData.recommendations || '';
+      const imageAnalysis = parsedData.imageAnalysis || '';
+      const embeddedProducts = parsedData.embeddedProducts || [];
+
+      if (!recommendationsText.trim()) {
         throw new Error('No recommendations found in response');
       }
 
       console.log('Raw OpenAI Response:', recommendationsText);
 
-      // Split the text into sections based on numbered headers
       const sections = recommendationsText
         .split(/\d\.\s+/)
-        .filter((section: string) => section.trim())
+        .filter((section: string) => section?.trim())
         .map((section: string) => section.trim());
+
+      if (!sections.length) {
+        throw new Error('Failed to parse recommendations');
+      }
 
       console.log('Parsed sections:', sections);
 
@@ -52,6 +73,7 @@ export default function Recommendation() {
         todoList: [],
         lifestyleChanges: [],
         products: [],
+        imageAnalysis: imageAnalysis || "",
       };
 
       sections.forEach((section: string) => {
@@ -61,18 +83,30 @@ export default function Recommendation() {
           .filter(line => line.startsWith('-'))
           .map(line => line.substring(1).trim());
 
-        if (section.includes('To-Do List')) {
+        if (section.toLowerCase().includes('to-do list')) {
           formatted.todoList = lines;
-        } else if (section.includes('Lifestyle Changes')) {
+        } else if (section.toLowerCase().includes('lifestyle changes')) {
           formatted.lifestyleChanges = lines;
-        } else if (section.includes('Recommended Products')) {
-          formatted.products = lines;
         }
       });
 
+      // Add embedded products if available
+      if (embeddedProducts.length > 0) {
+        formatted.products = embeddedProducts.map((product: { 
+          name: string; 
+          description: string;
+          image: string;
+          price: number;
+        }) => ({
+          name: product.name,
+          description: product.description || '',
+          image: product.image || '',
+          price: product.price || 0
+        }));
+      }
+
       console.log('Formatted recommendations:', formatted);
 
-      // Only set recommendations if we have at least one non-empty section
       if (formatted.todoList.length || formatted.lifestyleChanges.length || formatted.products.length) {
         setRecommendations(formatted);
       } else {
@@ -110,6 +144,38 @@ export default function Recommendation() {
         >
           Your Personalized Recommendations
         </motion.h1>
+        
+        {uploadedImage && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8 max-w-md mx-auto"
+          >
+            <div className="bg-white p-4 rounded-xl shadow-lg">
+              <h3 className="text-lg font-semibold text-teal-800 mb-3">Analysis of Your Image</h3>
+              <div className="relative w-full h-64">
+                <img
+                  src={uploadedImage}
+                  alt="Uploaded prescription or medical document"
+                  className="w-full h-full object-contain rounded-lg"
+                />
+              </div>
+            </div>
+          </motion.div>
+        )}
+        
+        {uploadedImage && recommendations.imageAnalysis && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8 max-w-2xl mx-auto"
+          >
+            <div className="bg-white p-6 rounded-xl shadow-lg">
+              <h3 className="text-lg font-semibold text-teal-800 mb-3">Image Analysis</h3>
+              <p className="text-gray-700">{recommendations.imageAnalysis}</p>
+            </div>
+          </motion.div>
+        )}
         
         <div className="space-y-8">
           {/* To-Do List Section */}
@@ -200,12 +266,28 @@ export default function Recommendation() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 * index }}
-                  className="flex items-start gap-4 p-4 rounded-lg hover:bg-teal-50 transition-colors duration-200"
+                  className="flex items-start gap-6 p-4 rounded-lg hover:bg-teal-50 transition-colors duration-200"
                 >
                   <span className="flex-shrink-0 w-8 h-8 bg-teal-100 text-teal-800 rounded-full flex items-center justify-center text-sm font-semibold">
                     {index + 1}
                   </span>
-                  <span className="text-gray-700 text-lg">{item}</span>
+                  <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex-grow space-y-2">
+                    <span className="text-gray-700 text-lg font-medium">{item.name}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-teal-600 font-semibold">
+                        Rp {item.price?.toLocaleString("id-ID")}
+                      </span>
+                    </div>
+                    <p className="text-gray-500 text-sm">{item.description}</p>
+                  </div>
                 </motion.li>
               ))}
             </ul>
