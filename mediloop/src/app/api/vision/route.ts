@@ -42,7 +42,7 @@ export async function POST(request: Request) {
                 Object.entries(formData)
                   .map(([key, value]) => `${key}: ${value}`)
                   .join('\n')
-              }\n\nPlease provide recommendations in the following format:\n\n1. To-Do List:\n- First todo item based on the prescription/report\n- Second todo item\n- Third todo item\n\n2. Lifestyle Changes:\n- First lifestyle change considering the prescription/report\n- Second lifestyle change\n- Third lifestyle change\n\n3. Recommended Products:\n- First product recommendation from the prescription/report\n- Second product recommendation\n- Third product recommendation`
+              }\n\nPlease provide recommendations in exactly this format:\n\n1. To-Do List:\n- First todo item\n- Second todo item\n- Third todo item\n\n2. Lifestyle Changes:\n- First lifestyle change\n- Second lifestyle change\n- Third lifestyle change\n\n3. Recommended Products:\n- First product recommendation\n- Second product recommendation\n- Third product recommendation`
             },
             {
               type: "image_url",

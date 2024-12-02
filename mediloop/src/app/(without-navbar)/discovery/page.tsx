@@ -392,7 +392,7 @@ export default function Discovery() {
                 Please upload a medical document or photo for more accurate recommendations
               </p>
             </div>
-            <FileUpload onUploadSuccess={() => setFileUploaded(true)} />
+            <FileUpload onFileUploadSuccess={() => setFileUploaded(true)} />
             <div className="flex justify-center mt-6 sm:mt-8">
               {error && (
                 <div className="text-red-500 mb-4 text-center">

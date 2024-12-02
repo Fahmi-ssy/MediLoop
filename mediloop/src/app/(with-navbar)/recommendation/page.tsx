@@ -38,24 +38,15 @@ export default function Recommendation() {
         throw new Error('No recommendations found in response');
       }
 
-      console.log('OpenAI Response:', recommendationsText);
+      console.log('Raw OpenAI Response:', recommendationsText);
 
-      // Split by numbered sections and filter out empty lines
+      // Split the text into sections based on numbered headers
       const sections = recommendationsText
-        .split(/(?:\d\.|[A-Z][a-z]+ List:|Lifestyle Changes:|Recommended Products:)/)
-        .filter((section: string) => {
-          const trimmed = section.trim();
-          console.log('Trimmed section:', trimmed);
-          return trimmed && trimmed.includes('-');
-        })
+        .split(/\d\.\s+/)
+        .filter((section: string) => section.trim())
         .map((section: string) => section.trim());
-      
-      if (sections.length < 3) {
-        throw new Error('Invalid recommendations format');
-      }
 
-      console.log('Raw recommendationsText:', recommendationsText);
-      console.log('Sections after split:', sections);
+      console.log('Parsed sections:', sections);
 
       const formatted: Recommendation = {
         todoList: [],
@@ -63,32 +54,30 @@ export default function Recommendation() {
         products: [],
       };
 
-      // Process each section
-      sections.forEach((section: string, index: number) => {
+      sections.forEach((section: string) => {
         const lines = section
           .split('\n')
-          .filter(line => line.trim() && line.trim().startsWith('-'))
-          .map(line => line.replace(/^-\s*/, '').trim());
+          .map(line => line.trim())
+          .filter(line => line.startsWith('-'))
+          .map(line => line.substring(1).trim());
 
-        switch (index) {
-          case 0:
-            formatted.todoList = lines;
-            break;
-          case 1:
-            formatted.lifestyleChanges = lines;
-            break;
-          case 2:
-            formatted.products = lines;
-            break;
+        if (section.includes('To-Do List')) {
+          formatted.todoList = lines;
+        } else if (section.includes('Lifestyle Changes')) {
+          formatted.lifestyleChanges = lines;
+        } else if (section.includes('Recommended Products')) {
+          formatted.products = lines;
         }
       });
 
-      // Validate that we have at least some recommendations
-      if (!formatted.todoList.length && !formatted.lifestyleChanges.length && !formatted.products.length) {
-        throw new Error('No valid recommendations were generated');
-      }
+      console.log('Formatted recommendations:', formatted);
 
-      setRecommendations(formatted);
+      // Only set recommendations if we have at least one non-empty section
+      if (formatted.todoList.length || formatted.lifestyleChanges.length || formatted.products.length) {
+        setRecommendations(formatted);
+      } else {
+        throw new Error('No valid recommendations were found in the response');
+      }
     } catch (error) {
       console.error("Error parsing recommendations:", error);
       setError(error instanceof Error ? error.message : "Failed to load recommendations");
