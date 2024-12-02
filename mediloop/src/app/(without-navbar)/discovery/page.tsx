@@ -2,6 +2,7 @@
 import FileUpload from "@/components/Multer";
 import React, { useState } from "react";
 import DiscoveryNavbar from "@/components/DiscoveryNavbar";
+import { useRouter } from "next/navigation";
 
 interface Question {
   id: string;
@@ -33,6 +34,7 @@ export default function Discovery() {
     lifestyleChanges: "",
     otherConcerns: "",
   });
+  const [otherInputs, setOtherInputs] = useState<{ [key: string]: string }>({});
 
   const sections: Section[] = [
     {
@@ -72,8 +74,93 @@ export default function Discovery() {
         },
       ],
     },
-    // Add other sections similarly
+    {
+      title: "Lifestyle Focus",
+      questions: [
+        {
+          id: "wellnessRecommendations",
+          label: "Are you looking for wellness recommendations?",
+          type: "radio",
+          options: [
+            "Yes, for Hair Care (e.g., hair loss, dry scalp)",
+            "Yes, for Skin Care (e.g., acne, hydration)",
+            "Yes, for Boosting Energy or Fitness",
+            "Yes, for Stress Relief or Relaxation",
+            "No, I'm only focused on resolving my current symptoms",
+            "Other (Please specify: ________)",
+          ],
+        },
+        {
+          id: "dietaryRestrictions",
+          label: "Do you have any dietary restrictions or preferences?",
+          type: "radio",
+          options: [
+            "Vegetarian/Vegan",
+            "Gluten-Free",
+            "Lactose-Free",
+            "No Restrictions",
+            "Other (Please specify: ________)",
+          ],
+        },
+      ],
+    },
+    {
+      title: "Medical History and Preferences",
+      questions: [
+        {
+          id: "medications",
+          label: "Do you take any medications or supplements regularly?",
+          type: "radio",
+          options: [
+            "Yes (Please list: ________)",
+            "No",
+            "Other (Please specify: ________)",
+          ],
+        },
+        {
+          id: "remedyPreference",
+          label: "Do you prefer over-the-counter medicines or natural remedies?",
+          type: "radio",
+          options: [
+            "Over-the-Counter Medicines",
+            "Natural/Herbal Remedies",
+            "Open to Both",
+            "Other (Please specify: ________)",
+          ],
+        },
+      ],
+    },
+    {
+      title: "Specific Body Areas",
+      questions: [
+        {
+          id: "bodyArea",
+          label: "What part of your body are you most concerned about?",
+          type: "radio",
+          options: [
+            "Head (e.g., headaches, hair problems)",
+            "Chest (e.g., breathing issues, cold)",
+            "Stomach (e.g., digestion, nausea)",
+            "Skin (e.g., acne, dryness)",
+            "Overall Wellness (e.g., fatigue, sleep)",
+            "Other (Please specify: ________)",
+          ],
+        },
+        {
+          id: "lifestyleChanges",
+          label: "Would you like us to suggest lifestyle changes?",
+          type: "radio",
+          options: [
+            "Yes, please!",
+            "No, just product recommendations",
+            "Other (Please specify: ________)",
+          ],
+        },
+      ],
+    },
   ];
+
+  const router = useRouter();
 
   const handleInputChange = (id: string, value: string) => {
     setFormData((prev) => ({
@@ -121,7 +208,7 @@ export default function Discovery() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const unanswered = sections.some((section) =>
       section.questions.some(
@@ -143,10 +230,23 @@ export default function Discovery() {
       if (!response.ok) {
         throw new Error("Error submitting answers");
       }
+
       const data = await response.json();
-      console.log("Recommendations:", data.recommendations);
+      
+      if (!data || !data.recommendations) {
+        console.error("Invalid API response structure:", data);
+        throw new Error("Received invalid response format from API");
+      }
+
+      const recommendationsData = {
+        recommendations: data.recommendations
+      };
+      
+      const encodedRecommendations = encodeURIComponent(JSON.stringify(recommendationsData));
+      router.push(`/recommendation?recommendations=${encodedRecommendations}`);
     } catch (error) {
-      console.error(error);
+      console.error("Error details:", error);
+      alert("An error occurred while processing your answers. Please try again.");
     }
   };
 
@@ -154,53 +254,93 @@ export default function Discovery() {
     const currentSection = sections[currentStep];
     const currentQuestion = currentSection.questions[currentQuestionIndex];
 
+    function handleOtherInput(id: string, value: string) {
+      throw new Error("Function not implemented.");
+    }
+
     return (
-      <div>
-        <h2>{currentQuestion.label}</h2>
-        {currentQuestion.options.map((option) => (
-          <div key={option}>
-            <input
-              type="radio"
-              id={option}
-              name={currentQuestion.id}
-              value={option}
-              checked={
-                formData[currentQuestion.id as keyof typeof formData] ===
-                option
-              }
-              onChange={(e) =>
-                handleInputChange(currentQuestion.id, e.target.value)
-              }
-            />
-            <label htmlFor={option}>{option}</label>
-          </div>
-        ))}
+      <div className="question-container">
+        <h2 className="question-label">{currentQuestion.label}</h2>
+        <div className="radio-group">
+          {currentQuestion.options.map((option) => (
+            <label
+              key={option}
+              className={`radio-option ${
+                formData[currentQuestion.id as keyof typeof formData] === option ||
+                (option === "Other" && formData[currentQuestion.id as keyof typeof formData]?.startsWith("Other:"))
+                  ? "selected"
+                  : ""
+              }`}
+            >
+              <input
+                type="radio"
+                className="radio-input"
+                name={currentQuestion.id}
+                value={option}
+                checked={
+                  option === "Other"
+                    ? formData[currentQuestion.id as keyof typeof formData]?.startsWith("Other:")
+                    : formData[currentQuestion.id as keyof typeof formData] === option
+                }
+                onChange={(e) => handleInputChange(currentQuestion.id, e.target.value)}
+              />
+              <span className="radio-label">{option}</span>
+              {option === "Other" && 
+                formData[currentQuestion.id as keyof typeof formData]?.startsWith("Other:") && (
+                  <input
+                    type="text"
+                    className="ml-4 p-2 border rounded-md flex-1"
+                    placeholder="Please specify..."
+                    value={otherInputs[currentQuestion.id] || ""}
+                    onChange={(e) => {
+                      if (typeof handleOtherInput === 'function') {
+                        handleOtherInput(currentQuestion.id, e.target.value);
+                      }
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+              )}
+            </label>
+          ))}
+        </div>
       </div>
     );
   };
 
+  const totalQuestions = sections.reduce((acc, section) => acc + section.questions.length, 0);
+  const completedQuestions = currentStep * sections[currentStep]?.questions.length + currentQuestionIndex + 1;
+  const progress = (completedQuestions / totalQuestions) * 100;
+  const isFirstQuestion = currentStep === 0 && currentQuestionIndex === 0;
+
   return (
-    <div>
-      <DiscoveryNavbar />
-      <h1>Discovery Questionnaire</h1>
-      {!sections[currentStep] ? (
-        <FileUpload />
-      ) : (
-        <form onSubmit={handleSubmit}>
-          {renderQuestion()}
-          <button type="button" onClick={handlePrevious}>
-            Previous
-          </button>
-          <button type="button" onClick={handleNext}>
-            Next
-          </button>
-          {currentStep === sections.length - 1 &&
-            currentQuestionIndex ===
-              sections[sections.length - 1].questions.length - 1 && (
-              <button type="submit">Submit</button>
-            )}
-        </form>
-      )}
+    <div className="min-h-screen bg-gray-50">
+      <DiscoveryNavbar 
+        handlePrevious={handlePrevious}
+        isFirstQuestion={isFirstQuestion}
+        completedQuestions={completedQuestions}
+        totalQuestions={totalQuestions}
+        progress={progress}
+      />
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+          Discovery Questionnaire
+        </h1>
+        {!sections[currentStep] ? (
+          <FileUpload />
+        ) : (
+          <form onSubmit={handleSubmit} className="wizard-container">
+            {renderQuestion()}
+            <div className="wizard-navigation">
+              {currentStep === sections.length - 1 &&
+                currentQuestionIndex === sections[sections.length - 1].questions.length - 1 && (
+                  <button type="submit" className="submit-button">
+                    Submit
+                  </button>
+                )}
+            </div>
+          </form>
+        )}
+      </div>
     </div>
   );
 }

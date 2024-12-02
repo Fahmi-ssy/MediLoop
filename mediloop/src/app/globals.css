@@ -25,3 +25,128 @@ body {
     text-wrap: balance;
   }
 }
+
+.wizard-container {
+  background: transparent;
+  padding: 2.5rem;
+  max-width: 700px;
+  margin: 2rem auto;
+}
+
+.question-container {
+  margin-bottom: 2rem;
+}
+
+.question-label {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a365d;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.radio-option:hover {
+  border-color: #0d9488;
+  background-color: #f0fdfa;
+}
+
+.radio-option.selected {
+  border-color: #0d9488;
+  background-color: #f0fdfa;
+}
+
+.radio-input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 1rem;
+  accent-color: #0d9488;
+}
+
+.radio-label {
+  font-size: 1.1rem;
+  color: #334155;
+}
+
+.submit-button {
+  background-color: #0d9488;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.submit-button:hover {
+  background-color: #0f766e;
+  transform: translateY(-1px);
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: #b2ebf2;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 25px;
+}
+
+.progress {
+  height: 100%;
+  background-color: #00acc1;
+  transition: width 0.4s ease;
+}
+
+.wizard-navigation .btn {
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-right: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #00796b;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #004d40;
+}
+
+.btn-secondary {
+  background-color: #8eacbb;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #607d8b;
+}
+
+.radio-option input[type="text"] {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.radio-option input[type="text"]:focus {
+  border-color: #0d9488;
+  box-shadow: 0 0 0 1px #0d9488;
+}
