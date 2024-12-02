@@ -1,7 +1,8 @@
 "use client";
 import FileUpload from "@/components/Multer";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import DiscoveryNavbar from "@/components/DiscoveryNavbar";
+import { useRouter } from "next/navigation";
 
 interface Question {
   id: string;
@@ -16,6 +17,7 @@ interface Section {
 }
 
 export default function Discovery() {
+  const [isQuestionnaireDone, setIsQuestionnaireDone] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [formData, setFormData] = useState({
@@ -33,6 +35,10 @@ export default function Discovery() {
     lifestyleChanges: "",
     otherConcerns: "",
   });
+  const [otherInputs, setOtherInputs] = useState<{ [key: string]: string }>({});
+  const [fileUploaded, setFileUploaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const sections: Section[] = [
     {
@@ -72,8 +78,93 @@ export default function Discovery() {
         },
       ],
     },
-    // Add other sections similarly
+    {
+      title: "Lifestyle Focus",
+      questions: [
+        {
+          id: "wellnessRecommendations",
+          label: "Are you looking for wellness recommendations?",
+          type: "radio",
+          options: [
+            "Yes, for Hair Care (e.g., hair loss, dry scalp)",
+            "Yes, for Skin Care (e.g., acne, hydration)",
+            "Yes, for Boosting Energy or Fitness",
+            "Yes, for Stress Relief or Relaxation",
+            "No, I'm only focused on resolving my current symptoms",
+            "Other (Please specify: ________)",
+          ],
+        },
+        {
+          id: "dietaryRestrictions",
+          label: "Do you have any dietary restrictions or preferences?",
+          type: "radio",
+          options: [
+            "Vegetarian/Vegan",
+            "Gluten-Free",
+            "Lactose-Free",
+            "No Restrictions",
+            "Other (Please specify: ________)",
+          ],
+        },
+      ],
+    },
+    {
+      title: "Medical History and Preferences",
+      questions: [
+        {
+          id: "medications",
+          label: "Do you take any medications or supplements regularly?",
+          type: "radio",
+          options: [
+            "Yes (Please list: ________)",
+            "No",
+            "Other (Please specify: ________)",
+          ],
+        },
+        {
+          id: "remedyPreference",
+          label: "Do you prefer over-the-counter medicines or natural remedies?",
+          type: "radio",
+          options: [
+            "Over-the-Counter Medicines",
+            "Natural/Herbal Remedies",
+            "Open to Both",
+            "Other (Please specify: ________)",
+          ],
+        },
+      ],
+    },
+    {
+      title: "Specific Body Areas",
+      questions: [
+        {
+          id: "bodyArea",
+          label: "What part of your body are you most concerned about?",
+          type: "radio",
+          options: [
+            "Head (e.g., headaches, hair problems)",
+            "Chest (e.g., breathing issues, cold)",
+            "Stomach (e.g., digestion, nausea)",
+            "Skin (e.g., acne, dryness)",
+            "Overall Wellness (e.g., fatigue, sleep)",
+            "Other (Please specify: ________)",
+          ],
+        },
+        {
+          id: "lifestyleChanges",
+          label: "Would you like us to suggest lifestyle changes?",
+          type: "radio",
+          options: [
+            "Yes, please!",
+            "No, just product recommendations",
+            "Other (Please specify: ________)",
+          ],
+        },
+      ],
+    },
   ];
+
+  const router = useRouter();
 
   const handleInputChange = (id: string, value: string) => {
     setFormData((prev) => ({
@@ -121,7 +212,7 @@ export default function Discovery() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const unanswered = sections.some((section) =>
       section.questions.some(
@@ -129,129 +220,201 @@ export default function Discovery() {
       )
     );
     if (unanswered) {
-      alert("Please answer all questions before submitting.");
+      alert("Please answer all questions before proceeding.");
       return;
     }
-
-    try {
-      const response = await fetch("/api/openai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error submitting answers");
-      }
-      const data = await response.json();
-      console.log("Recommendations:", data.recommendations);
-    } catch (error) {
-      console.error(error);
-    }
+    
+    setIsQuestionnaireDone(true);
   };
 
   const renderQuestion = () => {
     const currentSection = sections[currentStep];
     const currentQuestion = currentSection.questions[currentQuestionIndex];
 
+    function handleOtherInput(id: string, value: string) {
+      throw new Error("Function not implemented.");
+    }
+
     return (
-      <div className="max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">
-          {currentQuestion.label}
-        </h2>
-        <div className="space-y-4">
+      <div className="question-container">
+        <h2 className="question-label">{currentQuestion.label}</h2>
+        <div className="radio-group">
           {currentQuestion.options.map((option) => (
-            <div
+            <label
               key={option}
-              className="relative flex items-center p-4 border rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-              onClick={() => handleInputChange(currentQuestion.id, option)}
+              className={`radio-option ${
+                formData[currentQuestion.id as keyof typeof formData] === option ||
+                (option === "Other" && formData[currentQuestion.id as keyof typeof formData]?.startsWith("Other:"))
+                  ? "selected"
+                  : ""
+              }`}
             >
               <input
                 type="radio"
-                id={option}
+                className="radio-input"
                 name={currentQuestion.id}
                 value={option}
                 checked={
-                  formData[currentQuestion.id as keyof typeof formData] === option
+                  option === "Other"
+                    ? formData[currentQuestion.id as keyof typeof formData]?.startsWith("Other:")
+                    : formData[currentQuestion.id as keyof typeof formData] === option
                 }
-                onChange={(e) =>
-                  handleInputChange(currentQuestion.id, e.target.value)
-                }
-                className="h-4 w-4 text-teal-600 border-gray-300 focus:ring-teal-500"
+                onChange={(e) => handleInputChange(currentQuestion.id, e.target.value)}
               />
-              <label
-                htmlFor={option}
-                className="ml-3 block text-sm font-medium text-gray-700 cursor-pointer"
-              >
-                {option}
-              </label>
-            </div>
+              <span className="radio-label">{option}</span>
+              {option === "Other" && 
+                formData[currentQuestion.id as keyof typeof formData]?.startsWith("Other:") && (
+                  <input
+                    type="text"
+                    className="ml-4 p-2 border rounded-md flex-1"
+                    placeholder="Please specify..."
+                    value={otherInputs[currentQuestion.id] || ""}
+                    onChange={(e) => {
+                      if (typeof handleOtherInput === 'function') {
+                        handleOtherInput(currentQuestion.id, e.target.value);
+                      }
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+              )}
+            </label>
           ))}
         </div>
       </div>
     );
   };
 
+  const totalQuestions = sections.reduce((acc, section) => acc + section.questions.length, 0);
+  const completedQuestions = currentStep * sections[currentStep]?.questions.length + currentQuestionIndex + 1;
+  const progress = (completedQuestions / totalQuestions) * 100;
+  const isFirstQuestion = currentStep === 0 && currentQuestionIndex === 0;
+
+  const handleContinue = async () => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const imageBase64 = localStorage.getItem('uploadedImageBase64');
+      let recommendations = '';
+
+      if (imageBase64) {
+        const visionResponse = await fetch("/api/vision", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            imageData: imageBase64,
+            formData 
+          }),
+        });
+
+        if (!visionResponse.ok) {
+          throw new Error("Error analyzing image");
+        }
+
+        const visionData = await visionResponse.json();
+        if (visionData.error) {
+          throw new Error(visionData.error);
+        }
+        recommendations = visionData.analysis;
+      }
+
+      if (!recommendations) {
+        const response = await fetch("/api/openai", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          throw new Error("Error getting recommendations");
+        }
+
+        const data = await response.json();
+        recommendations = data.recommendations;
+      }
+
+      if (!recommendations) {
+        throw new Error("No recommendations received");
+      }
+
+      const recommendationsData = {
+        recommendations: recommendations
+      };
+      
+      const encodedRecommendations = encodeURIComponent(
+        JSON.stringify(recommendationsData)
+      ).replace(/%20/g, '+');
+
+      localStorage.removeItem('uploadedImageBase64');
+      
+      router.push(`/recommendation?recommendations=${encodedRecommendations}`);
+    } catch (error) {
+      console.error("Error:", error);
+      setError(error instanceof Error ? error.message : "An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <DiscoveryNavbar
+      <DiscoveryNavbar 
         handlePrevious={handlePrevious}
-        isFirstQuestion={currentStep === 0 && currentQuestionIndex === 0}
-        completedQuestions={
-          currentStep * sections[0].questions.length + currentQuestionIndex + 1
-        }
-        totalQuestions={
-          sections.reduce((acc, section) => acc + section.questions.length, 0)
-        }
-        progress={
-          ((currentStep * sections[0].questions.length + currentQuestionIndex + 1) /
-            sections.reduce((acc, section) => acc + section.questions.length, 0)) *
-          100
-        }
+        isFirstQuestion={isFirstQuestion}
+        completedQuestions={completedQuestions}
+        totalQuestions={totalQuestions}
+        progress={progress}
       />
-      
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-6 sm:mb-8">
           Discovery Questionnaire
         </h1>
-        
-        <div className="transition-all duration-300 ease-in-out">
-          {!sections[currentStep] ? (
-            <FileUpload />
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-8">
-              {renderQuestion()}
-              
-              <div className="flex justify-between items-center mt-8 px-4">
-                <button
-                  type="button"
-                  onClick={handlePrevious}
-                  className="px-6 py-2.5 text-sm font-medium text-teal-700 bg-white border border-teal-600 rounded-full hover:bg-teal-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-                >
-                  Previous
-                </button>
-                
-                {currentStep === sections.length - 1 &&
-                currentQuestionIndex === sections[sections.length - 1].questions.length - 1 ? (
-                  <button
-                    type="submit"
-                    className="px-8 py-2.5 text-sm font-medium text-white bg-teal-600 rounded-full hover:bg-teal-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-                  >
-                    Submit
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={handleNext}
-                    className="px-8 py-2.5 text-sm font-medium text-white bg-teal-600 rounded-full hover:bg-teal-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-                  >
-                    Next
+        {!isQuestionnaireDone ? (
+          <form onSubmit={handleSubmit} className="wizard-container">
+            {renderQuestion()}
+            <div className="wizard-navigation">
+              {currentStep === sections.length - 1 &&
+                currentQuestionIndex === sections[sections.length - 1].questions.length - 1 && (
+                  <button type="submit" className="submit-button">
+                    Continue to Upload
                   </button>
                 )}
-              </div>
-            </form>
-          )}
-        </div>
+            </div>
+          </form>
+        ) : (
+          <div className="space-y-6 sm:space-y-8">
+            <div className="text-center">
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-3 sm:mb-4">
+                Upload Your Prescription or Medical Report
+              </h2>
+              <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
+                Please upload a medical document or photo for more accurate recommendations
+              </p>
+            </div>
+            <FileUpload onUploadSuccess={() => setFileUploaded(true)} />
+            <div className="flex justify-center mt-6 sm:mt-8">
+              {error && (
+                <div className="text-red-500 mb-4 text-center">
+                  {error}
+                </div>
+              )}
+              <button
+                onClick={handleContinue}
+                disabled={!fileUploaded || isLoading}
+                className={`w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-sm sm:text-base transition-colors duration-200 
+                  ${fileUploaded && !isLoading
+                    ? 'bg-teal-600 hover:bg-teal-700 text-white' 
+                    : 'bg-gray-300 cursor-not-allowed text-gray-500'}`}
+              >
+                {isLoading 
+                  ? 'Processing...' 
+                  : fileUploaded 
+                    ? 'Submit and Get Recommendations' 
+                    : 'Please Upload a File First'}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
