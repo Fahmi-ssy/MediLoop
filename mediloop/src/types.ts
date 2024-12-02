@@ -33,3 +33,14 @@ export interface FileMetadata {
     uploadedBy: string;
     createdAt: Date;
   }
+  
+  export interface Product {
+    _id: ObjectId | string;
+    name: string;
+    description: string;
+    price: number;
+    image: FileMetadata;
+    createdAt: Date;
+    createdBy: string; // User ID
+    
+  }
