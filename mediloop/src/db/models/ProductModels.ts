@@ -2,6 +2,7 @@ import { Product } from "@/types";
 import database from "../config/mongodb";
 
 class ProductModel {
+    static create: any;
     static collection() {
         return database.collection<Product>("products");
     }

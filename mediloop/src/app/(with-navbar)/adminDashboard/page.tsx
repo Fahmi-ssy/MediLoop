@@ -5,6 +5,7 @@ import { Product } from "@/types";
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import AdminCardProduct from "@/components/adminCardProduct";
+import Link from "next/link";
 
 export default function adminDashboard() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -40,6 +41,14 @@ export default function adminDashboard() {
 
   return (
     <div>
+      {/* Add New Product Button */}
+      <div className="absolute top-4 right-4">
+        <Link href="/adminDashboard/add">
+          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">
+            Add New Product
+          </button>
+        </Link>
+      </div>
       {/* Pencarian */}
       <div className="flex justify-center items-center mt-8">
         {/* <input
@@ -61,6 +70,8 @@ export default function adminDashboard() {
           <div className="h-1 w-24 bg-teal-500 rounded"></div>
         </div>
       </div>
+      
+
 
       {/* Infinite Scroll */}
       <InfiniteScroll
@@ -82,5 +93,6 @@ export default function adminDashboard() {
         </div>
       </InfiniteScroll>
     </div>
+    
   );
 }

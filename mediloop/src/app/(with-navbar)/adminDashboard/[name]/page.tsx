@@ -40,6 +40,7 @@ export default async function adminProductDetail({
         </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Image */}
           <div className="relative w-96 h-96 rounded-xl overflow-hidden bg-gray-100 mx-auto">
             <Image
               src={product.image}
@@ -50,7 +51,9 @@ export default async function adminProductDetail({
             />
           </div>
 
+          {/* Product Details */}
           <div className="space-y-6">
+            {/* Name and Price */}
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
                 {product.name}
@@ -60,22 +63,20 @@ export default async function adminProductDetail({
               </p>
             </div>
 
+            {/* Description */}
             <div className="border-t border-b py-4">
               <h2 className="text-lg font-semibold mb-2">Description</h2>
               <p className="text-gray-600">{product.description}</p>
             </div>
 
-            <div className="space-y-4">
-              <button className="w-full bg-teal-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-teal-700 transition-colors">
-                Add to Cart
-              </button>
-              <button className="w-full border-2 border-teal-600 text-teal-600 py-3 px-6 rounded-lg font-semibold hover:bg-teal-50 transition-colors">
-                Buy Now
-              </button>
+            {/* Usage */}
+            <div className="border-t border-b py-4">
+              <h2 className="text-lg font-semibold mb-2">Usage</h2>
+              <p className="text-gray-600">{product.usage}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-} 
+}
