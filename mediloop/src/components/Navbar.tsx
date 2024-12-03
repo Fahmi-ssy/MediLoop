@@ -72,7 +72,7 @@ export default function Navbar() {
                 href="/discovery"
                 className="text-[#333] hover:text-[#007bff] text-xm block font-semibold"
               >
-                Discovery
+                History
               </a>
             </li>
             <li className="max-lg:border-b max-lg:py-3 px-3">
