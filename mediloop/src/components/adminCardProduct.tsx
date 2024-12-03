@@ -3,26 +3,34 @@ import Image from "next/image";
 import Link from "next/link";
 
 async function deleteProduct(name: string) {
-  const res = await fetch(`http://localhost:3000/api/dashboardProduct/${name}`, {
-    method: "DELETE",
-  });
+  try {
+    const res = await fetch(`http://localhost:3000/api/dashboardProduct/${encodeURIComponent(name)}`, {
+      method: "DELETE",
+    });
 
-  if (!res.ok) {
-    throw new Error("Failed to delete product");
+    if (!res.ok) {
+      const errorMessage = await res.text(); // Ambil pesan kesalahan dari respons
+      alert(`Error: ${errorMessage}`); // Tampilkan pesan kesalahan
+      if (res.status === 404) {
+        alert("Product not found!");
+      } else if (res.status === 405) {
+        alert("Method not allowed. Please check the API endpoint.");
+      } else {
+        throw new Error("Failed to delete product");
+      }
+    } else {
+      alert("Product deleted successfully!");
+      window.location.reload(); // Reload page to reflect changes
+    }
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    alert("Error deleting product. Please try again.");
   }
-
-  alert("Product deleted successfully!");
-  window.location.reload();
 }
 
 export default function AdminCardProduct({ product }: { product: Product }) {
-  const deleteProduct = (productName: string) => {
-    console.log(`Delete product with name: ${productName}`);
-  };
-
   return (
     <div className="group relative flex flex-col h-full">
-      
       <div className="aspect-square w-full overflow-hidden rounded-xl bg-gray-100">
         <div className="relative h-full">
           <Image
@@ -106,11 +114,9 @@ export default function AdminCardProduct({ product }: { product: Product }) {
               />
             </svg>
           </button>
-          
         </div>
-        
       </div>
     </div>
-    
   );
 }
+
