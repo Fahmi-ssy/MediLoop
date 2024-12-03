@@ -69,6 +69,16 @@ class ProductModel {
             throw error;
         }
     }
+
+    static async deleteOne(filter: Partial<Product>) {
+        try {
+            const result = await this.collection().deleteOne(filter);
+            return result;
+        } catch (error) {
+            console.error("Error deleting product:", error);
+            throw error;
+        }
+    }
 }
 
 export default ProductModel;

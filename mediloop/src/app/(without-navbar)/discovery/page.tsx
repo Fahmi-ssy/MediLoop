@@ -10,6 +10,7 @@ interface Question {
   label: string;
   type: string;
   options: string[];
+  supportText?: string;
 }
 
 interface Section {
@@ -48,6 +49,7 @@ export default function Discovery() {
         {
           id: "currentSymptoms",
           label: "What symptoms are you currently experiencing?",
+          supportText: "Select the primary symptom that's bothering you the most. If you have multiple symptoms, choose the most prominent one. If your symptom isn't listed, select 'Other' to specify.",
           type: "radio",
           options: [
             "Skin Problems (e.g., acne, dryness, rash)",
@@ -58,6 +60,7 @@ export default function Discovery() {
         {
           id: "symptomsStart",
           label: "When did the symptoms start?",
+          supportText: "This helps us understand if your condition is acute (recent) or chronic (long-term). Choose the closest timeframe to when you first noticed the symptoms.",
           type: "radio",
           options: [
             "Today",
@@ -69,6 +72,7 @@ export default function Discovery() {
         {
           id: "symptomsSeverity",
           label: "How severe are your symptoms?",
+          supportText: "Consider how much your symptoms affect your daily activities and quality of life when selecting the severity level.",
           type: "radio",
           options: [
             "Mild (Doesn't interfere with daily life)",
@@ -85,6 +89,7 @@ export default function Discovery() {
         {
           id: "wellnessRecommendations",
           label: "Are you looking for wellness recommendations?",
+          supportText: "Choose the area where you'd like to focus your wellness journey. This helps us provide more targeted recommendations for your specific needs.",
           type: "radio",
           options: [
             "Yes, for Hair Care (e.g., hair loss, dry scalp)",
@@ -98,6 +103,7 @@ export default function Discovery() {
         {
           id: "dietaryRestrictions",
           label: "Do you have any dietary restrictions or preferences?",
+          supportText: "This information helps us recommend products and lifestyle changes that align with your dietary needs and preferences.",
           type: "radio",
           options: [
             "Vegetarian/Vegan",
@@ -115,6 +121,7 @@ export default function Discovery() {
         {
           id: "medications",
           label: "Do you take any medications or supplements regularly?",
+          supportText: "This information is crucial for avoiding potential interactions with recommended products. Please be specific when listing your medications.",
           type: "radio",
           options: [
             "Yes (Please list: ________)",
@@ -125,6 +132,7 @@ export default function Discovery() {
         {
           id: "remedyPreference",
           label: "Do you prefer over-the-counter medicines or natural remedies?",
+          supportText: "Your preference helps us tailor our recommendations to match your comfort level with different types of treatments.",
           type: "radio",
           options: [
             "Over-the-Counter Medicines",
@@ -141,6 +149,7 @@ export default function Discovery() {
         {
           id: "bodyArea",
           label: "What part of your body are you most concerned about?",
+          supportText: "Identifying the specific area helps us focus our recommendations on your primary concern. Choose the option that best matches your situation.",
           type: "radio",
           options: [
             "Head (e.g., headaches, hair problems)",
@@ -154,6 +163,7 @@ export default function Discovery() {
         {
           id: "lifestyleChanges",
           label: "Would you like us to suggest lifestyle changes?",
+          supportText: "Lifestyle modifications can complement product recommendations for better results. Let us know if you're interested in comprehensive solutions.",
           type: "radio",
           options: [
             "Yes, please!",
@@ -239,6 +249,11 @@ export default function Discovery() {
     return (
       <div className="question-container">
         <h2 className="question-label">{currentQuestion.label}</h2>
+        {currentQuestion.supportText && (
+          <p className="text-gray-600 text-sm mb-4 italic">
+            {currentQuestion.supportText}
+          </p>
+        )}
         <div className="radio-group">
           {currentQuestion.options.map((option) => (
             <label

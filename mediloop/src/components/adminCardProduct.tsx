@@ -2,22 +2,25 @@ import { Product } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-async function deleteProduct(name: string) {
-  const res = await fetch(`http://localhost:3000/api/dashboardProduct/${name}`, {
-    method: "DELETE",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to delete product");
-  }
-
-  alert("Product deleted successfully!");
-  window.location.reload();
-}
-
 export default function AdminCardProduct({ product }: { product: Product }) {
-  const deleteProduct = (productName: string) => {
-    console.log(`Delete product with name: ${productName}`);
+  const handleDelete = async (productName: string) => {
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      try {
+        const res = await fetch(`http://localhost:3000/api/dashboardProduct/${productName}`, {
+          method: "DELETE",
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to delete product");
+        }
+
+        alert("Product deleted successfully!");
+        window.location.reload();
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        alert("Failed to delete product. Please try again.");
+      }
+    }
   };
 
   return (
@@ -89,7 +92,7 @@ export default function AdminCardProduct({ product }: { product: Product }) {
               />
             </svg>
           </Link>
-          <button onClick={() => deleteProduct(product.name)}>
+          <button onClick={() => handleDelete(product.name)}>
             <svg 
               className="w-6 h-6 text-red-600 hover:text-red-700 transition-colors" 
               aria-hidden="true" 
