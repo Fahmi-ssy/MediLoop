@@ -5,26 +5,28 @@ import { NextResponse, type NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const auth = cookies().get("Authorization")?.value;
 
-  // Middleware only applies to the /api/multer route
-  if (request.nextUrl.pathname.startsWith("/api/multer")) {
+  // Middleware only applies to the /api/upload route
+  if (request.nextUrl.pathname.startsWith("/api/upload")) {
     // If no Authorization header exists, return Unauthorized response
-    if (!auth) {
-      return new NextResponse(
-        JSON.stringify({ message: "Unauthorized" }),
-        { status: 401, headers: { "Content-Type": "application/json" } }
+    if (!auth)
+      return NextResponse.json(
+        {
+          message: "You need to login first to upload image.",
+        },
+        {
+          status: 401,
+        }
       );
-    }
-
-    // Split the "Authorization" header into type and token
-    const [type, token] = auth.split(" ");
-    
-    // Ensure the token type is "Bearer"
-    if (type !== "Bearer") {
-      return new NextResponse(
-        JSON.stringify({ message: "Unauthorized" }),
-        { status: 401, headers: { "Content-Type": "application/json" } }
+    const [type, token] = auth?.split(" ");
+    if (type !== "Bearer")
+      return NextResponse.json(
+        {
+          message: "You need to login first to upload image.",
+        },
+        {
+          status: 401,
+        }
       );
-    }
 
     try {
       // Verify the JWT token using your custom helper
@@ -45,6 +47,41 @@ export async function middleware(request: NextRequest) {
         JSON.stringify({ message: "Invalid or expired token" }),
         { status: 401, headers: { "Content-Type": "application/json" } }
       );
+    }
+  }
+
+  // Middleware only applies to the /discovery route
+  if (request.nextUrl.pathname.startsWith("/discovery")) {
+    if (!auth) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+  }
+
+  // Check if the route is admin-specific
+  if (request.nextUrl.pathname.startsWith("/adminDashboard")) {
+    const auth = cookies().get("Authorization")?.value;
+
+    if (!auth) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    try {
+      const [type, token] = auth.split(" ");
+      
+      if (type !== "Bearer") {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+
+      const verified = await verifyWithJose<{ _id: string; role: string }>(token);
+      
+      // Check if the user has admin role
+      if (verified.role !== "admin") {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+
+      return NextResponse.next();
+    } catch (error) {
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 
@@ -81,5 +118,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/multer/:path*", "/admin/:path*"], // Only applies to the /api/multer routes
+  matcher: ["/api/upload/:path*", "/discovery/:path*", "/adminDashboard/:path*", "/admin/:path*"],
 };

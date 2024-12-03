@@ -36,9 +36,6 @@ export default function Login() {
       });
       const response = await res.json();
 
-    if (!res.ok) return router.push(`/login?error=${response.message}`);
-    await submitLogin();
-    router.push("/");
       if (!res.ok) {
         toast.error(response.message || "Login failed!", {
           position: "top-right",
