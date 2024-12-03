@@ -5,37 +5,44 @@ import { Product } from "@/types";
 import { useState, useEffect } from "react";
 import AdminCardProduct from "@/components/adminCardProduct";
 import Link from "next/link";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [query, setQuery] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchAllProducts = async () => {
+  const fetchProduct = async () => {
     try {
-      setLoading(true);
-      const res = await fetch("http://localhost:3000/api/products", {
-        cache: "no-store",
+      const res = await fetch(
+        `http://localhost:3000/api/dashboardProduct?page=${page}&limit=10&query=${query}`,
+        { cache: "no-store" }
+      );
+      const newProducts: Product[] = await res.json();
+
+      setProducts((prevProducts) => {
+        const existingIds = new Set(prevProducts.map((product) => product._id));
+        const uniqueNewProducts = newProducts.filter(
+          (product) => !existingIds.has(product._id)
+        );
+        return [...prevProducts, ...uniqueNewProducts];
       });
-      if (!res.ok) {
-        throw new Error("Failed to fetch products");
-      }
-      const data: Product[] = await res.json();
-      setProducts(data);
+
+      setHasMore(newProducts.length > 0);
     } catch (error) {
-      console.error("Error fetching products:", error);
-      alert("Failed to load products");
-    } finally {
-      setLoading(false);
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchAllProducts();
-  }, []);
+    fetchProduct();
+  }, [page, query]);
 
-  if (loading) {
-    return <div>Loading products...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading products...</div>;
+  // }
 
   return (
     <div>
@@ -51,15 +58,6 @@ export default function AdminDashboard() {
           <div className="h-1 w-24 bg-teal-500 rounded"></div>
         </div>
       </div>
-      <div className="flex justify-end gap-4 p-4 mb-4">
-        <Link href="/adminDashboard/add">
-          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">
-            Add New Product
-          </button>
-        </Link>
-      </div>
-      
-
 
       {/* Add Products button */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -86,15 +84,25 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Display All Products */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 p-10 mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-40">
-        {products.map((product, index) => (
-          <AdminCardProduct
-            product={product}
-            key={product._id?.toString() || index}
-          />
-        ))}
-      </div>
+      {/* Infinite Scroll */}
+      <InfiniteScroll
+        dataLength={products.length}
+        next={() => setPage((prevPage) => prevPage + 1)}
+        hasMore={hasMore}
+        loader={<p>Loading...</p>}
+        endMessage={
+          <p className="text-center m-10 text-4xl">No more products.</p>
+        }
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 p-10 mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-40">
+          {products.map((el) => (
+            <AdminCardProduct 
+              product={el} 
+              key={el._id.toString()}
+            />
+          ))}
+        </div>
+      </InfiniteScroll>
     </div>
     
   );
