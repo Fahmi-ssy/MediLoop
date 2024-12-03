@@ -1,5 +1,6 @@
 "use client"
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react";
 
 export default function UpdateProduct() {
   const [productName, setProductName] = useState("");
@@ -9,8 +10,31 @@ export default function UpdateProduct() {
   const [image, setImage] = useState(""); // Image URL field
   const [error, setError] = useState(""); // To store validation errors
 
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/dashboardProduct`);
+        const data = await response.json();
+        if (data) {
+          setProductName(data.name);
+          setDescription(data.description);
+          setUsage(data.usage);
+          setPrice(data.price);
+          setImage(data.image);
+        }
+      } catch (error) {
+        console.error('Error fetching product data:', error);
+      }
+    };
+
+    fetchProductData();
+  }, []);
+
   // Handle form submit
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!productName || !description || !usage || !price || !image) {
       setError("All fields are required.");
       return;
@@ -27,6 +51,17 @@ export default function UpdateProduct() {
     try {
       // Call your API to submit the data (example below)
       // await apiCallToUpdateProduct(productData);
+      const response = await fetch('http://localhost:3000/api/dashboardProduct', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update product');
+      }
       console.log("Submitting product data:", productData);
       setError(""); // Clear error on successful submission
     } catch (error) {
@@ -43,6 +78,7 @@ export default function UpdateProduct() {
     setPrice(0);
     setImage("");
     setError(""); // Clear any error message
+    router.push("/adminDashboard"); // Redirect to admin dashboard
     console.log("Form has been reset.");
   };
 
@@ -62,7 +98,7 @@ export default function UpdateProduct() {
           </svg>
         </div>
         {error && <p className="text-red-600 text-sm">{error}</p>}
-        <form className="space-y-4 mt-8">
+        <form onSubmit={handleSubmit} className="space-y-4 mt-8">
           <div>
             <label className="text-gray-800 text-sm mb-2 block">Name of the product</label>
             <input
@@ -122,9 +158,8 @@ export default function UpdateProduct() {
               Cancel
             </button>
             <button
-              type="button"
+              type="submit"
               className="px-6 py-3 rounded-lg text-white text-sm border-none outline-none tracking-wide bg-blue-600 hover:bg-blue-700"
-              onClick={handleSubmit}
             >
               Submit
             </button>

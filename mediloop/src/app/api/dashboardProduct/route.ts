@@ -12,13 +12,10 @@ export async function GET(request: Request) {
     let products;
 
     if (searchQuery) {
-      
       products = await ProductModel.searchByNameOrDescription(searchQuery);
     } else if (query) {
-      
       products = await ProductModel.getAll(page, limit, query);
     } else {
-      
       products = await ProductModel.getAll(page, limit);
     }
 
@@ -80,6 +77,82 @@ export async function POST(request: Request) {
     return new Response(
       JSON.stringify({ 
         message: "Error adding product",
+        details: err instanceof Error ? err.message : "Unknown error"
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const productData = await request.json();
+    const { name, description, usage, price, image } = productData;
+
+    if (!name || !description || !usage || !price || !image) {
+      return new Response(
+        JSON.stringify({ message: 'All fields are required' }),
+        {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+
+    // Generate embedding for the product
+    const textToEmbed = `${name} ${description} ${usage}`;
+    let embedding;
+    try {
+      embedding = await getEmbedding(textToEmbed);
+    } catch (error) {
+      console.error("Error generating embedding:", error);
+      throw new Error("Failed to generate product embedding");
+    }
+
+    // Add embedding to product data
+    const productWithEmbedding = {
+      ...productData,
+      product_embedding: embedding
+    };
+
+    const result = await ProductModel.updateOne(
+      { name },
+      { $set: productWithEmbedding }
+    );
+
+    if (result.modifiedCount === 0) {
+      return new Response(
+        JSON.stringify({ message: 'Product not found' }),
+        {
+          status: 404,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ message: 'Product updated successfully' }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  } catch (err) {
+    console.error("Error updating product:", err);
+    return new Response(
+      JSON.stringify({ 
+        message: "Error updating product",
         details: err instanceof Error ? err.message : "Unknown error"
       }),
       {
