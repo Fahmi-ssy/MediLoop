@@ -13,41 +13,41 @@ export default async function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-white to-teal-50">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-teal-50 via-white to-teal-50 py-32 sm:py-40">
+      <section className="relative overflow-hidden bg-gradient-to-b from-teal-50 via-white to-teal-50 py-16 sm:py-24">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden -z-10">
-          <div className="absolute left-[50%] top-0 h-[48rem] w-[48rem] -translate-x-1/2 sm:left-[45%] sm:-translate-x-0 opacity-30 animate-pulse">
+          <div className="absolute left-[50%] top-0 h-[36rem] w-[36rem] -translate-x-1/2 sm:left-[45%] sm:-translate-x-0 opacity-30 animate-pulse">
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-teal-400 to-teal-300 blur-3xl" />
           </div>
-          <div className="absolute right-[50%] bottom-0 h-[48rem] w-[48rem] translate-x-1/2 sm:right-[45%] sm:translate-x-0 opacity-30 animate-pulse delay-700">
+          <div className="absolute right-[50%] bottom-0 h-[36rem] w-[36rem] translate-x-1/2 sm:right-[45%] sm:translate-x-0 opacity-30 animate-pulse delay-700">
             <div className="absolute inset-0 rounded-full bg-gradient-to-l from-teal-400 to-teal-300 blur-3xl" />
           </div>
         </div>
 
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center relative">
             {/* Logo with floating animation */}
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-6">
               <div className="relative">
                 <Image
                   src="/logoOnly.png"
                   alt="MediLoop Logo"
-                  width={120}
-                  height={120}
+                  width={100}
+                  height={100}
                   className="object-contain animate-float"
                   priority
                 />
-                <div className="absolute -inset-4 bg-teal-100 rounded-full blur-2xl opacity-30 animate-pulse" />
+                <div className="absolute -inset-3 bg-teal-100 rounded-full blur-2xl opacity-30 animate-pulse" />
               </div>
             </div>
 
             {/* Main heading with gradient text */}
-            <h1 className="text-5xl font-bold tracking-tight text-teal-900 sm:text-7xl mb-8 relative">
+            <h1 className="text-4xl font-bold tracking-tight text-teal-900 sm:text-6xl mb-6 relative">
               Transform Your Health with
               <span className="block mt-2 relative">
                 {/* Background Image */}
                 <Image
-                  src="/ai-care-bg.png"  // Add your image to the public folder
+                  src="/ai-care-bg.png"
                   alt="AI Care Background"
                   width={500}
                   height={100}
@@ -62,12 +62,12 @@ export default async function Home() {
             </h1>
 
             {/* Subheading with improved typography */}
-            <p className="mt-6 text-xl leading-8 text-gray-600 mb-12 max-w-3xl mx-auto">
+            <p className="mt-4 text-lg sm:text-xl leading-8 text-gray-600 mb-8 max-w-3xl mx-auto">
               Experience personalized healthcare like never before. Upload your prescription or describe your symptoms, and let our advanced AI guide you to optimal wellness with tailored recommendations and insights.
             </p>
 
             {/* CTA buttons with enhanced hover effects */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link href="/discovery">
                 <button className="group relative flex items-center gap-3 rounded-full bg-gradient-to-r from-teal-600 to-teal-500 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(13,148,136,0.3)] hover:-translate-y-1">
                   Start Your Journey
@@ -99,7 +99,7 @@ export default async function Home() {
             </div>
 
             {/* Trust indicators with animations */}
-            <div className="mt-16 flex flex-wrap justify-center gap-8 text-gray-500">
+            <div className="mt-8 flex flex-wrap justify-center gap-6 text-gray-500">
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -228,7 +228,7 @@ export default async function Home() {
                 <div className="absolute inset-0 bg-gradient-to-r from-teal-400/20 to-teal-300/20 rounded-3xl transform rotate-3 scale-105" />
                 <div className="relative h-full rounded-2xl overflow-hidden border border-teal-100 bg-white/50 backdrop-blur-sm p-8">
                   <Image
-                    src="/ai-doctor.png"
+                    src="/mediJumbo.png"
                     alt="AI Health Assistant"
                     width={500}
                     height={500}

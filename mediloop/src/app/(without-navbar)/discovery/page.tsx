@@ -298,6 +298,7 @@ export default function Discovery() {
       const imageBase64 = localStorage.getItem('uploadedImageBase64');
       let recommendations = '';
       let embeddedProducts = [];
+      let visionData = null;
 
       // Get embedded product recommendations
       const embeddingResponse = await fetch("/api/embedding", {
@@ -329,7 +330,7 @@ export default function Discovery() {
           throw new Error("Error analyzing image");
         }
 
-        const visionData = await visionResponse.json();
+        visionData = await visionResponse.json();
         if (visionData.error) {
           throw new Error(visionData.error);
         }
@@ -357,7 +358,8 @@ export default function Discovery() {
 
       const recommendationsData = {
         recommendations: recommendations,
-        embeddedProducts: embeddedProducts
+        embeddedProducts: embeddedProducts,
+        imageAnalysis: imageBase64 && visionData ? visionData.imageAnalysis : null
       };
       
       const encodedRecommendations = encodeURIComponent(

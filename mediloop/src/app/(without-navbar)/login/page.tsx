@@ -25,37 +25,26 @@ export default function Login() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
-      const res = await fetch(`http://localhost:3000/api/login`, {
-        method: "POST",
-        body: JSON.stringify(input),
+      const res = await fetch('/api/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
+        body: JSON.stringify(input)
       });
-      const response = await res.json();
 
-      if (!res.ok) {
-        toast.error(response.message || "Login failed!", {
-          position: "top-right",
-          autoClose: 1500,
-        });
-        return router.push(`/login?error=${response.message}`);
+      const data = await res.json();
+      
+      if (res.ok) {
+        // Store userId in localStorage
+        localStorage.setItem('userId', data.userId);
+        router.push('/');
+      } else {
+        toast.error(data.message);
       }
-
-      toast.success("Login successful!", {
-        position: "top-right",
-        autoClose: 1500,
-      });
-      await submitLogin();
     } catch (error) {
-      console.error("Login failed:", error);
-      toast.error("Unexpected error occurred!", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-      router.push(`/login?error=Unexpected error occurred`);
+      toast.error('An error occurred during login');
     }
   };
 

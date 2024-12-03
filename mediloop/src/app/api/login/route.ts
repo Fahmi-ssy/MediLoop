@@ -18,7 +18,11 @@ export async function POST(request: Request) {
     const accessToken = signToken({ _id: user._id.toString() });
 
     cookies().set("Authorization", `Bearer ${accessToken}`);
-    return Response.json({ message: "Login success", accessToken });
+    return Response.json({ 
+      message: "Login success", 
+      accessToken,
+      userId: user._id
+    });
   } catch (error) {
     return errorHandler(error);
   }
