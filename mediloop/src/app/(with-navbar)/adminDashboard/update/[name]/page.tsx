@@ -2,20 +2,23 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 
-export default function UpdateProduct() {
+export default function UpdateProduct({ params }: { params: { name: string } }) {
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
-  const [usage, setUsage] = useState(""); // Usage as text
+  const [usage, setUsage] = useState("");
   const [price, setPrice] = useState(0);
-  const [image, setImage] = useState(""); // Image URL field
-  const [error, setError] = useState(""); // To store validation errors
+  const [image, setImage] = useState("");
+  const [error, setError] = useState("");
 
   const router = useRouter();
 
   useEffect(() => {
     const fetchProductData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/dashboardProduct`);
+        const response = await fetch(`/api/dashboardProduct/${params.name}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch product');
+        }
         const data = await response.json();
         if (data) {
           setProductName(data.name);
@@ -26,13 +29,15 @@ export default function UpdateProduct() {
         }
       } catch (error) {
         console.error('Error fetching product data:', error);
+        setError("Failed to fetch product data");
       }
     };
 
-    fetchProductData();
-  }, []);
+    if (params.name) {
+      fetchProductData();
+    }
+  }, [params.name]);
 
-  // Handle form submit
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!productName || !description || !usage || !price || !image) {
@@ -49,9 +54,7 @@ export default function UpdateProduct() {
     };
 
     try {
-      // Call your API to submit the data (example below)
-      // await apiCallToUpdateProduct(productData);
-      const response = await fetch('http://localhost:3000/api/dashboardProduct', {
+      const response = await fetch(`/api/dashboardProduct/${params.name}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -62,8 +65,9 @@ export default function UpdateProduct() {
       if (!response.ok) {
         throw new Error('Failed to update product');
       }
-      console.log("Submitting product data:", productData);
-      setError(""); // Clear error on successful submission
+
+      alert("Product updated successfully!");
+      router.push("/adminDashboard");
     } catch (error) {
       setError("Failed to update product. Please try again.");
       console.error("Error:", error);
