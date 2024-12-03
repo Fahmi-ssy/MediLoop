@@ -39,7 +39,11 @@ export default function AdminDashboard() {
 
   return (
     <div>
+      {/* Add New Product and Register Admin Buttons */}
+      
       {/* Pencarian */}
+      <div className="flex justify-center items-center mt-8">
+      </div>
       <div className="relative py-12 mb-8">
         <div className="absolute inset-0 bg-gradient-to-r from-teal-50 to-teal-100"></div>
         <div className="relative z-10 flex flex-col justify-center items-center">
@@ -47,6 +51,15 @@ export default function AdminDashboard() {
           <div className="h-1 w-24 bg-teal-500 rounded"></div>
         </div>
       </div>
+      <div className="flex justify-end gap-4 p-4 mb-4">
+        <Link href="/adminDashboard/add">
+          <button className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700">
+            Add New Product
+          </button>
+        </Link>
+      </div>
+      
+
 
       {/* Add Products button */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -83,5 +96,6 @@ export default function AdminDashboard() {
         ))}
       </div>
     </div>
+    
   );
 }

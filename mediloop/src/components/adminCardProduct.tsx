@@ -16,8 +16,13 @@ async function deleteProduct(name: string) {
 }
 
 export default function AdminCardProduct({ product }: { product: Product }) {
+  const deleteProduct = (productName: string) => {
+    console.log(`Delete product with name: ${productName}`);
+  };
+
   return (
     <div className="group relative flex flex-col h-full">
+      
       <div className="aspect-square w-full overflow-hidden rounded-xl bg-gray-100">
         <div className="relative h-full">
           <Image
@@ -32,7 +37,6 @@ export default function AdminCardProduct({ product }: { product: Product }) {
           </div>
         </div>
       </div>
-      
       <div className="mt-4 space-y-2 flex-grow">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-medium text-gray-900 line-clamp-1">
@@ -42,14 +46,13 @@ export default function AdminCardProduct({ product }: { product: Product }) {
             New
           </span>
         </div>
-        
         <div className="flex items-center justify-between">
           <p className="text-lg font-semibold text-gray-900">
             Rp {product.price?.toLocaleString("id-ID")}
           </p>
         </div>
         <div className="flex justify-between items-center mt-4">
-          <Link href={`/adminDashboard/${product.name}`}>
+          <Link href={`/adminDashboard/${encodeURIComponent(product.name)}`}>
             <svg 
               className="w-6 h-6 text-teal-600 hover:text-teal-700 transition-colors" 
               aria-hidden="true" 
@@ -69,8 +72,7 @@ export default function AdminCardProduct({ product }: { product: Product }) {
               />
             </svg>
           </Link>
-          
-          <Link href={`/adminDashboard/update/${product.name}`}>
+          <Link href={`/adminDashboard/update/${encodeURIComponent(product.name)}`}>
             <svg 
               className="w-6 h-6 text-blue-600 hover:text-blue-700 transition-colors" 
               aria-hidden="true" 
@@ -87,7 +89,6 @@ export default function AdminCardProduct({ product }: { product: Product }) {
               />
             </svg>
           </Link>
-
           <button onClick={() => deleteProduct(product.name)}>
             <svg 
               className="w-6 h-6 text-red-600 hover:text-red-700 transition-colors" 
@@ -105,8 +106,11 @@ export default function AdminCardProduct({ product }: { product: Product }) {
               />
             </svg>
           </button>
+          
         </div>
+        
       </div>
     </div>
+    
   );
 }

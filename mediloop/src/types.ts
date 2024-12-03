@@ -14,6 +14,7 @@ export interface FileMetadata {
     url: string;
     uploadedBy: string;
     createdAt?: Date;
+    base64Data?: string;
   }
   
   export interface Post {
@@ -41,4 +42,10 @@ export interface FileMetadata {
     description: string;
     usage: string;
     image: string;
+    product_embedding?: number[];
   }
+  
+
+
+  
+  

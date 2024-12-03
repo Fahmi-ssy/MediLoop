@@ -1,5 +1,6 @@
 import CardProduct from "@/components/CardProduct";
 import { Product } from "@/types";
+import Link from 'next/link';
 
 export default async function Home() {
   const res = await fetch(`http://localhost:3000/api/dashboardProduct`, {
@@ -19,12 +20,16 @@ export default async function Home() {
             tailored to your needs
           </p>
           <div className="flex gap-4 justify-center">
-            <button className="bg-teal-600 text-white px-8 py-3 rounded-full hover:bg-teal-700 transition">
-              Get Started
-            </button>
-            <button className="border-2 border-teal-600 text-teal-600 px-8 py-3 rounded-full hover:bg-teal-50 transition">
+            <Link href="/discovery">
+              <button className="bg-teal-600 text-white px-8 py-3 rounded-full hover:bg-teal-700 transition">
+                Get Started
+              </button>
+            </Link>
+            <Link href="/about" >
+            <button className="border-2 border-teal-600 text-teal-600 px-8 py-3 rounded-full hover:bg-teal-700 transition">
               Learn More
             </button>
+            </Link>
           </div>
         </div>
       </section>

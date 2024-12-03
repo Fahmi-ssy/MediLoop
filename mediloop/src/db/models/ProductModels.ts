@@ -10,7 +10,6 @@ class ProductModel {
         try {
             const skip = (page - 1) * limit;
             let filter = {};
-
             if (query) {
                 filter = {
                     $or: [
@@ -18,7 +17,6 @@ class ProductModel {
                     ]
                 };
             }
-
             const products = await this.collection().find(filter).skip(skip).limit(limit).toArray();
             return products;
         } catch (error) {
@@ -43,23 +41,33 @@ class ProductModel {
         return products;
     }
 
-   
-    static async updateProductByName(name: string, updates: Partial<Product>) {
-        const result = await this.collection().findOneAndUpdate(
-            { name },
-            { $set: updates },
-            { returnDocument: "after" }
-        );
-        if (!result) {
-            return null;
+    static async create(data: Omit<Product, '_id'>) {
+        try {
+            if (!data.product_embedding) {
+                throw new Error("Product embedding is required");
+            }
+            const result = await this.collection().insertOne({
+                ...data,
+                product_embedding: data.product_embedding
+            } as Product);
+            if (!result.acknowledged) {
+                throw new Error("Failed to insert product");
+            }
+            return result;
+        } catch (error) {
+            console.error("Error creating product:", error);
+            throw error;
         }
-        return result;
     }
 
-   
-    static async deleteProductByName(name: string) {
-        const result = await this.collection().deleteOne({ name });
-        return result.deletedCount > 0;
+    static async updateOne(filter: Partial<Product>, updateData: any) {
+        try {
+            const result = await this.collection().updateOne(filter, updateData);
+            return result;
+        } catch (error) {
+            console.error("Error updating product:", error);
+            throw error;
+        }
     }
 }
 
