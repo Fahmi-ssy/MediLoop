@@ -48,11 +48,17 @@ export default function Recommendation() {
       );
       const parsedData = JSON.parse(decodedData);
 
-      const recommendationsText = parsedData.recommendations || '';
-      const imageAnalysis = parsedData.imageAnalysis || '';
-      const embeddedProducts = parsedData.embeddedProducts || [];
+      const recommendationsText = typeof parsedData.recommendations === 'string' 
+        ? parsedData.recommendations 
+        : '';
+      const imageAnalysis = typeof parsedData.imageAnalysis === 'string' 
+        ? parsedData.imageAnalysis 
+        : '';
+      const embeddedProducts = Array.isArray(parsedData.embeddedProducts) 
+        ? parsedData.embeddedProducts 
+        : [];
 
-      if (!recommendationsText.trim()) {
+      if (!recommendationsText) {
         throw new Error('No recommendations found in response');
       }
 
@@ -117,6 +123,36 @@ export default function Recommendation() {
       setError(error instanceof Error ? error.message : "Failed to load recommendations");
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    const saveRecommendation = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        const response = await fetch('/api/saveRecommendation', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...recommendations,
+            userId,
+            imageUrl: localStorage.getItem('cloudinaryImageUrl'),
+            createdAt: new Date()
+          })
+        });
+
+        if (!response.ok) {
+          console.error('Failed to save recommendation');
+        }
+      } catch (error) {
+        console.error('Error saving recommendation:', error);
+      }
+    };
+
+    if (recommendations.todoList.length || recommendations.lifestyleChanges.length || recommendations.products.length) {
+      saveRecommendation();
+    }
+  }, [recommendations]);
 
   if (error) {
     return (
