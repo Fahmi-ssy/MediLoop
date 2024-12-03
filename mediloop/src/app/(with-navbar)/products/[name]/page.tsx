@@ -20,7 +20,7 @@ export default async function ProductDetail({
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-7xl mx-auto">
         <Link
-          href="/"
+          href="/products"
           className="inline-flex items-center text-teal-600 hover:text-teal-700 mb-6"
         >
           <svg
