@@ -25,9 +25,11 @@ export default async function Home() {
                 Get Started
               </button>
             </Link>
+            <Link href="/about" >
             <button className="border-2 border-teal-600 text-teal-600 px-8 py-3 rounded-full hover:bg-teal-700 transition">
               Learn More
             </button>
+            </Link>
           </div>
         </div>
       </section>
