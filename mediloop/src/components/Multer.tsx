@@ -24,7 +24,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUploadSuccess }) => {
       const compressedFile = await imageCompression(file, options);
       return compressedFile;
     } catch (error) {
-      console.error('Error compressing image:', error);
+      // console.error('Error compressing image:', error);
       return file;
     }
   };
@@ -49,7 +49,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUploadSuccess }) => {
         const base64String = await convertToBase64(compressedFile);
         setPreviewUrl(base64String);
       } catch (error) {
-        console.error('Error processing file:', error);
+        // console.error('Error processing file:', error);
         alert('Error processing file');
       } finally {
         setLoading(false);
@@ -114,7 +114,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUploadSuccess }) => {
       }, 500);
 
     } catch (err) {
-      console.error('Error uploading file:', err);
+      // console.error('Error uploading file:', err);
       alert('Error uploading file!');
       setLoading(false);
     }

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { FiClock, FiList, FiHeart, FiShoppingBag } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface Recommendation {
   _id: string;
@@ -38,17 +39,17 @@ export default function History() {
           credentials: 'include',
         });
 
-        console.log('Auth response:', authResponse.status);
+        // console.log('Auth response:', authResponse.status);
 
         if (!authResponse.ok) {
-          console.error('Auth failed:', await authResponse.text());
+          // console.error('Auth failed:', await authResponse.text());
           router.push('/login');
           return;
         }
 
         // Then fetch user ID and recommendations
         const userId = localStorage.getItem('userId');
-        console.log('Fetching for userId:', userId);
+        // console.log('Fetching for userId:', userId);
 
         if (!userId) {
           setError('User ID not found. Please log in again.');
@@ -64,7 +65,7 @@ export default function History() {
           }
         });
         
-        console.log('Fetch response status:', response.status);
+        // console.log('Fetch response status:', response.status);
         
         if (response.status === 401 || response.status === 403) {
           console.error('Authorization failed:', await response.text());
@@ -79,7 +80,7 @@ export default function History() {
         }
 
         const data = await response.json();
-        console.log('Received data:', data);
+        // console.log('Received data:', data);
         
         if (data.success && Array.isArray(data.data)) {
           setRecommendations(data.data);
@@ -367,24 +368,30 @@ export default function History() {
                       </div>
                       <div className="grid sm:grid-cols-2 gap-6">
                         {recommendation.products.map((product, i) => (
-                          <div key={i} className="flex gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-                            <div className="relative aspect-square w-24 flex-shrink-0">
-                              <Image
-                                src={product.image}
-                                alt={product.name}
-                                fill
-                                className="object-cover rounded-lg"
-                                sizes="(max-width: 768px) 96px, 96px"
-                              />
+                          <Link 
+                            key={i} 
+                            href={`/products/${encodeURIComponent(product.name)}`}
+                            className="block"
+                          >
+                            <div className="flex gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                              <div className="relative aspect-square w-24 flex-shrink-0">
+                                <Image
+                                  src={product.image}
+                                  alt={product.name}
+                                  fill
+                                  className="object-cover rounded-lg"
+                                  sizes="(max-width: 768px) 96px, 96px"
+                                />
+                              </div>
+                              <div>
+                                <h4 className="font-semibold text-gray-800 mb-1">{product.name}</h4>
+                                <p className="text-sm text-gray-600 mb-2">{product.description}</p>
+                                <p className="text-teal-600 font-medium">
+                                  Rp {product.price.toLocaleString('id-ID')}
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <h4 className="font-semibold text-gray-800 mb-1">{product.name}</h4>
-                              <p className="text-sm text-gray-600 mb-2">{product.description}</p>
-                              <p className="text-teal-600 font-medium">
-                                Rp {product.price.toLocaleString('id-ID')}
-                              </p>
-                            </div>
-                          </div>
+                          </Link>
                         ))}
                       </div>
                     </div>

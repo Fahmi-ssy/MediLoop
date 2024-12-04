@@ -4,7 +4,6 @@ import React, { FormEvent, useState } from "react";
 import DiscoveryNavbar from "@/components/DiscoveryNavbar";
 import { useRouter } from "next/navigation";
 
-
 interface Question {
   id: string;
   label: string;
@@ -49,7 +48,8 @@ export default function Discovery() {
         {
           id: "currentSymptoms",
           label: "What symptoms are you currently experiencing?",
-          supportText: "Select the primary symptom that's bothering you the most. If you have multiple symptoms, choose the most prominent one. If your symptom isn't listed, select 'Other' to specify.",
+          supportText:
+            "Select the primary symptom that's bothering you the most. If you have multiple symptoms, choose the most prominent one. If your symptom isn't listed, select 'Other' to specify.",
           type: "radio",
           options: [
             "Skin Problems (e.g., acne, dryness, rash)",
@@ -60,19 +60,16 @@ export default function Discovery() {
         {
           id: "symptomsStart",
           label: "When did the symptoms start?",
-          supportText: "This helps us understand if your condition is acute (recent) or chronic (long-term). Choose the closest timeframe to when you first noticed the symptoms.",
+          supportText:
+            "This helps us understand if your condition is acute (recent) or chronic (long-term). Choose the closest timeframe to when you first noticed the symptoms.",
           type: "radio",
-          options: [
-            "Today",
-            "1–3 Days Ago",
-            "A Week or More Ago",
-            "Other",
-          ],
+          options: ["Today", "1–3 Days Ago", "A Week or More Ago", "Other"],
         },
         {
           id: "symptomsSeverity",
           label: "How severe are your symptoms?",
-          supportText: "Consider how much your symptoms affect your daily activities and quality of life when selecting the severity level.",
+          supportText:
+            "Consider how much your symptoms affect your daily activities and quality of life when selecting the severity level.",
           type: "radio",
           options: [
             "Mild (Doesn't interfere with daily life)",
@@ -89,7 +86,8 @@ export default function Discovery() {
         {
           id: "wellnessRecommendations",
           label: "Are you looking for wellness recommendations?",
-          supportText: "Choose the area where you'd like to focus your wellness journey. This helps us provide more targeted recommendations for your specific needs.",
+          supportText:
+            "Choose the area where you'd like to focus your wellness journey. This helps us provide more targeted recommendations for your specific needs.",
           type: "radio",
           options: [
             "Yes, for Hair Care (e.g., hair loss, dry scalp)",
@@ -103,7 +101,8 @@ export default function Discovery() {
         {
           id: "dietaryRestrictions",
           label: "Do you have any dietary restrictions or preferences?",
-          supportText: "This information helps us recommend products and lifestyle changes that align with your dietary needs and preferences.",
+          supportText:
+            "This information helps us recommend products and lifestyle changes that align with your dietary needs and preferences.",
           type: "radio",
           options: [
             "Vegetarian/Vegan",
@@ -121,7 +120,8 @@ export default function Discovery() {
         {
           id: "medications",
           label: "Do you take any medications or supplements regularly?",
-          supportText: "This information is crucial for avoiding potential interactions with recommended products. Please be specific when listing your medications.",
+          supportText:
+            "This information is crucial for avoiding potential interactions with recommended products. Please be specific when listing your medications.",
           type: "radio",
           options: [
             "Yes (Please list: ________)",
@@ -131,8 +131,10 @@ export default function Discovery() {
         },
         {
           id: "remedyPreference",
-          label: "Do you prefer over-the-counter medicines or natural remedies?",
-          supportText: "Your preference helps us tailor our recommendations to match your comfort level with different types of treatments.",
+          label:
+            "Do you prefer over-the-counter medicines or natural remedies?",
+          supportText:
+            "Your preference helps us tailor our recommendations to match your comfort level with different types of treatments.",
           type: "radio",
           options: [
             "Over-the-Counter Medicines",
@@ -149,7 +151,8 @@ export default function Discovery() {
         {
           id: "bodyArea",
           label: "What part of your body are you most concerned about?",
-          supportText: "Identifying the specific area helps us focus our recommendations on your primary concern. Choose the option that best matches your situation.",
+          supportText:
+            "Identifying the specific area helps us focus our recommendations on your primary concern. Choose the option that best matches your situation.",
           type: "radio",
           options: [
             "Head (e.g., headaches, hair problems)",
@@ -163,7 +166,8 @@ export default function Discovery() {
         {
           id: "lifestyleChanges",
           label: "Would you like us to suggest lifestyle changes?",
-          supportText: "Lifestyle modifications can complement product recommendations for better results. Let us know if you're interested in comprehensive solutions.",
+          supportText:
+            "Lifestyle modifications can complement product recommendations for better results. Let us know if you're interested in comprehensive solutions.",
           type: "radio",
           options: [
             "Yes, please!",
@@ -217,24 +221,20 @@ export default function Discovery() {
       setCurrentQuestionIndex((prev) => prev - 1);
     } else if (currentStep > 0) {
       setCurrentStep((prev) => prev - 1);
-      setCurrentQuestionIndex(
-        sections[currentStep - 1].questions.length - 1
-      );
+      setCurrentQuestionIndex(sections[currentStep - 1].questions.length - 1);
     }
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const unanswered = sections.some((section) =>
-      section.questions.some(
-        (q) => !formData[q.id as keyof typeof formData]
-      )
+      section.questions.some((q) => !formData[q.id as keyof typeof formData])
     );
     if (unanswered) {
       alert("Please answer all questions before proceeding.");
       return;
     }
-    
+
     setIsQuestionnaireDone(true);
   };
 
@@ -259,8 +259,12 @@ export default function Discovery() {
             <label
               key={option}
               className={`radio-option ${
-                formData[currentQuestion.id as keyof typeof formData] === option ||
-                (option === "Other" && formData[currentQuestion.id as keyof typeof formData]?.startsWith("Other:"))
+                formData[currentQuestion.id as keyof typeof formData] ===
+                  option ||
+                (option === "Other" &&
+                  formData[
+                    currentQuestion.id as keyof typeof formData
+                  ]?.startsWith("Other:"))
                   ? "selected"
                   : ""
               }`}
@@ -272,27 +276,34 @@ export default function Discovery() {
                 value={option}
                 checked={
                   option === "Other"
-                    ? formData[currentQuestion.id as keyof typeof formData]?.startsWith("Other:")
-                    : formData[currentQuestion.id as keyof typeof formData] === option
+                    ? formData[
+                        currentQuestion.id as keyof typeof formData
+                      ]?.startsWith("Other:")
+                    : formData[currentQuestion.id as keyof typeof formData] ===
+                      option
                 }
-                onChange={(e) => handleInputChange(currentQuestion.id, e.target.value)}
+                onChange={(e) =>
+                  handleInputChange(currentQuestion.id, e.target.value)
+                }
               />
               <span className="radio-label">{option}</span>
-              {option === "Other" && 
-                formData[currentQuestion.id as keyof typeof formData]?.startsWith("Other:") && (
+              {option === "Other" &&
+                formData[
+                  currentQuestion.id as keyof typeof formData
+                ]?.startsWith("Other:") && (
                   <input
                     type="text"
                     className="ml-4 p-2 border rounded-md flex-1"
                     placeholder="Please specify..."
                     value={otherInputs[currentQuestion.id] || ""}
                     onChange={(e) => {
-                      if (typeof handleOtherInput === 'function') {
+                      if (typeof handleOtherInput === "function") {
                         handleOtherInput(currentQuestion.id, e.target.value);
                       }
                     }}
                     onClick={(e) => e.stopPropagation()}
                   />
-              )}
+                )}
             </label>
           ))}
         </div>
@@ -300,18 +311,25 @@ export default function Discovery() {
     );
   };
 
-  const totalQuestions = sections.reduce((acc, section) => acc + section.questions.length, 0);
-  const completedQuestions = currentStep * sections[currentStep]?.questions.length + currentQuestionIndex + 1;
+  const totalQuestions = sections.reduce(
+    (acc, section) => acc + section.questions.length,
+    0
+  );
+  const completedQuestions =
+    currentStep * sections[currentStep]?.questions.length +
+    currentQuestionIndex +
+    1;
   const progress = (completedQuestions / totalQuestions) * 100;
   const isFirstQuestion = currentStep === 0 && currentQuestionIndex === 0;
 
   const handleContinue = async () => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      const imageBase64 = localStorage.getItem('uploadedImageBase64');
-      let recommendations = '';
+      // const imageBase64 = localStorage.getItem('uploadedImageBase64');
+      const imageBase64 = localStorage.getItem("cloudinaryImageUrl");
+      let recommendations = "";
       let embeddedProducts = [];
       let visionData = null;
 
@@ -322,7 +340,7 @@ export default function Discovery() {
         body: JSON.stringify({
           query: Object.entries(formData)
             .map(([key, value]) => `${key}: ${value}`)
-            .join(' ')
+            .join(" "),
         }),
       });
 
@@ -335,9 +353,9 @@ export default function Discovery() {
         const visionResponse = await fetch("/api/vision", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             imageData: imageBase64,
-            formData 
+            formData,
           }),
         });
 
@@ -374,17 +392,20 @@ export default function Discovery() {
       const recommendationsData = {
         recommendations: recommendations,
         embeddedProducts: embeddedProducts,
-        imageAnalysis: imageBase64 && visionData ? visionData.imageAnalysis : null
+        imageAnalysis:
+          imageBase64 && visionData ? visionData.imageAnalysis : null,
       };
-      
+
       const encodedRecommendations = encodeURIComponent(
         JSON.stringify(recommendationsData)
-      ).replace(/%20/g, '+');
-      
+      ).replace(/%20/g, "+");
+
       router.push(`/recommendation?recommendations=${encodedRecommendations}`);
     } catch (error) {
       console.error("Error:", error);
-      setError(error instanceof Error ? error.message : "An unexpected error occurred");
+      setError(
+        error instanceof Error ? error.message : "An unexpected error occurred"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -392,7 +413,7 @@ export default function Discovery() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DiscoveryNavbar 
+      <DiscoveryNavbar
         handlePrevious={handlePrevious}
         isFirstQuestion={isFirstQuestion}
         completedQuestions={completedQuestions}
@@ -408,7 +429,8 @@ export default function Discovery() {
             {renderQuestion()}
             <div className="wizard-navigation">
               {currentStep === sections.length - 1 &&
-                currentQuestionIndex === sections[sections.length - 1].questions.length - 1 && (
+                currentQuestionIndex ===
+                  sections[sections.length - 1].questions.length - 1 && (
                   <button type="submit" className="submit-button">
                     Continue to Upload
                   </button>
@@ -422,29 +444,30 @@ export default function Discovery() {
                 Upload Your Prescription or Medical Report
               </h2>
               <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
-                Please upload a medical document or photo for more accurate recommendations
+                Please upload a medical document or photo for more accurate
+                recommendations
               </p>
             </div>
             <FileUpload onFileUploadSuccess={() => setFileUploaded(true)} />
             <div className="flex justify-center mt-6 sm:mt-8">
               {error && (
-                <div className="text-red-500 mb-4 text-center">
-                  {error}
-                </div>
+                <div className="text-red-500 mb-4 text-center">{error}</div>
               )}
               <button
                 onClick={handleContinue}
                 disabled={!fileUploaded || isLoading}
                 className={`w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-sm sm:text-base transition-colors duration-200 
-                  ${fileUploaded && !isLoading
-                    ? 'bg-teal-600 hover:bg-teal-700 text-white' 
-                    : 'bg-gray-300 cursor-not-allowed text-gray-500'}`}
+                  ${
+                    fileUploaded && !isLoading
+                      ? "bg-teal-600 hover:bg-teal-700 text-white"
+                      : "bg-gray-300 cursor-not-allowed text-gray-500"
+                  }`}
               >
-                {isLoading 
-                  ? 'Processing...' 
-                  : fileUploaded 
-                    ? 'Submit and Get Recommendations' 
-                    : 'Please Upload a File First'}
+                {isLoading
+                  ? "Processing..."
+                  : fileUploaded
+                  ? "Submit and Get Recommendations"
+                  : "Please Upload a File First"}
               </button>
             </div>
           </div>

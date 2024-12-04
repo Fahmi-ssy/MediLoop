@@ -7,10 +7,10 @@ import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function AdminCardProduct({ product }: { product: Product }) {
+export default function AdminCardProduct({ product, onDelete }: { product: Product, onDelete: (productId: string) => void }) {
   const router = useRouter();
 
-  const handleDelete = async (productName: string) => {
+  const handleDelete = async (productId: string) => {
     const confirmDelete = new Promise<boolean>((resolve) => {
       const toastId = toast.warning(
         <>
@@ -50,27 +50,25 @@ export default function AdminCardProduct({ product }: { product: Product }) {
       const shouldDelete = await confirmDelete;
       if (!shouldDelete) return;
 
-      const res = await fetch(
-        `http://localhost:3000/api/dashboardProduct/${productName}`,
-        {
-          method: "DELETE",
+      const res = await fetch(`/api/dashboardProduct/${productId}`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json'
         }
-      );
+      });
 
-      if (res.ok) {
-        toast.success("Product deleted successfully!", {
-          position: "bottom-right",
-          autoClose: 1500,
-        });
-        await handleDeleteProduct()
-      } else {
-        toast.error("Failed to delete product", {
-          position: "bottom-right",
-          autoClose: 1500,
-        });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || 'Failed to delete product');
       }
+
+      toast.success("Product deleted successfully!", {
+        position: "bottom-right",
+        autoClose: 1500,
+      });
+      onDelete(product.name);
     } catch (error) {
-      toast.error("Failed to delete product. Please try again", {
+      toast.error(error instanceof Error ? error.message : "Failed to delete product", {
         position: "bottom-right",
         autoClose: 1500,
       });
@@ -168,7 +166,7 @@ export default function AdminCardProduct({ product }: { product: Product }) {
           </button>
         </div>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 }

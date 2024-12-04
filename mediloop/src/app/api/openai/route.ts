@@ -6,6 +6,8 @@ export async function POST(request: Request) {
         
         // First get general recommendations from GPT
         const prompt = `
+
+
 Based on the following health-related information:
 ${Object.entries(formData)
     .map(([key, value]) => `${key}: ${value}`)
@@ -71,7 +73,7 @@ Please provide recommendations in EXACTLY this format (maintain the exact header
             recommendations: finalRecommendations,
         });
     } catch (error) {
-        console.error('Error generating recommendations:', error);
+        // console.error('Error generating recommendations:', error);
         return NextResponse.json(
             { error: 'Failed to generate recommendations' },
             { status: 500 }

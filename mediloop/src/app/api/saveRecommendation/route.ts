@@ -6,10 +6,10 @@ import { verifyWithJose } from '@/db/helpers/jwt';
 export async function POST(request: Request) {
   try {
     const recommendationData = await request.json();
-    console.log('Received recommendation data:', recommendationData);
+    // console.log('Received recommendation data:', recommendationData);
     
     if (!recommendationData.userId) {
-      console.error('No userId provided in recommendation data');
+      // console.error('No userId provided in recommendation data');
       return NextResponse.json(
         { error: 'userId is required' },
         { status: 400 }
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     }
     
     const savedRecommendation = await RecommendationModel.create(recommendationData);
-    console.log('Saved recommendation result:', savedRecommendation);
+    // console.log('Saved recommendation result:', savedRecommendation);
 
     return NextResponse.json({
       success: true,
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     });
 
   } catch (error) {
-    console.error('Detailed error saving recommendation:', error);
+    // console.error('Detailed error saving recommendation:', error);
     return NextResponse.json(
       { error: 'Failed to save recommendation', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
@@ -67,7 +67,7 @@ export async function GET(request: Request) {
     });
 
   } catch (error) {
-    console.error('Error fetching recommendations:', error);
+    // console.error('Error fetching recommendations:', error);
     return NextResponse.json(
       { error: 'Failed to fetch recommendations', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
@@ -106,7 +106,7 @@ export async function DELETE(
     });
 
   } catch (error) {
-    console.error('Error deleting recommendation:', error);
+    // console.error('Error deleting recommendation:', error);
     return NextResponse.json(
       { error: 'Failed to delete recommendation' },
       { status: 500 }
