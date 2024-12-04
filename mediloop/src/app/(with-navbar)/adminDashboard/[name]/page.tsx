@@ -93,12 +93,12 @@ export default function ProductDetail({ params }: { params: { name: string } }) 
 
             {/* Description */}
             <div className="border-t border-b py-4">
-              <h2 className="text-lg font-semibold mb-2">Description</h2>
+              <h2 className="text-lg text-black font-semibold mb-2">Description</h2>
               <p className="text-gray-600">{product.description}</p>
             </div>
 
             {/* Usage */}
-            <div className="border-t border-b py-4">
+            <div className="border-t border-b py-4 text-black">
               <h2 className="text-lg font-semibold mb-2">Usage</h2>
               <p className="text-gray-600">{product.usage}</p>
             </div>

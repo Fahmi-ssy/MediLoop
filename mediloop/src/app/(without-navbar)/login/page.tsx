@@ -39,7 +39,7 @@ export default function Login() {
       if (res.ok) {
         // Store userId in localStorage
         localStorage.setItem('userId', data.userId);
-        router.push('/');
+        await submitLogin()
       } else {
         toast.error(data.message);
       }
