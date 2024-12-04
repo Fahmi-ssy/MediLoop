@@ -14,6 +14,11 @@ export const submitLoginAdmin = async () => {
   redirect("/adminDashboard");
 };
 
+export const handleDeleteProduct = async () => {
+  revalidatePath("/adminDashboard", "layout");
+  redirect("/adminDashboard");
+};
+
 export const handleLogout = async () => {
   cookies().delete("Authorization");
   redirect("/");
