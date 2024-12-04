@@ -263,40 +263,64 @@ export default function History() {
                     </div>
                     <button
                       onClick={async () => {
-                        const confirmDelete = window.confirm('Are you sure you want to delete this recommendation?');
-                        if (confirmDelete) {
-                          try {
-                            const response = await fetch(`/api/saveRecommendation/${recommendation._id}`, {
-                              method: 'DELETE',
-                              headers: {
-                                'Content-Type': 'application/json',
-                              },
-                            });
+                        const toastId = toast.warning(
+                          <>
+                            <div>Are you sure you want to delete this history?</div>
+                            <div className="flex justify-end mt-2">
+                              <button
+                                onClick={async () => {
+                                  toast.dismiss(toastId);
+                                  try {
+                                    const response = await fetch(`/api/saveRecommendation/${recommendation._id}`, {
+                                      method: 'DELETE',
+                                      headers: {
+                                        'Content-Type': 'application/json',
+                                      },
+                                    });
 
-                            const data = await response.json();
+                                    const data = await response.json();
 
-                            if (!response.ok) {
-                              throw new Error(data.error || 'Failed to delete recommendation');
-                            }
+                                    if (!response.ok) {
+                                      throw new Error(data.error || 'Failed to delete recommendation');
+                                    }
 
-                            setRecommendations(prev => 
-                              prev.filter(rec => rec._id !== recommendation._id)
-                            );
-                            toast.success("Recommendation deleted successfully!", {
-                              position: "top-right",
-                              autoClose: 1500,
-                            });
-                          } catch (error) {
-                            console.error('Error deleting recommendation:', error);
-                            toast.error(error instanceof Error ? error.message : 'Failed to delete recommendation', {
-                              position: "top-right",
-                              autoClose: 1500,
-                            });
+                                    setRecommendations(prev => 
+                                      prev.filter(rec => rec._id !== recommendation._id)
+                                    );
+                                    toast.success("History deleted successfully!", {
+                                      position: "top-right",
+                                      autoClose: 1500,
+                                    });
+                                  } catch (error) {
+                                    console.error('Error deleting history:', error);
+                                    toast.error(error instanceof Error ? error.message : 'Failed to delete history', {
+                                      position: "top-right",
+                                      autoClose: 1500,
+                                    });
+                                  }
+                                }}
+                                className="bg-red-500 text-white px-3 py-1 rounded mr-2"
+                              >
+                                Yes
+                              </button>
+                              <button
+                                onClick={() => toast.dismiss(toastId)}
+                                className="bg-gray-500 text-white px-3 py-1 rounded"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </>,
+                          {
+                            autoClose: false,
+                            closeOnClick: false,
+                            hideProgressBar: true,
+                            position: "top-right",
                           }
-                        }
+                        );
                       }}
                       className="p-2 text-red-500 hover:text-red-600 transition-colors"
-                      title="Delete recommendation"
+                      title="Delete history"
                     >
                       <svg 
                         xmlns="http://www.w3.org/2000/svg" 
