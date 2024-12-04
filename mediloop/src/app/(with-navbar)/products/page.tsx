@@ -5,12 +5,14 @@ import CardProduct from "@/components/CardProduct";
 import { Product } from "@/types";
 import { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Image from "next/image";
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);
   const [query, setQuery] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchProduct = async () => {
     try {
@@ -29,14 +31,37 @@ export default function Products() {
       });
 
       setHasMore(newProducts.length > 0);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchProduct();
   }, [page, query]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-teal-50 to-white">
+        <div className="relative">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-teal-500"></div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Image
+              src="/logoOnly.png"
+              alt="MediLoop Logo"
+              width={60}
+              height={60}
+              className="object-contain animate-float"
+              priority
+            />
+            <div className="absolute -inset-3 bg-teal-100 rounded-full blur-2xl opacity-30 animate-pulse" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -67,7 +92,11 @@ export default function Products() {
         dataLength={products.length}
         next={() => setPage((prevPage) => prevPage + 1)}
         hasMore={hasMore}
-        loader={<p>Loading...</p>}
+        loader={
+          <p className="text-center m-10 text-xl text-teal-600 font-semibold">
+            Loading...
+          </p>
+        }
         endMessage={
           <p className="text-center m-10 text-4xl">No more products.</p>
         }

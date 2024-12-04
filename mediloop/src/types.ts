@@ -43,6 +43,7 @@ export interface FileMetadata {
     usage: string;
     image: string;
     product_embedding?: number[];
+    createdAt: Date;
   }
   
 
