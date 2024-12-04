@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { FiClock, FiList, FiHeart, FiShoppingBag } from 'react-icons/fi';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { toast } from "react-toastify";
 
 interface Recommendation {
   _id: string;
@@ -262,7 +263,8 @@ export default function History() {
                     </div>
                     <button
                       onClick={async () => {
-                        if (window.confirm('Are you sure you want to delete this recommendation?')) {
+                        const confirmDelete = window.confirm('Are you sure you want to delete this recommendation?');
+                        if (confirmDelete) {
                           try {
                             const response = await fetch(`/api/saveRecommendation/${recommendation._id}`, {
                               method: 'DELETE',
@@ -280,9 +282,16 @@ export default function History() {
                             setRecommendations(prev => 
                               prev.filter(rec => rec._id !== recommendation._id)
                             );
+                            toast.success("Recommendation deleted successfully!", {
+                              position: "top-right",
+                              autoClose: 1500,
+                            });
                           } catch (error) {
                             console.error('Error deleting recommendation:', error);
-                            alert(error instanceof Error ? error.message : 'Failed to delete recommendation');
+                            toast.error(error instanceof Error ? error.message : 'Failed to delete recommendation', {
+                              position: "top-right",
+                              autoClose: 1500,
+                            });
                           }
                         }
                       }}

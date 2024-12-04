@@ -49,12 +49,11 @@ export default function Discovery() {
           id: "currentSymptoms",
           label: "What symptoms are you currently experiencing?",
           supportText:
-            "Select the primary symptom that's bothering you the most. If you have multiple symptoms, choose the most prominent one. If your symptom isn't listed, select 'Other' to specify.",
+            "Select the primary symptom that's bothering you the most. If you have multiple symptoms, choose the most prominent one.",
           type: "radio",
           options: [
-            "Skin Problems (e.g., acne, dryness, rash)",
-            "Hair Loss or Dandruff",
-            "Other",
+            "Skin Problems",
+            "Hair Problems",
           ],
         },
         {
@@ -63,7 +62,7 @@ export default function Discovery() {
           supportText:
             "This helps us understand if your condition is acute (recent) or chronic (long-term). Choose the closest timeframe to when you first noticed the symptoms.",
           type: "radio",
-          options: ["Today", "1–3 Days Ago", "A Week or More Ago", "Other"],
+          options: ["Today", "1–3 Days Ago", "A Week or More Ago"],
         },
         {
           id: "symptomsSeverity",
@@ -74,8 +73,7 @@ export default function Discovery() {
           options: [
             "Mild (Doesn't interfere with daily life)",
             "Moderate (Somewhat disruptive)",
-            "Severe (Significantly impacts daily activities)",
-            "Other",
+            "Severe (Significantly impacts daily activities)"
           ],
         },
       ],
@@ -92,10 +90,7 @@ export default function Discovery() {
           options: [
             "Yes, for Hair Care (e.g., hair loss, dry scalp)",
             "Yes, for Skin Care (e.g., acne, hydration)",
-            "Yes, for Boosting Energy or Fitness",
-            "Yes, for Stress Relief or Relaxation",
-            "No, I'm only focused on resolving my current symptoms",
-            "Other (Please specify: ________)",
+            "No, I'm only focused on resolving my current symptoms"
           ],
         },
         {
@@ -108,8 +103,7 @@ export default function Discovery() {
             "Vegetarian/Vegan",
             "Gluten-Free",
             "Lactose-Free",
-            "No Restrictions",
-            "Other (Please specify: ________)",
+            "No Restrictions"
           ],
         },
       ],
@@ -124,9 +118,8 @@ export default function Discovery() {
             "This information is crucial for avoiding potential interactions with recommended products. Please be specific when listing your medications.",
           type: "radio",
           options: [
-            "Yes (Please list: ________)",
-            "No",
-            "Other (Please specify: ________)",
+            "Yes",
+            "No"
           ],
         },
         {
@@ -137,10 +130,9 @@ export default function Discovery() {
             "Your preference helps us tailor our recommendations to match your comfort level with different types of treatments.",
           type: "radio",
           options: [
-            "Over-the-Counter Medicines",
-            "Natural/Herbal Remedies",
-            "Open to Both",
-            "Other (Please specify: ________)",
+            "Over-the-Counter Products",
+            "Natural/Herbal Products",
+            "Open to Both"
           ],
         },
       ],
@@ -148,21 +140,6 @@ export default function Discovery() {
     {
       title: "Specific Body Areas",
       questions: [
-        {
-          id: "bodyArea",
-          label: "What part of your body are you most concerned about?",
-          supportText:
-            "Identifying the specific area helps us focus our recommendations on your primary concern. Choose the option that best matches your situation.",
-          type: "radio",
-          options: [
-            "Head (e.g., headaches, hair problems)",
-            "Chest (e.g., breathing issues, cold)",
-            "Stomach (e.g., digestion, nausea)",
-            "Skin (e.g., acne, dryness)",
-            "Overall Wellness (e.g., fatigue, sleep)",
-            "Other (Please specify: ________)",
-          ],
-        },
         {
           id: "lifestyleChanges",
           label: "Would you like us to suggest lifestyle changes?",
@@ -172,7 +149,6 @@ export default function Discovery() {
           options: [
             "Yes, please!",
             "No, just product recommendations",
-            "Other (Please specify: ________)",
           ],
         },
       ],

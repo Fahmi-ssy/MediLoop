@@ -100,7 +100,11 @@ export default function AdminDashboard() {
         dataLength={products.length}
         next={() => setPage((prevPage) => prevPage + 1)}
         hasMore={hasMore}
-        loader={<p>Loading...</p>}
+        loader={
+          <p className="text-center m-10 text-xl text-teal-600 font-semibold">
+            Loading...
+          </p>
+        }
         endMessage={
           <p className="text-center m-10 text-4xl">No more products.</p>
         }
