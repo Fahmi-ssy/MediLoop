@@ -26,13 +26,13 @@ interface RecommendationSchema {
         throw new Error('userId is required');
       }
       
-      console.log('Creating recommendation with data:', {
-        ...data,
-        userId: data.userId,
-        todoListLength: data.todoList.length,
-        lifestyleChangesLength: data.lifestyleChanges.length,
-        productsLength: data.products.length
-      });
+      // console.log('Creating recommendation with data:', {
+      //   ...data,
+      //   userId: data.userId,
+      //   todoListLength: data.todoList.length,
+      //   lifestyleChangesLength: data.lifestyleChanges.length,
+      //   productsLength: data.products.length
+      // });
       
       try {
         const result = await this.collection().insertOne({
@@ -44,7 +44,7 @@ interface RecommendationSchema {
         
         // Verify the document was created
         const savedDoc = await this.collection().findOne({ _id: result.insertedId });
-        console.log('Saved document:', savedDoc);
+        // console.log('Saved document:', savedDoc);
         
         return result;
       } catch (error) {

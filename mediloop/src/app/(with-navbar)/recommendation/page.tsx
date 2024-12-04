@@ -63,7 +63,7 @@ export default function Recommendation() {
         throw new Error('No recommendations found in response');
       }
 
-      console.log('Raw OpenAI Response:', recommendationsText);
+      // console.log('Raw OpenAI Response:', recommendationsText);
 
       const sections = recommendationsText
         .split(/\d\.\s+/)
@@ -74,7 +74,7 @@ export default function Recommendation() {
         throw new Error('Failed to parse recommendations');
       }
 
-      console.log('Parsed sections:', sections);
+      // console.log('Parsed sections:', sections);
 
       const formatted: Recommendation = {
         todoList: [],
@@ -112,7 +112,7 @@ export default function Recommendation() {
         }));
       }
 
-      console.log('Formatted recommendations:', formatted);
+      // console.log('Formatted recommendations:', formatted);
 
       if (formatted.todoList.length || formatted.lifestyleChanges.length || formatted.products.length) {
         setRecommendations(formatted);
@@ -120,7 +120,7 @@ export default function Recommendation() {
         throw new Error('No valid recommendations were found in the response');
       }
     } catch (error) {
-      console.error("Error parsing recommendations:", error);
+      // console.error("Error parsing recommendations:", error);
       setError(error instanceof Error ? error.message : "Failed to load recommendations");
     }
   }, [searchParams]);

@@ -25,6 +25,7 @@
     "next": "14.2.18",
     "openai": "^4.74.0",
     "react": "^18.3.1",
+    "react-csv-importer": "^0.8.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
     "react-infinite-scroll-component": "^6.1.0",

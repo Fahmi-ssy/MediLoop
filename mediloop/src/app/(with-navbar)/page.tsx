@@ -6,10 +6,10 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 export default async function Home() {
-  const res = await fetch(`http://localhost:3000/api/dashboardProduct`, {
-    cache: "no-store",
-  });
-  const products: Product[] = await res.json();
+  // const res = await fetch(`http://localhost:3000/api/dashboardProduct`, {
+  //   cache: "no-store",
+  // });
+  // const products: Product[] = await res.json();
   return (
     <main className="min-h-screen bg-gradient-to-b from-white to-teal-50">
       {/* Hero Section */}

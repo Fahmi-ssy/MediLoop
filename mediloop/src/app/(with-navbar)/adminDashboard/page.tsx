@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import AdminCardProduct from "@/components/adminCardProduct";
 import Link from "next/link";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AdminDashboard() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -13,22 +15,30 @@ export default function AdminDashboard() {
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
+  const [refreshKey, setRefreshKey] = useState<number>(0);
 
   const fetchProduct = async () => {
     try {
       const res = await fetch(
         `http://localhost:3000/api/dashboardProduct?page=${page}&limit=10&query=${query}`,
-        { cache: "no-store" }
+        { 
+          credentials: 'include',
+          cache: "no-store" 
+        }
       );
       const newProducts: Product[] = await res.json();
 
-      setProducts((prevProducts) => {
-        const existingIds = new Set(prevProducts.map((product) => product._id));
-        const uniqueNewProducts = newProducts.filter(
-          (product) => !existingIds.has(product._id)
-        );
-        return [...prevProducts, ...uniqueNewProducts];
-      });
+      if (page === 1) {
+        setProducts(newProducts);
+      } else {
+        setProducts((prevProducts) => {
+          const existingIds = new Set(prevProducts.map((product) => product._id));
+          const uniqueNewProducts = newProducts.filter(
+            (product) => !existingIds.has(product._id)
+          );
+          return [...prevProducts, ...uniqueNewProducts];
+        });
+      }
 
       setHasMore(newProducts.length > 0);
     } catch (error) {
@@ -38,11 +48,12 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchProduct();
-  }, [page, query]);
+  }, [page, query, refreshKey]);
 
-  // if (loading) {
-  //   return <div>Loading products...</div>;
-  // }
+  const handleDelete = (productName: string) => {
+    setProducts(prevProducts => prevProducts.filter(p => p.name !== productName));
+    setRefreshKey(prev => prev + 1);
+  };
 
   return (
     <div>
@@ -97,8 +108,9 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 p-10 mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-40">
           {products.map((el) => (
             <AdminCardProduct 
-              product={el} 
-              key={el._id.toString()}
+              product={el}
+              key={el._id.toString()} 
+              onDelete={handleDelete}
             />
           ))}
         </div>

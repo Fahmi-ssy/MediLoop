@@ -70,12 +70,12 @@ class ProductModel {
         }
     }
 
-    static async deleteOne(filter: Partial<Product>) {
+    static async deleteOne(filter: Filter<Document>) {
         try {
             const result = await this.collection().deleteOne(filter);
             return result;
         } catch (error) {
-            console.error("Error deleting product:", error);
+            console.error("Error in deleteOne:", error);
             throw error;
         }
     }
