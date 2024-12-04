@@ -1,26 +1,53 @@
+'use client';
+
 import { Product } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-async function getProduct(name: string) {
-  const res = await fetch(`http://localhost:3000/api/dashboardProduct/${name}`, {
-    cache: "no-store",
-  });
-  return res.json();
-}
-
-export default async function ProductDetail({
+export default function ProductDetail({
   params,
 }: {
   params: { name: string };
 }) {
-  const product: Product = await getProduct(params.name);
+  const [product, setProduct] = useState<Product | null>(null);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const fromRecommendation = searchParams.get('from') === 'recommendation';
+  const recommendationsData = searchParams.get('recommendations');
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const res = await fetch(`/api/dashboardProduct/${params.name}`);
+      const data = await res.json();
+      setProduct(data);
+    };
+    fetchProduct();
+  }, [params.name]);
+
+  const handleBack = () => {
+    if (fromRecommendation) {
+      if (recommendationsData) {
+        const encodedRecommendations = encodeURIComponent(recommendationsData).replace(/%20/g, '+');
+        router.push(`/recommendation?recommendations=${encodedRecommendations}`);
+      } else {
+        router.push('/products');
+      }
+    } else {
+      router.push('/products');
+    }
+  };
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-7xl mx-auto">
-        <Link
-          href="/products"
+        <button
+          onClick={handleBack}
           className="inline-flex items-center text-teal-600 hover:text-teal-700 mb-6"
         >
           <svg
@@ -36,8 +63,8 @@ export default async function ProductDetail({
               d="M10 19l-7-7m0 0l7-7m-7 7h18"
             />
           </svg>
-          Back to Products
-        </Link>
+          {fromRecommendation ? 'Back to Recommendations' : 'Back to Products'}
+        </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="relative w-96 h-96 rounded-xl overflow-hidden bg-gray-100 mx-auto">

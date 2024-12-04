@@ -3,6 +3,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Recommendation {
   todoList: string[];
@@ -302,28 +303,32 @@ export default function Recommendation() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 * index }}
-                  className="flex items-start gap-6 p-4 rounded-lg hover:bg-teal-50 transition-colors duration-200"
                 >
-                  <span className="flex-shrink-0 w-8 h-8 bg-teal-100 text-teal-800 rounded-full flex items-center justify-center text-sm font-semibold">
-                    {index + 1}
-                  </span>
-                  <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex-grow space-y-2">
-                    <span className="text-gray-700 text-lg font-medium">{item.name}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-teal-600 font-semibold">
-                        Rp {item.price?.toLocaleString("id-ID")}
-                      </span>
+                  <Link 
+                    href={`/products/${encodeURIComponent(item.name)}?from=recommendation`}
+                    className="flex items-start gap-6 p-4 rounded-lg hover:bg-teal-50 transition-colors duration-200 cursor-pointer"
+                  >
+                    <span className="flex-shrink-0 w-8 h-8 bg-teal-100 text-teal-800 rounded-full flex items-center justify-center text-sm font-semibold">
+                      {index + 1}
+                    </span>
+                    <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        className="object-cover"
+                      />
                     </div>
-                    <p className="text-gray-500 text-sm">{item.description}</p>
-                  </div>
+                    <div className="flex-grow space-y-2">
+                      <span className="text-gray-700 text-lg font-medium">{item.name}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-teal-600 font-semibold">
+                          Rp {item.price?.toLocaleString("id-ID")}
+                        </span>
+                      </div>
+                      <p className="text-gray-500 text-sm">{item.description}</p>
+                    </div>
+                  </Link>
                 </motion.li>
               ))}
             </ul>
