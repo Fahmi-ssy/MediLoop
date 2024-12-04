@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import RecommendationModel from '@/db/models/RecommendationModels';
-import { ObjectId } from 'mongodb';
+import { cookies } from 'next/headers';
+import { verifyWithJose } from '@/db/helpers/jwt';
 
 export async function POST(request: Request) {
   try {
@@ -34,21 +35,32 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {
+    const auth = cookies().get('Authorization')?.value;
+    if (!auth) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const [type, token] = auth.split(' ');
+    if (type !== 'Bearer') {
+      return NextResponse.json({ error: 'Invalid token type' }, { status: 401 });
+    }
+
+    const verified = await verifyWithJose(token);
+    
+    // Get userId from URL parameters
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
 
-    console.log('API - Fetching recommendations for userId:', userId);
-
     if (!userId) {
-      return NextResponse.json(
-        { error: 'User ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'userId is required' }, { status: 400 });
+    }
+    
+    if (verified._id !== userId) {
+      return NextResponse.json({ error: 'Unauthorized access' }, { status: 403 });
     }
 
     const recommendations = await RecommendationModel.findByUserId(userId);
-    console.log('API - Found recommendations:', recommendations);
-
+    
     return NextResponse.json({
       success: true,
       data: recommendations
@@ -57,7 +69,7 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error('Error fetching recommendations:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch recommendations' },
+      { error: 'Failed to fetch recommendations', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
@@ -78,7 +90,7 @@ export async function DELETE(
     }
 
     const result = await RecommendationModel.collection().deleteOne({
-      _id: new ObjectId(id)
+      _id: new Object(id)
     });
 
     if (result.deletedCount === 0) {

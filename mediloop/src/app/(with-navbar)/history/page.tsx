@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { FiClock, FiList, FiHeart, FiShoppingBag } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
 
 interface Recommendation {
   _id: string;
@@ -20,35 +21,70 @@ interface Recommendation {
 }
 
 export default function History() {
+  const router = useRouter();
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'all' | 'skin' | 'hair' | 'wellness'>('all');
 
   useEffect(() => {
-    const fetchRecommendations = async () => {
+    const fetchData = async () => {
       try {
-        const userId = localStorage.getItem('userId');
-        if (!userId) {
-          setError('User ID not found. Please log in again.');
-          setLoading(false);
+        setLoading(true);
+        
+        // First check authorization
+        const authResponse = await fetch('/api/historyAuth', {
+          method: 'GET',
+          credentials: 'include',
+        });
+
+        console.log('Auth response:', authResponse.status);
+
+        if (!authResponse.ok) {
+          console.error('Auth failed:', await authResponse.text());
+          router.push('/login');
           return;
         }
 
-        console.log('Fetching recommendations for userId:', userId);
+        // Then fetch user ID and recommendations
+        const userId = localStorage.getItem('userId');
+        console.log('Fetching for userId:', userId);
 
-        const response = await fetch(`/api/saveRecommendation?userId=${encodeURIComponent(userId)}`);
+        if (!userId) {
+          setError('User ID not found. Please log in again.');
+          return;
+        }
+
+        const response = await fetch(`/api/saveRecommendation?userId=${userId}`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         
+        console.log('Fetch response status:', response.status);
+        
+        if (response.status === 401 || response.status === 403) {
+          console.error('Authorization failed:', await response.text());
+          router.push('/login');
+          return;
+        }
+
         if (!response.ok) {
-          throw new Error('Failed to fetch recommendations');
+          const errorText = await response.text();
+          console.error('Fetch failed:', errorText);
+          throw new Error(`Failed to fetch recommendations: ${errorText}`);
         }
 
         const data = await response.json();
-        console.log('API Response:', data);
-
+        console.log('Received data:', data);
+        
         if (data.success && Array.isArray(data.data)) {
           setRecommendations(data.data);
         } else {
+          console.error('Invalid data format:', data);
           throw new Error('Invalid response format');
         }
       } catch (error) {
@@ -59,8 +95,8 @@ export default function History() {
       }
     };
 
-    fetchRecommendations();
-  }, []);
+    fetchData();
+  }, [router]);
 
   useEffect(() => {
     const userId = localStorage.getItem('userId');
