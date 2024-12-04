@@ -25,7 +25,7 @@ export default function History() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'all' | 'skin' | 'hair' | 'wellness'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'skin' | 'hair'>('all');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -118,11 +118,6 @@ export default function History() {
           rec.todoList.some(item => item.toLowerCase().includes('hair')) ||
           rec.lifestyleChanges.some(item => item.toLowerCase().includes('hair'))
         );
-      case 'wellness':
-        return recommendations.filter(rec => 
-          rec.todoList.some(item => item.toLowerCase().includes('wellness')) ||
-          rec.lifestyleChanges.some(item => item.toLowerCase().includes('health'))
-        );
       default:
         return recommendations;
     }
@@ -191,7 +186,6 @@ export default function History() {
               { id: 'all', label: 'All History', icon: FiList },
               { id: 'skin', label: 'Skin Care', icon: FiHeart },
               { id: 'hair', label: 'Hair Care', icon: FiHeart },
-              { id: 'wellness', label: 'Wellness', icon: FiHeart }
             ].map((tab) => {
               const Icon = tab.icon;
               return (
