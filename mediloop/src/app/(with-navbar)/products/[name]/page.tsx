@@ -21,7 +21,7 @@ export default async function ProductDetail({
       <div className="max-w-7xl mx-auto">
         <Link
           href="/products"
-          className="inline-flex items-center text-teal-600 hover:text-teal-700 mb-6"
+          className="inline-flex items-center text-teal-600 hover:text-teal-700 mb-6 font-medium tracking-wide"
         >
           <svg
             className="w-5 h-5 mr-2"
@@ -40,38 +40,44 @@ export default async function ProductDetail({
         </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="relative w-96 h-96 rounded-xl overflow-hidden bg-gray-100 mx-auto">
+          <div className="relative w-96 h-96 rounded-xl overflow-hidden bg-gray-100 mx-auto group">
             <Image
               src={product.image}
               alt={product.name}
               fill
-              className="object-contain"
+              className="object-contain transition-transform duration-300 group-hover:scale-110"
               priority
             />
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">
                 {product.name}
               </h1>
-              <p className="text-2xl font-semibold text-teal-600">
+              <p className="text-2xl font-bold text-teal-600 tracking-wide">
                 Rp {product.price?.toLocaleString("id-ID")}
               </p>
             </div>
 
-            <div className="border-t border-b py-4">
-              <h2 className="text-lg font-semibold mb-2">Description</h2>
-              <p className="text-gray-600">{product.description}</p>
+            <div className="border-t border-b py-8 space-y-4">
+              <h2 className="text-2xl font-bold text-gray-900 tracking-wider uppercase">
+                Description
+              </h2>
+              <p className="text-gray-700 leading-relaxed text-lg whitespace-pre-wrap font-normal tracking-wide">
+                {product.description}
+              </p>
             </div>
 
             <div className="space-y-4">
-              <button className="w-full bg-teal-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-teal-700 transition-colors">
-                Add to Cart
-              </button>
-              <button className="w-full border-2 border-teal-600 text-teal-600 py-3 px-6 rounded-lg font-semibold hover:bg-teal-50 transition-colors">
-                Buy Now
-              </button>
+              <h2 className="text-2xl font-bold text-gray-900 tracking-wider uppercase">
+                Usage
+              </h2>
+              <div className="overflow-hidden">
+                <p className="text-gray-700 leading-relaxed text-lg whitespace-pre-wrap font-normal tracking-wide animate-marquee">
+                  {product.usage}
+                </p>
+              </div>
             </div>
           </div>
         </div>
