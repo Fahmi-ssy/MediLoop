@@ -36,26 +36,29 @@ export default function About() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="bg-white rounded-2xl shadow-xl p-8 mb-16"
+                    className="bg-white rounded-2xl shadow-xl p-6 mb-12"
                 >
-                    <h2 className="text-3xl font-bold text-teal-800 mb-6 text-center">
+                    <h2 className="text-3xl font-bold text-teal-800 mb-1 text-center">
                         Our Story
                     </h2>
-                    <div className="flex flex-col md:flex-row gap-8 items-center">
+                    <div className="flex flex-col md:flex-row gap-6 items-center -mt-1">
                         <div className="md:w-1/2">
-                            <Image
-                                src="/about-image.jpg"
-                                alt="MediLoop Team"
-                                width={500}
-                                height={300}
-                                className="rounded-lg object-cover"
-                            />
+                            <div className="relative w-full h-[350px]">
+                                <Image
+                                    src="/team.png"
+                                    alt="MediLoop Team"
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    className="rounded-lg object-cover"
+                                    priority
+                                />
+                            </div>
                         </div>
-                        <div className="md:w-1/2 space-y-4">
+                        <div className="md:w-1/2 space-y-3">
                             <p className="text-gray-600 leading-relaxed">
                                 MediLoop started as the final project of dedicated students at Hacktiv8, under the guidance of their instructor, Priambodo Kurniawan. This capstone project represents more than just a step toward graduation—it's a testament to innovation in healthcare technology.
                             </p>
-                            <blockquote className="text-xl font-bold text-teal-700 italic border-l-4 border-teal-500 pl-4">
+                            <blockquote className="text-xl font-bold text-teal-700 italic border-l-4 border-teal-500 pl-3">
                                 "This is more than a project—it's a leap into the future of personalized healthcare."
                             </blockquote>
                         </div>

@@ -113,10 +113,48 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // Add protection for history route
+  if (request.nextUrl.pathname.startsWith("/history")) {
+    if (!auth) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    try {
+      const [type, token] = auth.split(" ");
+      
+      if (type !== "Bearer") {
+        return NextResponse.redirect(new URL("/login", request.url));
+      }
+
+      const verified = await verifyWithJose<{ _id: string }>(token);
+      
+      // Add user ID to headers for the API route to use
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("x-user-id", verified._id);
+
+      return NextResponse.next({
+        request: {
+          headers: requestHeaders,
+        },
+      });
+    } catch (error) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+  }
+
   // If the path doesn't match, pass the request through unchanged
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/api/upload/:path*", "/discovery/:path*", "/adminDashboard/:path*", "/admin/:path*"],
+  matcher: [
+    "/api/upload/:path*", 
+    "/discovery/:path*", 
+    "/adminDashboard/:path*", 
+    "/admin/:path*",
+    "/history/:path*",
+    "/api/history/:path*",
+    "/api/historyAuth/:path*",
+    "/api/saveRecommendation/:path*"
+  ],
 };
