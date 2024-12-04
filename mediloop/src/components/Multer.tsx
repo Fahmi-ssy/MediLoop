@@ -81,7 +81,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUploadSuccess }) => {
       };
 
       // Upload the file metadata and base64 data
-      const response = await fetch('/api/upload', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/upload`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

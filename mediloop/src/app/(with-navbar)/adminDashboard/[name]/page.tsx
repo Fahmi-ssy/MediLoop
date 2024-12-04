@@ -20,7 +20,7 @@ export default function ProductDetail({ params }: { params: { name: string } }) 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`/api/dashboardProduct/${params.name}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboardProduct/${params.name}`);
         if (!response.ok) {
           throw new Error('Failed to fetch product');
         }

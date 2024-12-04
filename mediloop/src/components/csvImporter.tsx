@@ -19,7 +19,7 @@ export default function ProductCSVImporter() {
         image: row.image,
       }));
 
-      const response = await fetch("/api/bulkInsert", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/bulkInsert`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -312,7 +312,7 @@ export default function Discovery() {
       let visionData = null;
 
       // Get embedded product recommendations
-      const embeddingResponse = await fetch("/api/embedding", {
+      const embeddingResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/embedding`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -328,7 +328,7 @@ export default function Discovery() {
       }
 
       if (imageBase64) {
-        const visionResponse = await fetch("/api/vision", {
+        const visionResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/vision`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -349,7 +349,7 @@ export default function Discovery() {
       }
 
       if (!recommendations) {
-        const response = await fetch("/api/openai", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/openai`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),

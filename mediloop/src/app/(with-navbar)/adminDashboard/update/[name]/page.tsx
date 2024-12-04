@@ -17,7 +17,7 @@ export default function UpdateProduct({ params }: { params: { name: string } }) 
   useEffect(() => {
     const fetchProductData = async () => {
       try {
-        const response = await fetch(`/api/dashboardProduct/${params.name}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboardProduct/${params.name}`);
         if (!response.ok) {
           throw new Error('Failed to fetch product');
         }
@@ -56,7 +56,7 @@ export default function UpdateProduct({ params }: { params: { name: string } }) 
     };
 
     try {
-      const response = await fetch(`/api/dashboardProduct/${params.name}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboardProduct/${params.name}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

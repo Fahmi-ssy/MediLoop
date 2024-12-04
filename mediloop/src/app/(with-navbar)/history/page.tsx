@@ -35,7 +35,7 @@ export default function History() {
         setLoading(true);
         
         // First check authorization
-        const authResponse = await fetch('/api/historyAuth', {
+        const authResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/historyAuth`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -57,7 +57,7 @@ export default function History() {
           return;
         }
 
-        const response = await fetch(`/api/saveRecommendation?userId=${userId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/saveRecommendation?userId=${userId}`, {
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -271,7 +271,7 @@ export default function History() {
                                 onClick={async () => {
                                   toast.dismiss(toastId);
                                   try {
-                                    const response = await fetch(`/api/saveRecommendation/${recommendation._id}`, {
+                                    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/saveRecommendation/${recommendation._id}`, {
                                       method: 'DELETE',
                                       headers: {
                                         'Content-Type': 'application/json',

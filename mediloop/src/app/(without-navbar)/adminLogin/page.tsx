@@ -27,7 +27,7 @@ export default function AdminLogin() {
     e.preventDefault();
 
     try {
-      const res = await fetch(`/api/adminLogin`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/adminLogin`, {
         method: "POST",
         body: JSON.stringify(input),
         headers: {

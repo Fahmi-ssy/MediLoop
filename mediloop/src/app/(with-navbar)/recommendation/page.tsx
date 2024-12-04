@@ -129,7 +129,7 @@ export default function Recommendation() {
     const saveRecommendation = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        const response = await fetch('/api/saveRecommendation', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/saveRecommendation`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

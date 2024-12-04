@@ -20,7 +20,7 @@ export default function AdminDashboard() {
   const fetchProduct = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/dashboardProduct?page=${page}&limit=10&query=${query}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboardProduct?page=${page}&limit=10&query=${query}`,
         { 
           credentials: 'include',
           cache: "no-store" 

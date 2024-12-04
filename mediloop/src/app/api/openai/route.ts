@@ -47,7 +47,7 @@ Please provide recommendations in EXACTLY this format (maintain the exact header
         const recommendations = data.choices[0].message.content;
 
         // Get product recommendations using embedding
-        const embeddingResponse = await fetch('http://localhost:3000/api/embedding', {
+        const embeddingResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/embedding`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

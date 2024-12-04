@@ -50,7 +50,7 @@ export default function AdminCardProduct({ product, onDelete }: { product: Produ
       const shouldDelete = await confirmDelete;
       if (!shouldDelete) return;
 
-      const res = await fetch(`/api/dashboardProduct/${productId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboardProduct/${productId}`, {
         method: "DELETE",
         headers: {
           'Content-Type': 'application/json'

@@ -19,7 +19,7 @@ export default function ProductDetail({
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const res = await fetch(`/api/dashboardProduct/${params.name}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboardProduct/${params.name}`);
       const data = await res.json();
       setProduct(data);
     };

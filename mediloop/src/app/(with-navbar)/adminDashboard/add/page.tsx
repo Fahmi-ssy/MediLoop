@@ -24,7 +24,7 @@ export default function AddProduct() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:3000/api/dashboardProduct", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboardProduct`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
