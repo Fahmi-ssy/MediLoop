@@ -291,10 +291,12 @@ export default function Discovery() {
     (acc, section) => acc + section.questions.length,
     0
   );
-  const completedQuestions =
-    currentStep * sections[currentStep]?.questions.length +
-    currentQuestionIndex +
-    1;
+
+  const completedQuestions = sections
+    .slice(0, currentStep)
+    .reduce((acc, section) => acc + section.questions.length, 0)
+    + currentQuestionIndex + 1;
+
   const progress = (completedQuestions / totalQuestions) * 100;
   const isFirstQuestion = currentStep === 0 && currentQuestionIndex === 0;
 
