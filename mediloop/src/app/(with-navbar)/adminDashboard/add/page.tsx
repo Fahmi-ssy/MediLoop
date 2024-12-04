@@ -45,7 +45,7 @@ export default function AddProduct() {
         });
       }
     } catch (error) {
-      toast.error("An error occurred", {
+      toast.error("Failed to add product. Please try again", {
         position: "top-right",
         autoClose: 1500,
       });

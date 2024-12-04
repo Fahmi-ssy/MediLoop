@@ -1,6 +1,8 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function UpdateProduct({ params }: { params: { name: string } }) {
   const [productName, setProductName] = useState("");
@@ -62,15 +64,26 @@ export default function UpdateProduct({ params }: { params: { name: string } }) 
         body: JSON.stringify(productData),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to update product');
+      if (response.ok) {
+        toast.success("Product updated successfully!", {
+          position: "top-right",
+          autoClose: 1500,
+        });
+        setTimeout(() => {
+          router.push("/adminDashboard");
+        }, 1500);
+      } else {
+        toast.error("Failed to update product", {
+          position: "top-right",
+          autoClose: 1500,
+        });
       }
 
-      alert("Product updated successfully!");
-      router.push("/adminDashboard");
     } catch (error) {
-      setError("Failed to update product. Please try again.");
-      console.error("Error:", error);
+      toast.error("Failed to update product. Please try again", {
+        position: "top-right",
+        autoClose: 1500,
+      });
     }
   };
 
@@ -170,6 +183,7 @@ export default function UpdateProduct({ params }: { params: { name: string } }) 
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 }
