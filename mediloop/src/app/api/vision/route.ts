@@ -23,7 +23,7 @@ export async function POST(request: Request) {
         {
           role: "system",
           content:
-            "You are a medical assistant analyzing prescription images and health information. First analyze the image in detail, then provide specific recommendations but not in a markdown.",
+            "You are a medical assistant analyzing prescription images and health information. First analyze the image in detail, then provide specific analysis",
         },
         {
           role: "user",
