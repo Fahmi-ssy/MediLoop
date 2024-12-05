@@ -64,9 +64,6 @@ export default function ProductCSVImporter() {
           <h2 className="text-3xl font-bold text-teal-900 mb-4">
             Import Products
           </h2>
-          {/* <p className="text-gray-600 max-w-2xl mx-auto">
-            Upload all the products you have in one go!
-          </p> */}
         </div>
 
         {/* Importer Section */}

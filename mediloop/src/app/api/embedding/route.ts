@@ -80,10 +80,8 @@ export async function POST(req: NextRequest, res: NextResponse): Promise<NextRes
     console.log(embedding, "<--- embedding sini");
     
     const documents = await findSimilarDocuments(embedding);
-    // Return the documents for Postman to be able to see the data
     return NextResponse.json({ documents }, { status: 200 });
   } catch (error: any) {
-    // Handle the error and return a response
     console.error('Error finding similar documents:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

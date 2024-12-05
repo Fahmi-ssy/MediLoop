@@ -166,7 +166,6 @@ export default function AdminCardProduct({ product, onDelete }: { product: Produ
           </button>
         </div>
       </div>
-      {/* <ToastContainer /> */}
     </div>
   );
 }

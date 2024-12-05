@@ -13,7 +13,6 @@ export async function POST(request: Request) {
       throw new Error("No image data provided");
     }
 
-    // const imageUrl = imageData.startsWith('data:') ? imageData : `data:image/jpeg;base64,${imageData}`;
     const imageUrl = imageData;
     console.log(imageUrl, "aaaaaaaaaaa");
 

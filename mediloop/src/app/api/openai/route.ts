@@ -4,7 +4,6 @@ export async function POST(request: Request) {
     try {
         const formData = await request.json();
         
-        // First get general recommendations from GPT
         const prompt = `
 
 
@@ -46,7 +45,6 @@ Please provide recommendations in EXACTLY this format (maintain the exact header
         const data = await response.json();
         const recommendations = data.choices[0].message.content;
 
-        // Get product recommendations using embedding
         const embeddingResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/embedding`, {
             method: 'POST',
             headers: {
@@ -65,7 +63,6 @@ Please provide recommendations in EXACTLY this format (maintain the exact header
 
         const { documents } = await embeddingResponse.json();
 
-        // Format the final response
         const productRecommendations = documents.map((product: { name: any; description: any; }) => `- ${product.name}: ${product.description}`).join('\n');
         const finalRecommendations = `${recommendations}\n\n3. Recommended Products:\n${productRecommendations}`;
 
@@ -73,7 +70,6 @@ Please provide recommendations in EXACTLY this format (maintain the exact header
             recommendations: finalRecommendations,
         });
     } catch (error) {
-        // console.error('Error generating recommendations:', error);
         return NextResponse.json(
             { error: 'Failed to generate recommendations' },
             { status: 500 }

@@ -97,7 +97,6 @@ export default function Recommendation() {
         }
       });
 
-      // Add embedded products if available
       if (embeddedProducts.length > 0) {
         formatted.products = embeddedProducts.map((product: { 
           name: string; 

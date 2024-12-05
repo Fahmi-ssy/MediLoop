@@ -43,7 +43,6 @@ export async function PUT(
   try {
     const productData = await request.json();
     
-    // Generate new embedding for updated product
     const textToEmbed = `${productData.name} ${productData.description} ${productData.usage}`;
     let embedding;
     try {
@@ -53,7 +52,6 @@ export async function PUT(
       throw new Error("Failed to generate product embedding");
     }
 
-    // Add embedding to product data
     const productWithEmbedding = {
       ...productData,
       product_embedding: embedding

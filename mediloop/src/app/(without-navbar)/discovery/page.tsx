@@ -305,13 +305,11 @@ export default function Discovery() {
     setError(null);
 
     try {
-      // const imageBase64 = localStorage.getItem('uploadedImageBase64');
       const imageBase64 = localStorage.getItem("cloudinaryImageUrl");
       let recommendations = "";
       let embeddedProducts = [];
       let visionData = null;
 
-      // Get embedded product recommendations
       const embeddingResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/embedding`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

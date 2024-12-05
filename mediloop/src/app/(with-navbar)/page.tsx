@@ -20,7 +20,6 @@ export default async function Home() {
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center relative">
-            {/* Logo with floating animation */}
             <div className="flex justify-center mb-6">
               <div className="relative">
                 <Image
@@ -34,12 +33,9 @@ export default async function Home() {
                 <div className="absolute -inset-3 bg-teal-100 rounded-full blur-2xl opacity-30 animate-pulse" />
               </div>
             </div>
-
-            {/* Main heading with gradient text */}
             <h1 className="text-4xl font-bold tracking-tight text-teal-900 sm:text-6xl mb-6 relative">
               Transform Your Health with
               <span className="block mt-2 relative">
-                {/* Background Image */}
                 <Image
                   src="/ai-care-bg.png"
                   alt="AI Care Background"
@@ -48,19 +44,15 @@ export default async function Home() {
                   className="absolute inset-0 object-cover opacity-10 z-0"
                   priority
                 />
-                {/* Gradient Text */}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400 animate-gradient relative z-10">
                   AI-Powered Care
                 </span>
               </span>
             </h1>
-
-            {/* Subheading with improved typography */}
             <p className="mt-4 text-lg sm:text-xl leading-8 text-gray-600 mb-8 max-w-3xl mx-auto">
               Experience personalized healthcare like never before. Upload your prescription or describe your symptoms, and let our advanced AI guide you to optimal wellness with tailored recommendations and insights.
             </p>
 
-            {/* CTA buttons with enhanced hover effects */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link href="/discovery">
                 <button className="group relative flex items-center gap-3 rounded-full bg-gradient-to-r from-teal-600 to-teal-500 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(13,148,136,0.3)] hover:-translate-y-1">
@@ -91,8 +83,6 @@ export default async function Home() {
                 </button>
               </Link>
             </div>
-
-            {/* Trust indicators with animations */}
             <div className="mt-8 flex flex-wrap justify-center gap-6 text-gray-500">
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -131,10 +121,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      {/* Interactive Jumbotron */}
       <section className="relative py-24 overflow-hidden bg-gradient-to-b from-teal-50 to-white">
-        {/* Animated background elements */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-[linear-gradient(40deg,rgba(13,148,136,0.05)_0%,rgba(13,148,136,0.02)_100%)]" />
           <div className="absolute right-0 top-0 -mt-16 opacity-20">
@@ -151,7 +138,6 @@ export default async function Home() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left Content */}
             <div className="space-y-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -168,8 +154,6 @@ export default async function Home() {
                   Upload your prescription or describe your symptoms, and watch as our AI analyzes and provides personalized recommendations in seconds.
                 </p>
               </motion.div>
-
-              {/* Stats */}
               <div className="grid grid-cols-3 gap-6">
                 {[
                   { number: "24/7", label: "Support" },
@@ -188,8 +172,6 @@ export default async function Home() {
                   </motion.div>
                 ))}
               </div>
-
-              {/* CTA Button */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -211,7 +193,6 @@ export default async function Home() {
               </motion.div>
             </div>
 
-            {/* Right Animation */}
             <div className="relative lg:h-[600px]">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -242,8 +223,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      {/* Features Section */}
       <section className="container mx-auto px-4 py-16">
         <div className="grid md:grid-cols-3 gap-8">
           <div className="bg-white p-6 rounded-xl shadow-md">
@@ -276,8 +255,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
-      {/* Articles Section */}
       <section className="container mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold text-teal-900 text-center mb-12">
           Latest Body Care Articles
@@ -360,8 +337,6 @@ export default async function Home() {
             </div>
           </article>
         </div>
-
-        {/* View All Articles Button */}
         <div className="text-center mt-12">
           <Link href="/articles">
             <button className="bg-teal-600 text-white px-8 py-3 rounded-full hover:bg-teal-700 transition">

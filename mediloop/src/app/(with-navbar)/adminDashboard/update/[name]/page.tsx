@@ -87,15 +87,14 @@ export default function UpdateProduct({ params }: { params: { name: string } }) 
     }
   };
 
-  // Handle cancel (reset the form)
   const handleCancel = () => {
     setProductName("");
     setDescription("");
     setUsage("");
     setPrice(0);
     setImage("");
-    setError(""); // Clear any error message
-    router.push("/adminDashboard"); // Redirect to admin dashboard
+    setError(""); 
+    router.push("/adminDashboard");
     console.log("Form has been reset.");
   };
 

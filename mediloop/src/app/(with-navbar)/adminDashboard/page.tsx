@@ -16,11 +16,12 @@ export default function AdminDashboard() {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshKey, setRefreshKey] = useState<number>(0);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   const fetchProduct = async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboardProduct?page=${page}&limit=10&query=${query}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboardProduct?page=${page}&limit=10&query=${query}&sort=${sortOrder}`,
         { 
           credentials: 'include',
           cache: "no-store" 
@@ -48,7 +49,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchProduct();
-  }, [page, query, refreshKey]);
+  }, [page, query, refreshKey, sortOrder]);
 
   const handleDelete = (productName: string) => {
     setProducts(prevProducts => prevProducts.filter(p => p.name !== productName));
@@ -57,9 +58,6 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      {/* Add New Product and Register Admin Buttons */}
-      
-      {/* Pencarian */}
       <div className="flex justify-center items-center mt-8">
       </div>
       <div className="relative py-12 mb-8">
@@ -92,6 +90,36 @@ export default function AdminDashboard() {
             </svg>
             Add Product
           </Link>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
+        <div className="flex justify-end">
+          <button
+            onClick={() => {
+              setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+              setPage(1);
+              setProducts([]);
+            }}
+            className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+          >
+            <svg
+              className={`w-5 h-5 mr-2 transform transition-transform ${
+                sortOrder === 'desc' ? 'rotate-180' : ''
+              }`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M3 4h13M3 8h9M3 12h5m0 0v6m0-6h14"
+              />
+            </svg>
+            Sort by Date {sortOrder === 'asc' ? '(Oldest)' : '(Newest)'}
+          </button>
         </div>
       </div>
 
