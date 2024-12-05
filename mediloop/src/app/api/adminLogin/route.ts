@@ -7,15 +7,12 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    // Validate admin credentials using the AdminModel
     const admin = await AdminModel.validateAdmin(body.email, body.password);
 
-    // Generate JWT token with admin ID and role
     const accessToken = signToken({ 
       _id: admin._id.toString(),
       role: "admin" 
     });
-    // Set the token in an HTTP-only cookie
    
     cookies().set("Authorization", `Bearer ${accessToken}`, {
       httpOnly: true,

@@ -46,10 +46,9 @@ export default function AddProduct() {
           image: "",
         });
 
-        // Redirect after a short delay
         setTimeout(() => {
           router.push("/adminDashboard");
-          router.refresh(); // Force a refresh of the page data
+          router.refresh();
         }, 1500);
       } else {
         toast.error("Failed to add product", {

@@ -6,7 +6,6 @@ export async function POST(request: Request) {
   try {
     const { products } = await request.json();
 
-    // Process each product and add embeddings
     const productsWithEmbeddings = await Promise.all(
       products.map(async (product: any) => {
         const textToEmbed = `${product.name} ${product.description} ${product.usage}`;
@@ -18,7 +17,6 @@ export async function POST(request: Request) {
       })
     );
 
-    // Bulk insert into database
     const result = await ProductModel.collection().insertMany(productsWithEmbeddings);
 
     return NextResponse.json({

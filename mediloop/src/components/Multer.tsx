@@ -24,7 +24,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUploadSuccess }) => {
       const compressedFile = await imageCompression(file, options);
       return compressedFile;
     } catch (error) {
-      // console.error('Error compressing image:', error);
       return file;
     }
   };
@@ -67,10 +66,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUploadSuccess }) => {
     setUploadProgress(0);
 
     try {
-      // Store base64 string in localStorage
       localStorage.setItem('uploadedImageBase64', previewUrl);
 
-      // Create file metadata
       const fileMetadata = {
         originalName: file?.name || 'unknown',
         uploadedBy: 'user',
@@ -80,7 +77,6 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUploadSuccess }) => {
         url: ''
       };
 
-      // Upload the file metadata and base64 data
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/upload`, {
         method: 'POST',
         headers: {
@@ -95,10 +91,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUploadSuccess }) => {
 
       const data = await response.json();
       
-      // Store the Cloudinary URL
       localStorage.setItem('cloudinaryImageUrl', data.url);
 
-      // Simulate progress
       const progressInterval = setInterval(() => {
         setUploadProgress(prev => Math.min(prev + 10, 90));
       }, 200);

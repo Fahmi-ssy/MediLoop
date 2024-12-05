@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import FileModel from '@/db/models/MulterModels';
 import { v2 as cloudinary } from 'cloudinary';
 
-// Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -13,12 +12,10 @@ export async function POST(request: Request) {
   try {
     const fileData = await request.json();
 
-    // Upload base64 image to Cloudinary
     const cloudinaryResponse = await cloudinary.uploader.upload(fileData.base64Data, {
       folder: 'mediloop'
     });
 
-    // Update file metadata with Cloudinary information
     const updatedFileData = {
       ...fileData,
       createdAt: new Date(fileData.createdAt),
@@ -26,7 +23,6 @@ export async function POST(request: Request) {
       url: cloudinaryResponse.secure_url
     };
 
-    // Save file metadata to database
     await FileModel.saveFile(updatedFileData);
 
     return NextResponse.json({

@@ -6,7 +6,7 @@ class ProductModel {
         return database.collection("products");
     }
 
-    static async getAll(page: number, limit: number, query?: string) {
+    static async getAll(page: number, limit: number, query?: string, sort: string = 'desc') {
         try {
             const skip = (page - 1) * limit;
             let filter = {};
@@ -17,7 +17,12 @@ class ProductModel {
                     ]
                 };
             }
-            const products = await this.collection().find(filter).skip(skip).limit(limit).toArray();
+            const products = await this.collection()
+                .find(filter)
+                .sort({ createdAt: sort === 'asc' ? 1 : -1 })
+                .skip(skip)
+                .limit(limit)
+                .toArray();
             return products;
         } catch (error) {
             console.log(error);
@@ -48,7 +53,8 @@ class ProductModel {
             }
             const result = await this.collection().insertOne({
                 ...data,
-                product_embedding: data.product_embedding
+                product_embedding: data.product_embedding,
+                createdAt: new Date()
             } as Product);
             if (!result.acknowledged) {
                 throw new Error("Failed to insert product");

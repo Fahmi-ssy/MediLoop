@@ -34,7 +34,6 @@ export default function History() {
       try {
         setLoading(true);
         
-        // First check authorization
         const authResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/historyAuth`, {
           method: 'GET',
           credentials: 'include',
@@ -48,7 +47,6 @@ export default function History() {
           return;
         }
 
-        // Then fetch user ID and recommendations
         const userId = localStorage.getItem('userId');
         // console.log('Fetching for userId:', userId);
 

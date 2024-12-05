@@ -31,7 +31,6 @@ export async function DELETE(
     });
 
   } catch (error) {
-    // console.error('Error deleting recommendation:', error);
     return NextResponse.json(
       { error: 'Failed to delete recommendation' },
       { status: 500 }
