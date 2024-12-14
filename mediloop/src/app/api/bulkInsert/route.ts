@@ -12,7 +12,8 @@ export async function POST(request: Request) {
         const embedding = await getEmbedding(textToEmbed);
         return {
           ...product,
-          product_embedding: embedding
+          product_embedding: embedding,
+          createdAt: new Date()
         };
       })
     );

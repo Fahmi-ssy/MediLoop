@@ -71,7 +71,7 @@ export default function ProductDetail({ params }: { params: { name: string } }) 
           {/* Image */}
           <div className="relative w-96 h-96 rounded-xl overflow-hidden bg-gray-100 mx-auto">
             <Image
-              src={product.image}
+              src={product.image || '/default-product.png'}
               alt={product.name}
               fill
               className="object-contain"

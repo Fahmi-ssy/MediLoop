@@ -3,6 +3,7 @@ import FileUpload from "@/components/Multer";
 import React, { FormEvent, useState } from "react";
 import DiscoveryNavbar from "@/components/DiscoveryNavbar";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 interface Question {
   id: string;
@@ -40,6 +41,7 @@ export default function Discovery() {
   const [fileUploaded, setFileUploaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showQuestions, setShowQuestions] = useState(false);
 
   const sections: Section[] = [
     {
@@ -396,59 +398,126 @@ export default function Discovery() {
         totalQuestions={totalQuestions}
         progress={progress}
       />
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-6 sm:mb-8">
-          Discovery Questionnaire
-        </h1>
-        {!isQuestionnaireDone ? (
-          <form onSubmit={handleSubmit} className="wizard-container">
-            {renderQuestion()}
-            <div className="wizard-navigation">
-              {currentStep === sections.length - 1 &&
-                currentQuestionIndex ===
-                  sections[sections.length - 1].questions.length - 1 && (
-                  <button type="submit" className="submit-button">
-                    Continue to Upload
-                  </button>
-                )}
-            </div>
-          </form>
-        ) : (
-          <div className="space-y-6 sm:space-y-8">
-            <div className="text-center">
-              <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-3 sm:mb-4">
-                Upload Your Prescription or Medical Report
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
-                Please upload a medical document or photo for more accurate
-                recommendations
-              </p>
-            </div>
-            <FileUpload onFileUploadSuccess={() => setFileUploaded(true)} />
-            <div className="flex justify-center mt-6 sm:mt-8">
-              {error && (
-                <div className="text-red-500 mb-4 text-center">{error}</div>
-              )}
-              <button
-                onClick={handleContinue}
-                disabled={!fileUploaded || isLoading}
-                className={`w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-sm sm:text-base transition-colors duration-200 
-                  ${
-                    fileUploaded && !isLoading
-                      ? "bg-teal-600 hover:bg-teal-700 text-white"
-                      : "bg-gray-300 cursor-not-allowed text-gray-500"
-                  }`}
+      
+      {!showQuestions ? (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-4xl mx-auto text-center px-4 py-8"
+        >
+          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+            <div className="inline-block p-4 bg-teal-50 rounded-full mb-6">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="h-8 w-8 text-teal-500" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
               >
-                {isLoading
-                  ? "Processing..."
-                  : fileUploaded
-                  ? "Submit and Get Recommendations"
-                  : "Please Upload a File First"}
-              </button>
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" 
+                />
+              </svg>
             </div>
+            <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+              Welcome to Your Health Assessment
+            </h3>
+            <p className="text-gray-600 mb-8">
+              Answer a few questions about your health concerns and upload any relevant medical documents. 
+              Our AI will analyze your inputs and provide personalized recommendations for your wellness journey.
+            </p>
+            <div className="flex justify-center gap-4 text-sm text-gray-500 mb-8">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-teal-500 rounded-full"></span>
+                <span>Quick Assessment</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-teal-500 rounded-full"></span>
+                <span>AI Analysis</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-teal-500 rounded-full"></span>
+                <span>Personalized Care</span>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowQuestions(true)}
+              className="inline-flex items-center px-8 py-4 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition-colors duration-200 font-semibold text-lg"
+            >
+              Start Assessment
+              <svg 
+                className="w-5 h-5 ml-2" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M13 7l5 5m0 0l-5 5m5-5H6" 
+                />
+              </svg>
+            </button>
           </div>
-        )}
-      </div>
+        </motion.div>
+      ) : (
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-6 sm:mb-8">
+            Discovery Questionnaire
+          </h1>
+          {!isQuestionnaireDone ? (
+            <form onSubmit={handleSubmit} className="wizard-container">
+              {renderQuestion()}
+              <div className="wizard-navigation">
+                {currentStep === sections.length - 1 &&
+                  currentQuestionIndex === sections[sections.length - 1].questions.length - 1 && (
+                    <button type="submit" className="submit-button">
+                      Continue to Upload
+                    </button>
+                  )}
+              </div>
+            </form>
+          ) : (
+            <div className="space-y-6 sm:space-y-8">
+              <div className="text-center">
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-3 sm:mb-4">
+                  Upload Your Prescription or Medical Report
+                </h2>
+                <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
+                  Please upload a medical document or photo for more accurate
+                  recommendations
+                </p>
+              </div>
+              <FileUpload onFileUploadSuccess={() => setFileUploaded(true)} />
+              <div className="flex justify-center mt-6 sm:mt-8">
+                {error && (
+                  <div className="text-red-500 mb-4 text-center">{error}</div>
+                )}
+                <button
+                  onClick={handleContinue}
+                  disabled={!fileUploaded || isLoading}
+                  className={`w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-sm sm:text-base transition-colors duration-200 
+                    ${
+                      fileUploaded && !isLoading
+                        ? "bg-teal-600 hover:bg-teal-700 text-white"
+                        : "bg-gray-300 cursor-not-allowed text-gray-500"
+                    }`}
+                >
+                  {isLoading
+                    ? "Processing..."
+                    : fileUploaded
+                    ? "Submit and Get Recommendations"
+                    : "Please Upload a File First"}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

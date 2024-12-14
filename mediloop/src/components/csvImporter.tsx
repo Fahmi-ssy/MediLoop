@@ -11,6 +11,14 @@ export default function ProductCSVImporter() {
 
   const handleImport = async (rows: any[]) => {
     try {
+      if (rows.length > 50) {
+        toast.error("Maximum 50 products allowed per upload. Please split your data into smaller batches.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        return;
+      }
+
       const products = rows.map((row) => ({
         name: row.name,
         price: parseFloat(row.price),
@@ -37,7 +45,7 @@ export default function ProductCSVImporter() {
       });
 
       setTimeout(() => {
-        window.location.href = "/adminDashboard";
+        router.push('/adminDashboard');
       }, 1500);
     } catch (error) {
       toast.error("Failed to import products. Please try again", {
@@ -94,6 +102,12 @@ export default function ProductCSVImporter() {
             CSV File Requirements
           </h3>
           <ul className="space-y-2 text-gray-600">
+            <li className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Maximum 50 products per upload
+            </li>
             <li className="flex items-center gap-2">
               <svg className="w-5 h-5 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />

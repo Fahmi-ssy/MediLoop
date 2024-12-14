@@ -66,7 +66,9 @@ export default function AdminCardProduct({ product, onDelete }: { product: Produ
         position: "bottom-right",
         autoClose: 1500,
       });
+      
       onDelete(product.name);
+      
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Failed to delete product", {
         position: "bottom-right",
@@ -82,7 +84,7 @@ export default function AdminCardProduct({ product, onDelete }: { product: Produ
           <Image
             width={500}
             height={500}
-            src={product.image}
+            src={product.image || ''}
             alt={product.name}
             className="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
           />

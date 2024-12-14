@@ -41,7 +41,7 @@ export interface FileMetadata {
     price: number;
     description: string;
     usage: string;
-    image: string;
+    image?: string;
     product_embedding?: number[];
     createdAt: Date;
   }

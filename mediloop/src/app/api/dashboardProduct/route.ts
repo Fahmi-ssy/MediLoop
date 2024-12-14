@@ -1,36 +1,26 @@
 import ProductModel from "@/db/models/ProductModels";
 import { getEmbedding } from "../embedding/route";
+import { NextRequest } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    const url = new URL(request.url);
-    const query = url.searchParams.get("query")?.trim(); 
-    const searchQuery = url.searchParams.get("search")?.trim(); 
-    const page = parseInt(url.searchParams.get("page") || "1", 10); 
-    const limit = parseInt(url.searchParams.get("limit") || "10", 10); 
-    const sort = url.searchParams.get("sort") || "desc";
+    const searchParams = request.nextUrl.searchParams;
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "10");
+    const query = searchParams.get("query") || "";
+    const sort = searchParams.get("sort") || "desc";
 
-    let products;
-
-    if (searchQuery) {
-      products = await ProductModel.searchByNameOrDescription(searchQuery);
-    } else if (query) {
-      products = await ProductModel.getAll(page, limit, query, sort);
-    } else {
-      products = await ProductModel.getAll(page, limit, undefined, sort);
-    }
+    const products = await ProductModel.getAll(page, limit, query, sort);
 
     return new Response(JSON.stringify(products), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": "no-store",
       },
     });
-  } catch (err) {
-    console.error("Error fetching products:", err);
+  } catch (error) {
     return new Response(
-      JSON.stringify({ message: "Error fetching products" }),
+      JSON.stringify({ message: "Internal Server Error" }),
       {
         status: 500,
         headers: {

@@ -69,7 +69,7 @@ export default function ProductDetail({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="relative w-96 h-96 rounded-xl overflow-hidden bg-gray-100 mx-auto group">
             <Image
-              src={product.image}
+              src={product.image || '/default-product.png'}
               alt={product.name}
               fill
               className="object-contain transition-transform duration-300 group-hover:scale-110"

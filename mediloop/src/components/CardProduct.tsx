@@ -10,7 +10,7 @@ export default function CardProduct({ product }: { product: Product }) {
           <Image
             width={500}
             height={500}
-            src={product.image}
+            src={product.image || ''}
             alt={product.name}
             className="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
           />

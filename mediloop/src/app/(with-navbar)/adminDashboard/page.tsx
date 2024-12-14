@@ -20,13 +20,19 @@ export default function AdminDashboard() {
 
   const fetchProduct = async () => {
     try {
+      setLoading(true);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboardProduct?page=${page}&limit=10&query=${query}&sort=${sortOrder}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboardProduct?page=${page}&limit=${page === 1 ? -1 : 10}&query=${query}&sort=${sortOrder}`,
         { 
           credentials: 'include',
           cache: "no-store" 
         }
       );
+      
+      if (!res.ok) {
+        throw new Error('Failed to fetch products');
+      }
+      
       const newProducts: Product[] = await res.json();
 
       if (page === 1) {
@@ -42,14 +48,23 @@ export default function AdminDashboard() {
       }
 
       setHasMore(newProducts.length > 0);
+      setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error('Error fetching products:', error);
+      setLoading(false);
     }
+  };
+
+  const handleSortChange = () => {
+    const newSortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
+    setSortOrder(newSortOrder);
+    setPage(1);
+    setProducts([]);
   };
 
   useEffect(() => {
     fetchProduct();
-  }, [page, query, refreshKey, sortOrder]);
+  }, [page, query, sortOrder]);
 
   const handleDelete = (productName: string) => {
     setProducts(prevProducts => prevProducts.filter(p => p.name !== productName));
@@ -96,11 +111,7 @@ export default function AdminDashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
         <div className="flex justify-end">
           <button
-            onClick={() => {
-              setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
-              setPage(1);
-              setProducts([]);
-            }}
+            onClick={handleSortChange}
             className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
           >
             <svg

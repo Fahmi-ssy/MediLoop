@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AddProduct() {
   const [product, setProduct] = useState({
@@ -12,7 +13,7 @@ export default function AddProduct() {
     price: 0,
     description: "",
     usage: "",
-    image: "",
+    image: "/default-product.png",
   });
   const router = useRouter();
 
@@ -23,6 +24,16 @@ export default function AddProduct() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check for negative price
+    if (product.price < 0) {
+      toast.error("Price cannot be negative", {
+        position: "top-right",
+        autoClose: 1500,
+      });
+      return;
+    }
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/dashboardProduct`, {
         method: "POST",
@@ -43,12 +54,12 @@ export default function AddProduct() {
           price: 0,
           description: "",
           usage: "",
-          image: "",
+          image: "/default-product.png",
         });
 
+        // Wait for the toast to show before redirecting
         setTimeout(() => {
           router.push("/adminDashboard");
-          router.refresh();
         }, 1500);
       } else {
         toast.error("Failed to add product", {
@@ -147,10 +158,19 @@ export default function AddProduct() {
               Price (Rp)
             </label>
             <input
-              type="number"
+              type="text"
               name="price"
-              value={product.price}
-              onChange={handleChange}
+              value={product.price.toLocaleString('id-ID')}
+              onChange={(e) => {
+                const value = e.target.value.replace(/\./g, '');
+                if (/^\d*$/.test(value)) {
+                  setProduct(prev => ({
+                    ...prev,
+                    price: Number(value)
+                  }));
+                }
+              }}
+              min="0"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-transparent transition duration-200 outline-none text-black"
               placeholder="Enter price"
               required
@@ -159,17 +179,70 @@ export default function AddProduct() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Image URL
+              Product Image
             </label>
-            <input
-              type="text"
-              name="image"
-              value={product.image}
-              onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-500 focus:border-transparent transition duration-200 outline-none text-black"
-              placeholder="Enter image URL"
-              required
-            />
+            <div className="flex items-center space-x-4">
+              {product.image && (
+                <div className="relative w-20 h-20 rounded-lg overflow-hidden">
+                  <Image
+                    src={product.image}
+                    alt="Product preview"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={async (e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    const file = e.target.files[0];
+                    
+                    // Create FormData
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('upload_preset', 'mediloop'); // Create this preset in your Cloudinary dashboard
+                    
+                    try {
+                      // Upload to Cloudinary
+                      const response = await fetch(
+                        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+                        {
+                          method: 'POST',
+                          body: formData,
+                        }
+                      );
+                      
+                      const data = await response.json();
+                      
+                      if (data.secure_url) {
+                        setProduct(prev => ({
+                          ...prev,
+                          image: data.secure_url
+                        }));
+                      }
+                    } catch (error) {
+                      toast.error("Failed to upload image", {
+                        position: "top-right",
+                        autoClose: 1500,
+                      });
+                    }
+                  }
+                }}
+                className="block w-full text-sm text-gray-500
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded-full file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-teal-50 file:text-teal-700
+                  hover:file:bg-teal-100
+                  cursor-pointer
+                "
+              />
+            </div>
+            <p className="mt-2 text-sm text-gray-500">
+              Upload a product image (PNG, JPG up to 5MB)
+            </p>
           </div>
 
           <div className="flex gap-4 pt-4">

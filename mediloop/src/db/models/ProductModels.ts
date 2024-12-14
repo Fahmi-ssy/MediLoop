@@ -1,14 +1,13 @@
 import { Product } from "@/types";
 import database from "../config/mongodb";
+import { Filter } from "mongodb";
 
 class ProductModel {
     static collection() {
         return database.collection("products");
     }
-
     static async getAll(page: number, limit: number, query?: string, sort: string = 'desc') {
         try {
-            const skip = (page - 1) * limit;
             let filter = {};
             if (query) {
                 filter = {
@@ -17,15 +16,24 @@ class ProductModel {
                     ]
                 };
             }
+
+            const options = {
+                skip: limit === -1 ? 0 : (page - 1) * limit,
+                limit: limit === -1 ? 0 : limit,
+                sort: { createdAt: sort === 'asc' ? 1 : -1 }
+            };
+
             const products = await this.collection()
                 .find(filter)
                 .sort({ createdAt: sort === 'asc' ? 1 : -1 })
-                .skip(skip)
-                .limit(limit)
+                .skip(options.skip)
+                .limit(options.limit)
                 .toArray();
+            
             return products;
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
 
@@ -66,7 +74,7 @@ class ProductModel {
         }
     }
 
-    static async updateOne(filter: Partial<Product>, updateData: any) {
+    static async updateOne(filter: Filter<Product>, updateData: any) {
         try {
             const result = await this.collection().updateOne(filter, updateData);
             return result;
@@ -76,7 +84,7 @@ class ProductModel {
         }
     }
 
-    static async deleteOne(filter: Filter<Document>) {
+    static async deleteOne(filter: Filter<Product>) {
         try {
             const result = await this.collection().deleteOne(filter);
             return result;
